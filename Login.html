@@ -15,20 +15,24 @@
     </div>
 
     <div class="centertop">
-      <button class = "registerbutton" type="button" id = "home">
-        <script type="text/javascript">
-          document.getElementById("home").onclick = function () {
-          location.href = "login.html";
-          };
-        </script>
-        <div class="centerText">
-            DOABLE
-        </div>
-      </button>
+      DOABLE
     </div>
 
     <div class = "right">
-
+      <button class = "registerbutton" type="button" id = "register">
+        <script type="text/javascript">
+          document.getElementById("register").onclick = function () {
+          location.href = "Register.html";
+          };
+        </script>
+        <div class = "text">
+          <i class="fas fa-clipboard-check">
+            <span class = "fa-text">
+              REGISTER
+            </span>
+          </i>
+        </div>
+      </button>
     </div>
   </div>
 </head>
@@ -39,7 +43,7 @@
   <div class = center>
     <div class = "card">
           <div class = "login">
-            Register
+            LOGIN
           </div>
           <br>
           <div class = "fields">
@@ -47,35 +51,30 @@
                 <input class = "inputField" type="text" id="username" name="username" placeholder="Enter username">
                 <i class="fas fa-user"></i>
                 <br><br>
-                <input class = "inputField" type="text" id="password" name="password" placeholder="Password">
+                <input class = "inputField" type="password" id="password" name="password" placeholder="Password">
                 <i class="fas fa-lock"></i>
-                <br><br>
-                <input class = "inputField" type="text" id="email" name="email" placeholder="Email">
-                <i class="fas fa-envelope-square"></i>
               </div>
                 <br/>
-              <button class = "submitButton"  id = "register"> Submit </button>
+              <button class = "submitButton" id = "login" > Login </button>
               <script type="text/javascript">
 
-              function registerData(obj) {
+              function loginData(obj) {
                  this.username = obj.username;
                  this.password = obj.password;
-                 this.email = obj.email;
                }
 
-               document.getElementById("register").onclick = function () {
+               document.getElementById("login").onclick = function () {
                  var username = document.getElementById("username").value;
                  var password = document.getElementById("password").value;
 
-                 var register = new registerData({
+                 var login = new loginData({
                    username: username,
-                   password: password,
-                   email: email
+                   password: password
                  });
 
-                 fetch("http://localhost:8080/api/register", {
+                 fetch("http://localhost:8080/api/login", {
                    method: 'POST',
-                   body: JSON.stringify(register),
+                   body: JSON.stringify(login),
                  })
                  .then(response => response.json())
                  .then(data => console.log(data))
@@ -83,7 +82,6 @@
                    console.error('Error:', error);
                  });
                };
-
             </script>
           </div>
         <div>
