@@ -54,14 +54,45 @@
                 <i class="fas fa-envelope-square"></i>
               </div>
                 <br/>
-              <button class = "submitButton"  > Submit </button>
+              <button class = "submitButton"  id = "registerButton"> Submit </button>
               <script type="text/javascript">
-                document.getElementById("submitButton").onclick = function () {
+
+
+                function registerData(obj){
+                  this.username = obj.username;
+                  this.password = obj.password;
+                  this.email = obj.email;
+                }
+
+
+                document.getElementById("registerButton").onclick = function () {
                   var username = document.getElementById("username").value;
                   var password = document.getElementById("password").value;
-                  var email = document.getElementById("password").value;
+                  var email = document.getElementById("email").value;
 
+                  var register_url = 'https://localhost:8080/api/register';
+
+                  var register = new registerData({
+                    username: username,
+                    password: password,
+                    email: email
+                  });
+
+                  console.log(JSON.stringify(register));
+
+                  fetch(register_url, {
+                    method: 'POST',
+                    body: JSON.stringify(register),
+                  })
+                  .then(response => respone.json())
+                  .then(register => {
+                    console.log('Success:', register);
+                  })
+                  .catch((error) => {
+                    console.error('Error:', error);
+                  });
                 };
+
             </script>
           </div>
         <div>
