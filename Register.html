@@ -15,22 +15,20 @@
     </div>
 
     <div class="centertop">
-      DOABLE
+      <button class = "registerbutton" type="button" id = "home">
+        <script type="text/javascript">
+          document.getElementById("home").onclick = function () {
+          location.href = "index.html";
+          };
+        </script>
+        <div class="centerText">
+            DOABLE
+        </div>
+      </button>
     </div>
 
     <div class = "right">
-      <button class = "registerbutton" type="button" id = "register">
-        <script type="text/javascript">
-          document.getElementById("register").onclick = function () {
-          location.href = "Register.html";
-          };
-        </script>
-        <div class = "text">
-          <i class="fas fa-clipboard-check">
-            REGISTER
-          </i>
-        </div>
-      </button>
+
     </div>
   </div>
 </head>
@@ -41,7 +39,7 @@
   <div class = center>
     <div class = "card">
           <div class = "login">
-            LOGIN
+            Register
           </div>
           <br>
           <div class = "fields">
@@ -51,13 +49,18 @@
                 <br><br>
                 <input class = "inputField" type="text" id="password" name="password" placeholder="Password">
                 <i class="fas fa-lock"></i>
+                <br><br>
+                <input class = "inputField" type="text" id="email" name="email" placeholder="Email">
+                <i class="fas fa-envelope-square"></i>
               </div>
                 <br/>
-              <button class = "submitButton" id = "login" > Login </button>
+              <button class = "submitButton"  > Submit </button>
               <script type="text/javascript">
-                document.getElementById("login").onclick = function () {
-                    var username = document.getElementById("username").value;
-                    var password = document.getElementById("password").value;
+                document.getElementById("submitButton").onclick = function () {
+                  var username = document.getElementById("username").value;
+                  var password = document.getElementById("password").value;
+                  var email = document.getElementById("password").value;
+
                 };
             </script>
           </div>
