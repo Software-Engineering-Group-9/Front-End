@@ -7,11 +7,11 @@
   <div class="header">
 
     <div class="left">
-      <div class = "text">
         <i class="fa fa-code" aria-hidden="true">
-          DEVELOPER
+          <span class = "fa-text">
+            DEVELOPER
+          </span>
         </i>
-      </div>
     </div>
 
     <div class="centertop">
@@ -27,7 +27,9 @@
         </script>
         <div class = "text">
           <i class="fas fa-clipboard-check">
-            REGISTER
+            <span class = "fa-text">
+              REGISTER
+            </span>
           </i>
         </div>
       </button>
@@ -49,16 +51,37 @@
                 <input class = "inputField" type="text" id="username" name="username" placeholder="Enter username">
                 <i class="fas fa-user"></i>
                 <br><br>
-                <input class = "inputField" type="text" id="password" name="password" placeholder="Password">
+                <input class = "inputField" type="password" id="password" name="password" placeholder="Password">
                 <i class="fas fa-lock"></i>
               </div>
                 <br/>
               <button class = "submitButton" id = "login" > Login </button>
               <script type="text/javascript">
-                document.getElementById("login").onclick = function () {
-                    var username = document.getElementById("username").value;
-                    var password = document.getElementById("password").value;
-                };
+
+              function loginData(obj) {
+                 this.username = obj.username;
+                 this.password = obj.password;
+               }
+
+               document.getElementById("login").onclick = function () {
+                 var username = document.getElementById("username").value;
+                 var password = document.getElementById("password").value;
+
+                 var login = new loginData({
+                   username: username,
+                   password: password
+                 });
+
+                 fetch("http://localhost:8080/api/login", {
+                   method: 'POST',
+                   body: JSON.stringify(login),
+                 })
+                 .then(response => response.json())
+                 .then(data => console.log(data))
+                 .catch((error) => {
+                   console.error('Error:', error);
+                 });
+               };
             </script>
           </div>
         <div>

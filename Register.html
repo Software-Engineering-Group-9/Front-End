@@ -7,18 +7,18 @@
   <div class="header">
 
     <div class="left">
-      <div class = "text">
         <i class="fa fa-code" aria-hidden="true">
-          DEVELOPER
+          <span class = "fa-text">
+            DEVELOPER
+          </span>
         </i>
-      </div>
     </div>
 
     <div class="centertop">
       <button class = "registerbutton" type="button" id = "home">
         <script type="text/javascript">
           document.getElementById("home").onclick = function () {
-          location.href = "index.html";
+          location.href = "login.html";
           };
         </script>
         <div class="centerText">
@@ -54,44 +54,36 @@
                 <i class="fas fa-envelope-square"></i>
               </div>
                 <br/>
-              <button class = "submitButton"  id = "registerButton"> Submit </button>
+
+              <button class = "submitButton"  id = "register"> Submit </button>
               <script type="text/javascript">
 
+              function registerData(obj) {
+                 this.username = obj.username;
+                 this.password = obj.password;
+                 this.email = obj.email;
+               }
 
-                function registerData(obj){
-                  this.username = obj.username;
-                  this.password = obj.password;
-                  this.email = obj.email;
-                }
+               document.getElementById("register").onclick = function () {
+                 var username = document.getElementById("username").value;
+                 var password = document.getElementById("password").value;
 
+                 var register = new registerData({
+                   username: username,
+                   password: password,
+                   email: email
+                 });
 
-                document.getElementById("registerButton").onclick = function () {
-                  var username = document.getElementById("username").value;
-                  var password = document.getElementById("password").value;
-                  var email = document.getElementById("email").value;
-
-                  var register_url = 'https://localhost:8080/api/register';
-
-                  var register = new registerData({
-                    username: username,
-                    password: password,
-                    email: email
-                  });
-
-                  console.log(JSON.stringify(register));
-
-                  fetch(register_url, {
-                    method: 'POST',
-                    body: JSON.stringify(register),
-                  })
-                  .then(response => respone.json())
-                  .then(register => {
-                    console.log('Success:', register);
-                  })
-                  .catch((error) => {
-                    console.error('Error:', error);
-                  });
-                };
+                 fetch("http://localhost:8080/api/register", {
+                   method: 'POST',
+                   body: JSON.stringify(register),
+                 })
+                 .then(response => response.json())
+                 .then(data => console.log(data))
+                 .catch((error) => {
+                   console.error('Error:', error);
+                 });
+               };
 
             </script>
           </div>
