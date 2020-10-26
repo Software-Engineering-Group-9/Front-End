@@ -48,8 +48,8 @@
           <br>
           <div class = "fields">
               <div class = "fontuser">
-                <input class = "inputField" type="text" id="username" name="username" placeholder="Enter username">
-                <i class="fas fa-user"></i>
+                <input class = "inputField" type="text" id="email" name="email" placeholder="Enter Email">
+                <i class="fas fa-envelope-square"></i>
                 <br><br>
                 <input class = "inputField" type="password" id="password" name="password" placeholder="Password">
                 <i class="fas fa-lock"></i>
@@ -59,16 +59,16 @@
               <script type="text/javascript">
 
               function loginData(obj) {
-                 this.username = obj.username;
+                 this.email = obj.email;
                  this.password = obj.password;
                }
 
                document.getElementById("login").onclick = function () {
-                 var username = document.getElementById("username").value;
+                 var email = document.getElementById("email").value;
                  var password = document.getElementById("password").value;
 
                  var login = new loginData({
-                   username: username,
+                   email: email,
                    password: password
                  });
 
