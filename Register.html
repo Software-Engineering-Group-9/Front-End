@@ -44,14 +44,12 @@
           <br>
           <div class = "fields">
               <div class = "fontuser">
-                <input class = "inputField" type="text" id="username" name="username" placeholder="Enter username">
-                <i class="fas fa-user"></i>
+                <input class = "inputField" type="text" id="email" name="email" placeholder="Email">
+                <i class="fas fa-envelope-square"></i>
                 <br><br>
                 <input class = "inputField" type="text" id="password" name="password" placeholder="Password">
                 <i class="fas fa-lock"></i>
                 <br><br>
-                <input class = "inputField" type="text" id="email" name="email" placeholder="Email">
-                <i class="fas fa-envelope-square"></i>
               </div>
                 <br/>
 
@@ -59,19 +57,17 @@
               <script type="text/javascript">
 
               function registerData(obj) {
-                 this.username = obj.username;
-                 this.password = obj.password;
-                 this.email = obj.email;
+                this.email = obj.email;
+                this.password = obj.password;
                }
 
                document.getElementById("register").onclick = function () {
-                 var username = document.getElementById("username").value;
+                 var email = document.getElementById("email").value;
                  var password = document.getElementById("password").value;
 
                  var register = new registerData({
-                   username: username,
-                   password: password,
-                   email: email
+                  email: email,
+                  password: password
                  });
 
                  fetch("http://localhost:8080/api/register", {
