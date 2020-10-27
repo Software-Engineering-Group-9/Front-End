@@ -75,6 +75,7 @@
                  fetch("http://localhost:8080/api/login", {
                    method: 'POST',
                    body: JSON.stringify(login),
+                   mode: 'no-cors',
                  })
                  .then(response => response.json())
                  .then(data => console.log(data))
