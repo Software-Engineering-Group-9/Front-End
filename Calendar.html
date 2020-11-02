@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Imports -->
+  <link rel="stylesheet" href="Calendar.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <div class="header">
+
+    <div class="centertop">
+      DOABLE
+    </div>
+  </div>
+</head>
+
+<body>
+  <div class="modal" id="eventModal">
+    <div class="modal-content" id="eventForm">
+
+      <div class="center" style="font-size: 24px">
+        New Event
+        <hr>
+      </div>
+
+      <table class="table">
+        <tr>
+          <td>Event Description *</td>
+          <td><input class="inputField" type="text" placeholder="Description" id="eventDesc" required></td>
+        </tr>
+        <tr>
+          <td>Due Date *</td>
+          <td><input class="inputField" type="date" id="dueDate" required></td>
+        </tr>
+        <tr>
+          <td>Time Due *</td>
+          <td><input class="inputField" type="time" id="dueTime" required></td>
+        </tr>
+        <tr>
+          <td>Time Needed</td>
+          <td><input class="inputField" type="text" placeholder="(In Hours)" id="timeNeeded"></td>
+        </tr>
+      </table>
+
+      <br>
+
+      <div class="center">
+        <button class="submitButton" onclick = "submitEvent()" id="submitEvent">Submit</button>
+        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
+      </div>
+
+      <script type="text/javascript">
+
+        function eventData(obj){
+          this.eventDesc = obj.eventDesc;
+          this.dueDate = obj.dueDate;
+          this.dueTime = obj.dueTime;
+          this.timeNeeded = obj.timeNeeded;
+        }
+
+        function submitEvent(){
+
+          var eventDesc = document.getElementById("eventDesc").value;
+          var dueDate = document.getElementById("dueDate").value;
+          var dueTime = document.getElementById("dueTime").value;
+          var timeNeeded = document.getElementById("timeNeeded").value;
+
+          var newEvent = new eventData({
+            eventDesc: eventDesc,
+            dueDate: dueDate,
+            dueTime: dueTime,
+            timeNeeded: timeNeeded
+          });
+
+          console.log(newEvent);
+
+          document.getElementById("eventModal").style.display = "none";
+
+        }
+
+      </script>
+    </div>
+  </div>
+
+  <div class="sidebar">
+
+    <div class="list-title">
+      To-Do List
+    </div>
+
+    <hr>
+    <br><br>
+
+    <div style="position: fixed; bottom: 10px; left: 10px">
+      <button class="submitButton" id="create-event" onclick="openForm()"> Create Event </button>
+    </div>
+
+    <script type="text/javascript">
+      //script to pull the users event information
+      //and display it above the create event button
+    </script>
+
+    <br>
+  </div>
+
+  <script type="text/javascript">
+    function openForm() {
+      document.getElementById("eventModal").style.display = "block";
+    }
+
+    function closeForm() {
+      document.getElementById("eventModal").style.display = "none";
+    }
+  </script>
+
+</body>

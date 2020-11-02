@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <!-- Imports -->
   <link rel="stylesheet" href="Main.css">
@@ -7,85 +8,155 @@
   <div class="header">
 
     <div class="left">
-        <i class="fa fa-code" aria-hidden="true">
-          <span class = "fa-text">
-            DEVELOPER
-          </span>
-        </i>
+      <i class="fas fa-code" aria-hidden="true">
+        <span class="fa-text">
+          DEVELOPER
+        </span>
+      </i>
     </div>
 
     <div class="centertop">
       DOABLE
     </div>
 
-    <div class = "right">
-      <button class = "registerbutton" type="button" id = "register">
-        <script type="text/javascript">
-          document.getElementById("register").onclick = function () {
-          location.href = "Register.html";
-          };
-        </script>
-        <div class = "text">
-          <i class="fas fa-clipboard-check">
-            <span class = "fa-text">
-              REGISTER
-            </span>
-          </i>
-        </div>
-      </button>
-    </div>
   </div>
 </head>
 
 <body>
-  <div class = "container">
+  <div class=center>
+    <div class="modal" id="registerModal">
+      <div class="modal-content" id="registerForm">
+        <div class="center" style="font-size: 24px; font-weight: 200; padding: 25px">
+          Register
+          <hr>
+        </div>
 
-  <div class = center>
-    <div class = "card">
-          <div class = "login">
-            LOGIN
-          </div>
-          <br>
-          <div class = "fields">
-              <div class = "fontuser">
-                <input class = "inputField" type="text" id="email" name="email" placeholder="Enter Email">
-                <i class="fas fa-envelope-square"></i>
-                <br><br>
-                <input class = "inputField" type="password" id="password" name="password" placeholder="Password">
-                <i class="fas fa-lock"></i>
-              </div>
-                <br/>
-              <button class = "submitButton" id = "login" > Login </button>
-              <script type="text/javascript">
+        <div class="userField" style="text-align: center">
+          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
+          <i class="fas fa-envelope-square fa-lg"></i>
+          <br><br>
+          <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
+          <i class="fas fa-lock fa-lg"></i>
+          <br><br>
+        </div>
 
-              function loginData(obj) {
-                 this.email = obj.email;
-                 this.password = obj.password;
-               }
+        <button class="submitButton" id="register"> Submit </button>
+        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
 
-               document.getElementById("login").onclick = function () {
-                 var email = document.getElementById("email").value;
-                 var password = document.getElementById("password").value;
+        <script type="text/javascript">
+          function registerData(obj) {
+            this.email = obj.email;
+            this.password = obj.password;
+          }
 
-                 var login = new loginData({
-                   email: email,
-                   password: password
-                 });
+          document.getElementById("register").onclick = function() {
+            var email = document.getElementById("emailReg").value;
+            var password = document.getElementById("passwordReg").value;
 
-                 fetch("http://localhost:8080/api/login", {
-                   method: 'POST',
-                   body: JSON.stringify(login),
-                   mode: 'no-cors',
-                 })
-                 .then(response => response.json())
-                 .then(data => console.log(data))
-                 .catch((error) => {
-                   console.error('Error:', error);
-                 });
-               };
-            </script>
-          </div>
-        <div>
+            var register = new registerData({
+              email: email,
+              password: password
+            });
+
+            console.log(register);
+
+            fetch("http://localhost:8080/api/register", {
+                method: 'POST',
+                body: JSON.stringify(register),
+                mode: 'no-cors',
+              })
+              .then(response => response.json())
+              .then(data => console.log(data))
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+
+              document.getElementById("registerModal").style.display = "none";
+              document.getElementById("loginModal").style.display = "block";
+
+          };
+
+        </script>
+      </div>
     </div>
+
+
+    <div class="loginModal" id="loginModal">
+      <div class="modal-content">
+
+        <div class="login">
+          Login
+          <hr>
+        </div>
+
+
+        <div class="userField" style="text-align: center; position: relative;">
+          <i class="fas fa-envelope-square fa-lg"></i>
+          <input class="inputField" type="text" id="emailLogin" placeholder="Email">
+          <br><br>
+          <input class="inputField" type="password" id="passwordLogin" placeholder="Password">
+          <i class="fas fa-lock fa-lg"></i>
+        </div>
+
+        <br>
+
+        <button class="submitButton" id="login"> Login </button>
+        <br><br>Don't have an account?<br>
+        <button class="submitButton" id="register" onclick="openForm()"> Register </button>
+
+        <script type="text/javascript">
+          function loginData(obj) {
+            this.email = obj.email;
+            this.password = obj.password;
+          }
+
+          document.getElementById("login").onclick = function() {
+
+            var email = document.getElementById("emailLogin").value;
+            var password = document.getElementById("passwordLogin").value;
+
+            var login = new loginData({
+              email: email,
+              password: password
+            });
+
+            console.log(login);
+
+            fetch("http://localhost:8080/api/login", {
+                method: 'POST',
+                body: JSON.stringify(login),
+              })
+              .then(response => response.json())
+              .then(data => console.log(data))
+              .catch((error) => {
+                console.error('Error:', error);
+              });
+
+
+              if(email == "admin" && password == "password"){
+                alert("successful login");
+              }else{
+                alert("failed login");
+              }
+          };
+
+        </script>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var loginModal = document.getElementById("loginModal");
+      var registerModal = document.getElementById("registerModal");
+
+      function openForm() {
+        loginModal.style.display = "none";
+        registerModal.style.display = "block";
+      }
+
+      function closeForm() {
+        registerModal.style.display = "none";
+        loginModal.style.display = "block";
+      }
+    </script>
   </div>
 </body>
