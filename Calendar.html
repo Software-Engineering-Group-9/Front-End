@@ -11,9 +11,28 @@
       DOABLE
     </div>
   </div>
+
+  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+
+  <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+  <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+  <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+  <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
 </head>
 
 <body>
+
+  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px;">
+    <script type="text/javascript">
+      var cal = new tui.Calendar('#calendar', {
+        defaultView: 'week',
+        taskView: false,
+      });
+    </script>
+  </div>
+
+
   <div class="modal" id="eventModal">
     <div class="modal-content" id="eventForm">
 
@@ -44,20 +63,19 @@
       <br>
 
       <div class="center">
-        <button class="submitButton" onclick = "submitEvent()" id="submitEvent">Submit</button>
+        <button class="submitButton" onclick="submitEvent()" id="submitEvent">Submit</button>
         <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
       </div>
 
       <script type="text/javascript">
-
-        function eventData(obj){
+        function eventData(obj) {
           this.eventDesc = obj.eventDesc;
           this.dueDate = obj.dueDate;
           this.dueTime = obj.dueTime;
           this.timeNeeded = obj.timeNeeded;
         }
 
-        function submitEvent(){
+        function submitEvent() {
 
           var eventDesc = document.getElementById("eventDesc").value;
           var dueDate = document.getElementById("dueDate").value;
@@ -76,19 +94,16 @@
           document.getElementById("eventModal").style.display = "none";
 
         }
-
       </script>
     </div>
   </div>
 
   <div class="sidebar">
-
     <div class="list-title">
-      To-Do List
+      <b>To-Do List</b>
     </div>
 
     <hr>
-    <br><br>
 
     <div style="position: fixed; bottom: 10px; left: 10px">
       <button class="submitButton" id="create-event" onclick="openForm()"> Create Event </button>
@@ -101,6 +116,8 @@
 
     <br>
   </div>
+
+
 
   <script type="text/javascript">
     function openForm() {
