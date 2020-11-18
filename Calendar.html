@@ -121,6 +121,15 @@
           timeNeeded: timeNeeded
         });
 
+        var tempEvent = new eventData({
+          eventDesc: "Test",
+          dueDate: "2020-11-19",
+          dueTime: "23:59",
+          timeNeeded: "6"
+        });
+
+
+
         var eventList = new Array();
         eventList.push(newEvent);
         // console.log(newEvent);
@@ -131,6 +140,10 @@
         document.getElementById("eventModal").style.display = "none";
       }
     </script>
+
+    <div class="toDoItem">
+        test value
+    </div>
 
     <br>
   </div>
