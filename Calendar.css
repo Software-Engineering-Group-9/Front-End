@@ -16,10 +16,19 @@
   font-weight: 200;
   position: absolute;
   top: 50%;
-  left: 0px;
+  left: 10px;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+  z-index: 2;
+}
+
+.fa-text {
+  font-family: "roboto slab";
+}
+
+.fa-code{
+  color: red;
 }
 
 .centertop {
@@ -184,6 +193,7 @@
 .submitButton:hover {
   background-color: #0066ba;
   color: black;
+  cursor: pointer;
 }
 
 .list-title {

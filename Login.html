@@ -8,12 +8,13 @@
   <div class="header">
 
     <div class="left">
-      <i class="fas fa-code" aria-hidden="true">
+      <i class="fas fa-code" aria-hidden="true" style= "color: #008CFF;">
         <span class="fa-text">
-          DEVELOPER
+          <a href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #008CFF;">DEVELOPER</a>
         </span>
       </i>
     </div>
+
 
     <div class="centertop">
       DOABLE
@@ -32,11 +33,11 @@
         </div>
 
         <div class="userField" style="text-align: center">
-          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
           <i class="fas fa-envelope-square fa-lg"></i>
+          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
           <br><br>
-          <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
           <i class="fas fa-lock fa-lg"></i>
+          <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
           <br><br>
         </div>
 
@@ -53,29 +54,34 @@
             var email = document.getElementById("emailReg").value;
             var password = document.getElementById("passwordReg").value;
 
-            var register = new registerData({
-              email: email,
-              password: password
-            });
+            if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
+              alert("valid email");
 
-            console.log(register);
-
-            fetch("http://localhost:8080/api/register", {
-                method: 'POST',
-                body: JSON.stringify(register),
-                mode: 'no-cors',
-              })
-              .then(response => response.json())
-              .then(data => console.log(data))
-              .catch((error) => {
-                console.error('Error:', error);
+              var register = new registerData({
+                email: email,
+                password: password
               });
+
+              console.log(register);
+
+              fetch("http://localhost:8080/api/register", {
+                  method: 'POST',
+                  body: JSON.stringify(register),
+                  mode: 'no-cors',
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
 
               document.getElementById("registerModal").style.display = "none";
               document.getElementById("loginModal").style.display = "block";
 
+            } else {
+              alert("invalid email");
+            }
           };
-
         </script>
       </div>
     </div>
@@ -92,17 +98,18 @@
 
         <div class="userField" style="text-align: center; position: relative;">
           <i class="fas fa-envelope-square fa-lg"></i>
-          <input class="inputField" type="text" id="emailLogin" placeholder="Email">
+          <input class="inputField" type="text" id="emailLogin" placeholder="Email" autofocus="autofocus">
           <br><br>
-          <input class="inputField" type="password" id="passwordLogin" placeholder="Password">
           <i class="fas fa-lock fa-lg"></i>
+          <input class="inputField" type="password" id="passwordLogin" placeholder="Password">
         </div>
 
         <br>
 
         <button class="submitButton" id="login"> Login </button>
-        <br><br>Don't have an account?<br>
-        <button class="submitButton" id="register" onclick="openForm()"> Register </button>
+        <div class="registerText">
+            Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
+        </div>
 
         <script type="text/javascript">
           function loginData(obj) {
@@ -115,35 +122,42 @@
             var email = document.getElementById("emailLogin").value;
             var password = document.getElementById("passwordLogin").value;
 
-            var login = new loginData({
-              email: email,
-              password: password
-            });
+            if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
 
-            console.log(login);
-
-            fetch("http://localhost:8080/api/login", {
-                method: 'POST',
-                body: JSON.stringify(login),
-              })
-              .then(response => response.json())
-              .then(data => console.log(data))
-              .catch((error) => {
-                console.error('Error:', error);
+              var login = new loginData({
+                email: email,
+                password: password
               });
 
+              console.log(login);
 
-              if(email == "admin" && password == "password"){
-                alert("successful login");
+              fetch("http://localhost:8080/api/login", {
+                  method: 'POST',
+                  body: JSON.stringify(login),
+                })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+
+
+              if (email == "admin@doable.ca" && password == "password") {
+                //alert("Successful Login");
                 location.replace("Calendar.html")
-              }else{
+              } else {
                 alert("failed login");
               }
-          };
 
+            } else {
+              alert("invalid email");
+            }
+          };
         </script>
       </div>
     </div>
+
+
 
     <script type="text/javascript">
       var loginModal = document.getElementById("loginModal");

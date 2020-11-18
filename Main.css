@@ -20,6 +20,7 @@
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
+  z-index: 2;
 }
 
 .centertop {
@@ -40,6 +41,18 @@
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+.registerText{
+  font-size: 16px;
+  font-family: "roboto slab";
+  position: center;
+  font-weight: lighter;
+  padding-top: 15px
+}
+a:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .right {
@@ -70,16 +83,6 @@
   border: none;
   outline: none;
   background: transparent;
-}
-
-.container {
-
-
-}
-
-.card {
-
-
 }
 
 .center {
@@ -119,7 +122,7 @@
   outline: none;
 }
 
-.userField i {
+.userFields i {
   margin-top: 1%;
   float: left;
   position: relative;
@@ -134,6 +137,7 @@
 .submitButton:hover {
   color: black;
   background-color: #0066ba;
+  cursor: pointer;
 }
 
 .modal {
@@ -172,20 +176,7 @@
   border-radius: 12px;
 }
 
-/*.container {
+.tui-Calendar{
   font-family: "Roboto Slab";
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
+  font-size: 20px;
 }
-
-.card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 25px;
-  width: 35%;
-  border-radius: 12px;
-}
-}*/
