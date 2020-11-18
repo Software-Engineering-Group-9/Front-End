@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- Imports -->
+  <link rel="stylesheet" href="Calendar.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+  <div class="header">
+
+    <div class="left" id="logoutButton">
+      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
+        <span class="fa-text">
+          <a href="Login.html" style="text-decoration: none; color: #008CFF;">LOGOUT</a>
+        </span>
+      </i>
+    </div>
+
+    <div class="centertop">
+      DOABLE
+    </div>
+  </div>
+
+  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+  <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+  <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+  <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+  <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
+</head>
+
+<body>
+
+  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008CFF; font-family: Roboto Slab;">
+    <script type="text/javascript">
+      var cal = new tui.Calendar('#calendar', {
+        defaultView: 'week',
+        taskView: false,
+        borderColor: '#008cff',
+        isReadOnly: true,
+        theme: {
+          'common.holiday.color': '#bbb',
+          'week.today.color': '#008cff',
+        }
+      });
+    </script>
+  </div>
+
+
+  <div class="modal" id="eventModal">
+    <div class="modal-content" id="eventForm">
+
+      <div class="center" style="font-size: 24px">
+        New Event
+        <hr>
+      </div>
+
+      <table class="table">
+        <tr>
+          <td>Event Description *</td>
+          <td><input class="inputField" type="text" placeholder="Description" id="eventDesc" required></td>
+        </tr>
+        <tr>
+          <td>Due Date *</td>
+          <td><input class="inputField" type="date" id="dueDate" required></td>
+        </tr>
+        <tr>
+          <td>Time Due *</td>
+          <td><input class="inputField" type="time" id="dueTime" required></td>
+        </tr>
+        <tr>
+          <td>Time Needed</td>
+          <td><input class="inputField" type="text" placeholder="(In Hours)" id="timeNeeded"></td>
+        </tr>
+      </table>
+
+      <br>
+
+      <div class="center">
+        <button class="submitButton" onclick="submitEvent()" id="submitEvent">Submit</button>
+        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
+      </div>
+
+      <script type="text/javascript">
+
+      </script>
+    </div>
+  </div>
+
+  <div class="sidebar" id="eventSidebar">
+    <div class="list-title">
+      <b>To-Do List</b>
+    </div>
+
+    <hr>
+
+    <div style="position: fixed; bottom: 10px; left: 10px">
+      <button class="submitButton" id="create-event" onclick="openForm()"> Create Event </button>
+    </div>
+
+
+
+    <script type="text/javascript">
+      function eventData(obj) {
+        this.eventDesc = obj.eventDesc;
+        this.dueDate = obj.dueDate;
+        this.dueTime = obj.dueTime;
+        this.timeNeeded = obj.timeNeeded;
+      }
+
+      function submitEvent() {
+
+        var eventDesc = document.getElementById("eventDesc").value;
+        var dueDate = document.getElementById("dueDate").value;
+        var dueTime = document.getElementById("dueTime").value;
+        var timeNeeded = document.getElementById("timeNeeded").value;
+
+        var newEvent = new eventData({
+          eventDesc: eventDesc,
+          dueDate: dueDate,
+          dueTime: dueTime,
+          timeNeeded: timeNeeded
+        });
+
+        var eventList = new Array();
+        eventList.push(newEvent);
+        // console.log(newEvent);
+        //
+        // var listContainer = document.getElementById("eventSidebar");
+
+        console.log(newEvent);
+        document.getElementById("eventModal").style.display = "none";
+      }
+    </script>
+
+    <br>
+  </div>
+
+
+
+  <script type="text/javascript">
+    function openForm() {
+      document.getElementById("eventModal").style.display = "block";
+      document.getElementById("logoutButton").style.display = "none";
+    }
+
+    function closeForm() {
+      document.getElementById("eventModal").style.display = "none";
+      document.getElementById("logoutButton").style.display = "block";
+    }
+  </script>
+
+</body>
