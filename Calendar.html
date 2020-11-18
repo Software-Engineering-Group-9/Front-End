@@ -8,7 +8,7 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
+      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008CFF;">
         <span class="fa-text">
           <a href="Login.html" style="text-decoration: none; color: #008CFF;">LOGOUT</a>
         </span>
@@ -18,6 +18,13 @@
     <div class="centertop">
       DOABLE
     </div>
+
+    <div class="right">
+      <button class="submitButton" id="view" onclick="dayView()">View Day</button>
+      <button class="submitButton" id="view" onclick="weekView()">View Week</button>
+      <button class="submitButton" id="view" onclick="monthView()">View Month</button>
+    </div>
+
   </div>
 
   <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
@@ -42,6 +49,18 @@
           'week.today.color': '#008cff',
         }
       });
+
+      function monthView() {
+        cal.changeView('month', true);
+      }
+
+      function weekView() {
+        cal.changeView('week', true);
+      }
+
+      function dayView() {
+        cal.changeView('day', true);
+      }
     </script>
   </div>
 
@@ -87,7 +106,7 @@
   </div>
 
   <div class="sidebar" id="eventSidebar">
-    <div class="list-title">
+    <div class="center" style="font-size: 22px">
       <b>To-Do List</b>
     </div>
 
@@ -142,7 +161,7 @@
     </script>
 
     <div class="toDoItem">
-        test value
+      test value
     </div>
 
     <br>
