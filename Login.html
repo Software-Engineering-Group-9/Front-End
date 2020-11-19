@@ -8,15 +8,17 @@
   <div class="header">
 
     <div class="left">
-      <i class="fas fa-code" aria-hidden="true" style= "color: #008CFF;">
+      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
         <span class="fa-text">
           <a href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #008CFF;">DEVELOPER</a>
         </span>
       </i>
     </div>
+
     <div class="centertop">
       DOABLE
     </div>
+
   </div>
 </head>
 
@@ -38,8 +40,11 @@
           <br><br>
         </div>
 
-        <button class="submitButton" id="register"> Submit </button>
-        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
+
+        <div class="invalidEmail" id="registerInvalidEmail"></div>
+        <br>
+        <button class="button" id="register"> Submit</button>
+        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
 
         <script type="text/javascript">
           function registerData(obj) {
@@ -61,13 +66,29 @@
 
               console.log(register);
 
-              fetch("http://localhost:8080/api/register", {
+              fetch("http://localhost:8080/api/v1/user/register", {
                   method: 'POST',
                   body: JSON.stringify(register),
-                  mode: 'no-cors',
+                  headers: {
+                    'Origin': ' *',
+                    'Accept': 'application/json'
+                  }
                 })
-                .then(response => response.json())
-                .then(data => console.log(data))
+                .then(function(response) {
+                  //INTERNAL_SERVER_ERROR - our backend devs suck
+                  //conflict - email already exists
+                  console.log(response.status);
+                  if (response.ok) {
+                    location.replace("Calendar.html")
+                  } else if (response.INTERNAL_SERVER_ERROR) {
+                    document.getElementById("registerInvalidEmail").innerHTML = "Internal Server Error";
+                  } else if (response.conflict) {
+                    document.getElementById("registerInvalidEmail").innerHTML = "That email already exists";
+                  }
+                  return response.json();
+                })
+                .then(data =>
+                  console.log(data))
                 .catch((error) => {
                   console.error('Error:', error);
                 });
@@ -76,7 +97,7 @@
               document.getElementById("loginModal").style.display = "block";
 
             } else {
-              alert("invalid email");
+              document.getElementById("registerInvalidEmail").innerHTML = "Enter a valid email";
             }
           };
         </script>
@@ -101,9 +122,17 @@
 
         <br>
 
+<<<<<<< HEAD
         <button class="submitButton" id="login">Login</button>
         <div class="smallText">
             Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
+=======
+        <div class="invalidEmail" id="loginInvalidEmail"></div>
+        <br>
+        <button class="button" id="login"> Login</button>
+        <div class="registerText">
+          Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
+>>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
         </div>
 
         <script type="text/javascript">
@@ -126,30 +155,59 @@
 
               console.log(login);
 
-              fetch("http://localhost:8080/api/login", {
+              fetch("http://localhost:8080/api/v1/user/login", {
                   method: 'POST',
                   body: JSON.stringify(login),
+                  headers: {
+                    'Origin': ' *',
+                    'Accept': 'application/json'
+                  }
                 })
-                .then(response => response.json())
-                .then(data => console.log(data))
+
+                .then(function(response) {
+                  //INTERNAL_SERVER_ERROR - our backend devs suck
+                  //unauthorized - username or password is incorrect
+                  //notfound - email is not registered
+                  console.log(response.status);
+                  if (response.ok) {
+                    location.replace("Calendar.html")
+                  } else if (response.INTERNAL_SERVER_ERROR) {
+                    document.getElementById("registerInvalidEmail").innerHTML = "Internal Server Error";
+                  } else if (response.unauthorized) {
+                    document.getElementById("registerInvalidEmail").innerHTML = "Username or Password is incorrect";
+                  } else if (response.notfound) {
+                    document.getElementById("registerInvalidEmail").innerHTML = "That email is not yet registered";
+                  }
+                  return response.json();
+                })
+                .then(data =>
+                  // todo: brandon please save the token to a variable that we can access
+                  console.log(data))
                 .catch((error) => {
                   console.error('Error:', error);
                 });
 
+<<<<<<< HEAD
               if (email == "admin@doable.ca" && password == "password") {
                 //alert("Successful Login");
                 location.replace("Calendar.html")
               } else {
                 alert("failed login");
               }
+=======
+>>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
             } else {
-              alert("invalid email");
+              document.getElementById("loginInvalidEmail").innerHTML = "There is no account with that email";
             }
           };
         </script>
       </div>
     </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
     <script type="text/javascript">
       var loginModal = document.getElementById("loginModal");
       var registerModal = document.getElementById("registerModal");

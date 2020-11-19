@@ -80,7 +80,7 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.submitButton {
+.button {
   font-family: "Roboto Slab";
   box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
   border-radius: 12px;
@@ -96,7 +96,7 @@
   outline: none;
 }
 
-.submitButton:hover {
+.button:hover {
   background-color: #0066ba;
   color: black;
   cursor: pointer;

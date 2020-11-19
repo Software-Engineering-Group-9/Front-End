@@ -22,12 +22,12 @@
 
 .header {
   font-weight: 600;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 10%;
   width: 100%;
-  box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);
+  /*box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);*/
   font-size: 32px;
 }
 
@@ -72,7 +72,12 @@
 }
 
 
+<<<<<<< HEAD
 .submitButton {
+=======
+.button {
+  font-family: "Roboto Slab";
+>>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   background-color: #008CFF;
@@ -84,11 +89,30 @@
   transition-duration: 0.4s;
 }
 
+<<<<<<< HEAD
 .submitButton:hover {
+=======
+.button:hover {
+  color: black;
+>>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
   background-color: #0066ba;
   cursor: pointer;
 }
 
+<<<<<<< HEAD
+=======
+.inputField {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: black;
+  font-size: 16px;
+  width: 35%;
+  margin: 0 10px;
+  border-bottom: 1px solid black;
+}
+
+>>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
 .modal {
   display: none;
   position: fixed;
@@ -124,4 +148,8 @@
 a:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.invalidEmail{
+  color: red;
 }

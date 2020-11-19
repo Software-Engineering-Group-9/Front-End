@@ -20,9 +20,9 @@
     </div>
 
     <div class="right">
-      <button class="submitButton" id="view" onclick="dayView()">View Day</button>
-      <button class="submitButton" id="view" onclick="weekView()">View Week</button>
-      <button class="submitButton" id="view" onclick="monthView()">View Month</button>
+      <button class="button" id="view" onclick="dayView()">View Day</button>
+      <button class="button" id="view" onclick="weekView()">View Week</button>
+      <button class="button" id="view" onclick="monthView()">View Month</button>
     </div>
 
   </div>
@@ -37,7 +37,7 @@
 
 <body>
 
-  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008CFF; font-family: Roboto Slab;">
+  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008CFF; font-family: 'Roboto Slab';">
     <script type="text/javascript">
       var cal = new tui.Calendar('#calendar', {
         defaultView: 'week',
@@ -95,8 +95,8 @@
       <br>
 
       <div class="center">
-        <button class="submitButton" onclick="submitEvent()" id="submitEvent">Submit</button>
-        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
+        <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
+        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
       </div>
 
       <script type="text/javascript">
@@ -113,9 +113,12 @@
     <hr>
 
     <div style="position: fixed; bottom: 10px; left: 10px">
-      <button class="submitButton" id="create-event" onclick="openForm()"> Create Event </button>
+      <button class="button" id="create-event" onclick="openForm()"> Create Event </button>
     </div>
 
+
+    <div class="toDoItem" id="toDoItem">
+    </div>
 
 
     <script type="text/javascript">
@@ -140,14 +143,11 @@
           timeNeeded: timeNeeded
         });
 
-        var tempEvent = new eventData({
-          eventDesc: "Test",
-          dueDate: "2020-11-19",
-          dueTime: "23:59",
-          timeNeeded: "6"
-        });
-
-
+        //learn to format this nicely
+        document.getElementById("toDoItem").innerHTML = newEvent.eventDesc +
+        " || Due Date: " + newEvent.dueDate +
+        " || Time Due: " + newEvent.dueTime +
+        " || Time Needed: " + newEvent.timeNeeded;
 
         var eventList = new Array();
         eventList.push(newEvent);
@@ -157,13 +157,9 @@
 
         console.log(newEvent);
         document.getElementById("eventModal").style.display = "none";
+        document.getElementById("logoutButton").style.display = "block";
       }
     </script>
-
-    <div class="toDoItem">
-      test value
-    </div>
-
     <br>
   </div>
 
