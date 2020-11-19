@@ -2,180 +2,197 @@
 <html>
 
 <head>
-  <!-- Imports -->
-  <link rel="stylesheet" href="Main.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
-  <div class="header">
+    <!-- Imports -->
+    <link rel="stylesheet" href="Main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <div class="header">
 
-    <div class="left">
-      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
+        <div class="left">
+            <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
         <span class="fa-text">
           <a href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #008CFF;">DEVELOPER</a>
         </span>
-      </i>
-    </div>
+            </i>
+        </div>
 
-    <div class="centertop">
-      DOABLE
-    </div>
+        <div class="centertop">
+            DOABLE
+        </div>
 
-  </div>
+    </div>
 </head>
 
 <body>
-  <div class=center>
+<div class=center>
     <div class="modal" id="registerModal">
-      <div class="modal-content" id="registerForm">
-        <div class="center" style="font-size: 24px; font-weight: 200; padding: 25px">
-          Register
-          <hr>
+        <div class="modal-content" id="registerForm">
+            <div class="center" style="font-size: 24px; font-weight: 200; padding: 25px">
+                Register
+                <hr>
+            </div>
+
+            <div class="userField" style="text-align: center">
+                <i class="fas fa-envelope-square fa-lg"></i>
+                <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
+                <br><br>
+                <i class="fas fa-lock fa-lg"></i>
+                <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
+                <br><br>
+            </div>
+
+
+            <div class="invalidEmail" id="registerInvalidEmail"></div>
+            <br>
+            <button class="button" id="register"> Submit</button>
+            <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
+
+            <script type="text/javascript">
+                function registerData(obj) {
+                    this.email = obj.email;
+                    this.password = obj.password;
+                }
+
+                document.getElementById("register").onclick = function () {
+                    var email = document.getElementById("emailReg").value;
+                    var password = document.getElementById("passwordReg").value;
+
+                    if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
+                        alert("valid email");
+
+                        var register = new registerData({
+                            email: email,
+                            password: password
+                        });
+
+                        console.log(register);
+
+                        fetch("http://localhost:8080/api/v1/user/register", {
+                            method: 'POST',
+                            body: JSON.stringify(register),
+                            headers: {
+                                'Origin': ' *',
+                                'Accept': 'application/json'
+                            }
+                        })
+                            .then(function (response) {
+                              // todo: brandon please save the token to a variable that we can access
+                                console.log(response.status); // Will show you the status
+                                if (response.ok) {
+                                    location.replace("Calendar.html")
+                                }
+                                return response.json();
+                            })
+                            .then(data =>
+                                    //todo: stephen, please check status and show them the correct html page or error message
+                                console.log(data))
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+
+                        document.getElementById("registerModal").style.display = "none";
+                        document.getElementById("loginModal").style.display = "block";
+
+                    } else {
+                        document.getElementById("registerInvalidEmail").innerHTML = "Enter a valid email";
+                    }
+                };
+            </script>
         </div>
-
-        <div class="userField" style="text-align: center">
-          <i class="fas fa-envelope-square fa-lg"></i>
-          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
-          <br><br>
-          <i class="fas fa-lock fa-lg"></i>
-          <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
-          <br><br>
-        </div>
-
-
-
-        <div class="invalidEmail" id="registerInvalidEmail"></div>
-        <br>
-        <button class="button" id="register"> Submit </button>
-        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
-
-        <script type="text/javascript">
-          function registerData(obj) {
-            this.email = obj.email;
-            this.password = obj.password;
-          }
-
-          document.getElementById("register").onclick = function() {
-            var email = document.getElementById("emailReg").value;
-            var password = document.getElementById("passwordReg").value;
-
-            if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
-              alert("valid email");
-
-              var register = new registerData({
-                email: email,
-                password: password
-              });
-
-              console.log(register);
-
-              fetch("http://localhost:8080/api/register", {
-                  method: 'POST',
-                  body: JSON.stringify(register),
-                  mode: 'no-cors',
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-
-              document.getElementById("registerModal").style.display = "none";
-              document.getElementById("loginModal").style.display = "block";
-
-            } else {
-              document.getElementById("registerInvalidEmail").innerHTML = "Enter a valid email";
-            }
-          };
-        </script>
-      </div>
     </div>
 
 
     <div class="loginModal" id="loginModal">
-      <div class="modal-content">
+        <div class="modal-content">
 
-        <div class="login">
-          Login
-          <hr>
+            <div class="login">
+                Login
+                <hr>
+            </div>
+
+
+            <div class="userField" style="text-align: center; position: relative;">
+                <i class="fas fa-envelope-square fa-lg"></i>
+                <input class="inputField" type="text" id="emailLogin" placeholder="Email" autofocus="autofocus">
+                <br><br>
+                <i class="fas fa-lock fa-lg"></i>
+                <input class="inputField" type="password" id="passwordLogin" placeholder="Password">
+            </div>
+
+            <br>
+
+            <div class="invalidEmail" id="loginInvalidEmail"></div>
+            <br>
+            <button class="button" id="login"> Login</button>
+            <div class="registerText">
+                Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
+            </div>
+
+            <script type="text/javascript">
+                function loginData(obj) {
+                    this.email = obj.email;
+                    this.password = obj.password;
+                }
+
+                document.getElementById("login").onclick = function () {
+
+                    var email = document.getElementById("emailLogin").value;
+                    var password = document.getElementById("passwordLogin").value;
+
+                    if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
+
+                        var login = new loginData({
+                            email: email,
+                            password: password
+                        });
+
+                        console.log(login);
+
+                        fetch("http://localhost:8080/api/v1/user/login", {
+                            method: 'POST',
+                            body: JSON.stringify(login),
+                            headers: {
+                                'Origin': ' *',
+                                'Accept': 'application/json'
+                            }
+                        })
+
+                            .then(function (response) {
+                              //todo: stephen, please check status and show them the correct html page or error message
+                                console.log(response.status); // Will show you the status
+                                if (response.ok) {
+                                    location.replace("Calendar.html")
+                                }
+                                return response.json();
+                            })
+                            .then(data =>
+                                // todo: brandon please save the token to a variable that we can access
+                                console.log(data))
+                            .catch((error) => {
+                                console.error('Error:', error);
+                            });
+                        
+                    } else {
+                        document.getElementById("loginInvalidEmail").innerHTML = "There is no account with that email";
+                    }
+                };
+            </script>
         </div>
-
-
-        <div class="userField" style="text-align: center; position: relative;">
-          <i class="fas fa-envelope-square fa-lg"></i>
-          <input class="inputField" type="text" id="emailLogin" placeholder="Email" autofocus="autofocus">
-          <br><br>
-          <i class="fas fa-lock fa-lg"></i>
-          <input class="inputField" type="password" id="passwordLogin" placeholder="Password">
-        </div>
-
-        <br>
-
-        <div class="invalidEmail" id="loginInvalidEmail"></div>
-        <br>
-        <button class="button" id="login"> Login </button>
-        <div class="registerText">
-          Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
-        </div>
-
-        <script type="text/javascript">
-          function loginData(obj) {
-            this.email = obj.email;
-            this.password = obj.password;
-          }
-
-          document.getElementById("login").onclick = function() {
-
-            var email = document.getElementById("emailLogin").value;
-            var password = document.getElementById("passwordLogin").value;
-
-            if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
-
-              var login = new loginData({
-                email: email,
-                password: password
-              });
-
-              console.log(login);
-
-              fetch("http://localhost:8080/api/v1/user/login", {
-                  method: 'POST',
-                  body: JSON.stringify(login),
-                })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-
-
-              if (email == "admin@doable.ca" && password == "password") {
-                location.replace("Calendar.html")
-              } else {
-                alert("failed login");
-              }
-
-            } else {
-              document.getElementById("loginInvalidEmail").innerHTML = "There is no account with that email";
-            }
-          };
-        </script>
-      </div>
     </div>
 
 
-
     <script type="text/javascript">
-      var loginModal = document.getElementById("loginModal");
-      var registerModal = document.getElementById("registerModal");
+        var loginModal = document.getElementById("loginModal");
+        var registerModal = document.getElementById("registerModal");
 
-      function openForm() {
-        loginModal.style.display = "none";
-        registerModal.style.display = "block";
-      }
+        function openForm() {
+            loginModal.style.display = "none";
+            registerModal.style.display = "block";
+        }
 
-      function closeForm() {
-        registerModal.style.display = "none";
-        loginModal.style.display = "block";
-      }
+        function closeForm() {
+            registerModal.style.display = "none";
+            loginModal.style.display = "block";
+        }
     </script>
-  </div>
+</div>
 </body>
