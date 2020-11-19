@@ -29,9 +29,9 @@
           <hr>
         </div>
 
-        <div class="userField" style="text-align: center">
+        <div class="userField">
           <i class="fas fa-envelope-square fa-lg"></i>
-          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
+          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email" style="text-align:left">
           <br><br>
           <i class="fas fa-lock fa-lg"></i>
           <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
@@ -83,15 +83,13 @@
       </div>
     </div>
 
-
     <div class="loginModal" id="loginModal">
       <div class="modal-content">
 
-        <div class="login">
+        <div class="mediumText">
           Login
           <hr>
         </div>
-
 
         <div class="userField" style="text-align: center; position: relative;">
           <i class="fas fa-envelope-square fa-lg"></i>
@@ -103,8 +101,8 @@
 
         <br>
 
-        <button class="submitButton" id="login"> Login </button>
-        <div class="registerText">
+        <button class="submitButton" id="login">Login</button>
+        <div class="smallText">
             Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
         </div>
 
@@ -138,14 +136,12 @@
                   console.error('Error:', error);
                 });
 
-
               if (email == "admin@doable.ca" && password == "password") {
                 //alert("Successful Login");
                 location.replace("Calendar.html")
               } else {
                 alert("failed login");
               }
-
             } else {
               alert("invalid email");
             }
@@ -153,8 +149,6 @@
         </script>
       </div>
     </div>
-
-
 
     <script type="text/javascript">
       var loginModal = document.getElementById("loginModal");

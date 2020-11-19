@@ -1,5 +1,25 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
+* {
+    font-family: "roboto slab";
+    text-align: center;
+    font-weight: 200;
+    outline: none;
+}
+
+/*---- Text is used for all text not in a button or box. Example is on register prompt on login page ----*/
+
+.smallText{
+    font-size: 16px;
+    position: center;
+    padding-top: 15px
+}
+
+.mediumText{
+    padding: 25px;
+    font-size: 24px;
+}
+
 .header {
   font-weight: 600;
   position: absolute;
@@ -9,24 +29,31 @@
   width: 100%;
   box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);
   font-size: 32px;
-  font-family: "roboto slab";
 }
 
+.inputField {
+  text-align: left;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  width: 35%;
+  margin: 0 10px;
+  border-bottom: 1px solid black;
+}
+
+/*---- Comment for left and right ----*/
+
 .left {
-  font-weight: 200;
   position: absolute;
   top: 50%;
   left: 10px;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  z-index: 2;
 }
 
 /*not in use*/
 .right {
-  font-family: "roboto slab";
-  font-weight: 200;
   position: absolute;
   top: 50%;
   right: 10px;
@@ -44,57 +71,25 @@
   transform: translate(-50%, -50%);
 }
 
-.center {
-  text-align: center;
-}
-
-.registerText{
-  font-size: 16px;
-  font-family: "roboto slab";
-  position: center;
-  font-weight: lighter;
-  padding-top: 15px
-}
 
 .submitButton {
-  font-family: "Roboto Slab";
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   background-color: #008CFF;
   border: none;
-  color: black;
   padding: 10px 10px;
-  text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
   transition-duration: 0.4s;
-  outline: none;
 }
 
 .submitButton:hover {
-  color: black;
   background-color: #0066ba;
   cursor: pointer;
 }
 
-.inputField {
-  border: none;
-  outline: none;
-  background: transparent;
-  color: black;
-  font-size: 16px;
-  width: 35%;
-  margin: 0 10px;
-  border-bottom: 1px solid black;
-}
-
-.userField i {
-  color: #008cff;
-}
-
 .modal {
-  font-family: "Roboto Slab";
   display: none;
   position: fixed;
   z-index: 1;
@@ -108,8 +103,6 @@
 }
 
 .loginModal {
-  font-family: "Roboto Slab";
-  display: ;
   position: fixed;
   z-index: 1;
   left: 0;
@@ -119,12 +112,6 @@
   overflow: auto;
 }
 
-.login {
-  padding: 25px;
-  font-weight: 200;
-  font-size: 24px;
-}
-
 .modal-content {
   box-shadow: 0 8px 16px 8px rgba(0, 0, 0, 0.2);
   background-color: #fefefe;
@@ -132,10 +119,6 @@
   padding: 25px;
   width: 35%;
   border-radius: 12px;
-}
-
-.fa-text {
-  font-family: "roboto slab";
 }
 
 a:hover {
