@@ -8,7 +8,7 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
+      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008CFF;">
         <span class="fa-text">
           <a href="Login.html" style="text-decoration: none; color: #008CFF;">LOGOUT</a>
         </span>
@@ -18,6 +18,13 @@
     <div class="centertop">
       DOABLE
     </div>
+
+    <div class="right">
+      <button class="button" id="view" onclick="dayView()">View Day</button>
+      <button class="button" id="view" onclick="weekView()">View Week</button>
+      <button class="button" id="view" onclick="monthView()">View Month</button>
+    </div>
+
   </div>
 
   <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
@@ -42,6 +49,18 @@
           'week.today.color': '#008cff',
         }
       });
+
+      function monthView() {
+        cal.changeView('month', true);
+      }
+
+      function weekView() {
+        cal.changeView('week', true);
+      }
+
+      function dayView() {
+        cal.changeView('day', true);
+      }
     </script>
   </div>
 
@@ -76,8 +95,8 @@
       <br>
 
       <div class="center">
-        <button class="submitButton" onclick="submitEvent()" id="submitEvent">Submit</button>
-        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
+        <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
+        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
       </div>
 
       <script type="text/javascript">
@@ -87,16 +106,19 @@
   </div>
 
   <div class="sidebar" id="eventSidebar">
-    <div class="list-title">
+    <div class="center" style="font-size: 22px">
       <b>To-Do List</b>
     </div>
 
     <hr>
 
     <div style="position: fixed; bottom: 10px; left: 10px">
-      <button class="submitButton" id="create-event" onclick="openForm()"> Create Event </button>
+      <button class="button" id="create-event" onclick="openForm()"> Create Event </button>
     </div>
 
+
+    <div class="toDoItem" id="toDoItem">
+    </div>
 
 
     <script type="text/javascript">
@@ -121,6 +143,12 @@
           timeNeeded: timeNeeded
         });
 
+        //learn to format this nicely
+        document.getElementById("toDoItem").innerHTML = newEvent.eventDesc +
+        " || Due Date: " + newEvent.dueDate +
+        " || Time Due: " + newEvent.dueTime +
+        " || Time Needed: " + newEvent.timeNeeded;
+
         var eventList = new Array();
         eventList.push(newEvent);
         // console.log(newEvent);
@@ -129,9 +157,9 @@
 
         console.log(newEvent);
         document.getElementById("eventModal").style.display = "none";
+        document.getElementById("logoutButton").style.display = "block";
       }
     </script>
-
     <br>
   </div>
 
