@@ -47,7 +47,9 @@
         theme: {
           'common.holiday.color': '#bbb',
           'week.today.color': '#008cff',
-        }
+        },
+        useCreationPopup: true,
+        disableDblClick: true,
       });
 
       function monthView() {
@@ -60,6 +62,22 @@
 
       function dayView() {
         cal.changeView('day', true);
+      }
+
+      function addEvent(newEvent) {
+
+        cal.createSchedules([
+
+          {
+            id: '',
+            calendarID: '1',
+            title: newEvent.eventDesc,
+            category: 'time',
+            dueDateClass: '',
+            start: '2020-11-20T11:30:00',
+            end: '2020-11-20T19:30:00'
+          }
+        ])
       }
     </script>
   </div>
@@ -122,12 +140,15 @@
 
       function submitEvent() {
 
-        var toDoItem = document.createElement("div", {"id":"toDoItem", "class": "toDoItem"});
+        var toDoItem = document.createElement("div", {
+          "id": "toDoItem",
+          "class": "toDoItem"
+        });
         toDoItem.style.border = '1px';
         toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
         toDoItem.style.transition = '0.3s';
         toDoItem.style.width = '90%';
-        toDoItem.style.padding = '5%';
+        toDoItem.style.padding = '3%';
         toDoItem.style.backgroundColor = 'white';
         toDoItem.style.borderRadius = '8px';
         toDoItem.style.marginTop = '5px';
@@ -148,11 +169,11 @@
 
         //learn to format this nicely
         toDoItem.innerHTML = "<b>" + newEvent.eventDesc +
-        "</b><br> Due Date: " + newEvent.dueDate +
-        " <span style='float:right;'>Time Due: " + newEvent.dueTime +
-        "</span><br> Time Required: " + newEvent.timeNeeded;
+          "</b><br> Due Date: " + newEvent.dueDate +
+          "<span style='float:right;'>Time Due: " + newEvent.dueTime +
+          "</span><br> Time Required: " + newEvent.timeNeeded;
 
-
+        addEvent(newEvent);
 
         // var eventList = new Array();
         // eventList.push(newEvent);
