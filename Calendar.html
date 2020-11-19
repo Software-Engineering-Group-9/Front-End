@@ -129,8 +129,9 @@
         toDoItem.style.width = '90%';
         toDoItem.style.padding = '5%';
         toDoItem.style.backgroundColor = 'white';
-        toDoItem.style.borderRadius = '4px';
+        toDoItem.style.borderRadius = '8px';
         toDoItem.style.marginTop = '5px';
+        toDoItem.style.fontSize = '14px';
         document.getElementById("eventSidebar").appendChild(toDoItem);
 
         var eventDesc = document.getElementById("eventDesc").value;
@@ -146,10 +147,10 @@
         });
 
         //learn to format this nicely
-        toDoItem.innerHTML = newEvent.eventDesc +
-        " || Due Date: " + newEvent.dueDate +
-        " || Time Due: " + newEvent.dueTime +
-        " || Time Needed: " + newEvent.timeNeeded;
+        toDoItem.innerHTML = "<b>" + newEvent.eventDesc +
+        "</b><br> Due Date: " + newEvent.dueDate +
+        " <span style='float:right;'>Time Due: " + newEvent.dueTime +
+        "</span><br> Time Required: " + newEvent.timeNeeded;
 
 
 
