@@ -1,5 +1,6 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
+/*Repsonsive css for small displays. Mobile devices */
 @media only screen and (max-width: 900px) {
     .userField input {
         border-bottom-width: 0.001vw;
@@ -68,7 +69,6 @@
     }
 
     .centertop {
-        color: green;
         font-size: 6vh;
         position: absolute;
         top: 50%;
@@ -187,6 +187,7 @@
     }
 }
 
+/*Repsonsive css for medium displays. HD Displays */
 @media only screen and (min-width: 901px) and (max-width: 1366px) {
     .userField input {
         border-bottom-width: 0.001vw;
@@ -247,7 +248,6 @@
     }
 
     .centertop {
-        color: yellow;
         font-size: 6vh;
         position: absolute;
         top: 50%;
@@ -366,7 +366,7 @@
     }
 }
 
-/*1080*/
+/*Repsonsive css for large resolutions. FHD+ Displays */
 @media only screen and (min-width: 1367px){
     .userField input {
         border-bottom-width: 0.001vw;
