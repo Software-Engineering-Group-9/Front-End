@@ -8,15 +8,17 @@
   <div class="header">
 
     <div class="left">
-      <i class="fas fa-code" aria-hidden="true" style= "color: #008CFF;">
+      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
         <span class="fa-text">
           <a href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #008CFF;">DEVELOPER</a>
         </span>
       </i>
     </div>
+
     <div class="centertop">
       DOABLE
     </div>
+
   </div>
 </head>
 
@@ -38,8 +40,12 @@
           <br><br>
         </div>
 
-        <button class="submitButton" id="register"> Submit </button>
-        <button class="submitButton" onclick="closeForm()" id="closeModal">Cancel</button>
+
+
+        <div class="invalidEmail" id="registerInvalidEmail"></div>
+        <br>
+        <button class="button" id="register"> Submit </button>
+        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
 
         <script type="text/javascript">
           function registerData(obj) {
@@ -76,7 +82,7 @@
               document.getElementById("loginModal").style.display = "block";
 
             } else {
-              alert("invalid email");
+              document.getElementById("registerInvalidEmail").innerHTML = "Enter a valid email";
             }
           };
         </script>
@@ -103,9 +109,11 @@
 
         <br>
 
-        <button class="submitButton" id="login"> Login </button>
+        <div class="invalidEmail" id="loginInvalidEmail"></div>
+        <br>
+        <button class="button" id="login"> Login </button>
         <div class="registerText">
-            Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
+          Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
         </div>
 
         <script type="text/javascript">
@@ -128,7 +136,7 @@
 
               console.log(login);
 
-              fetch("http://localhost:8080/api/login", {
+              fetch("http://localhost:8080/api/v1/user/login", {
                   method: 'POST',
                   body: JSON.stringify(login),
                 })
@@ -140,14 +148,13 @@
 
 
               if (email == "admin@doable.ca" && password == "password") {
-                //alert("Successful Login");
                 location.replace("Calendar.html")
               } else {
                 alert("failed login");
               }
 
             } else {
-              alert("invalid email");
+              document.getElementById("loginInvalidEmail").innerHTML = "There is no account with that email";
             }
           };
         </script>

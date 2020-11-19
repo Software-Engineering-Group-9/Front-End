@@ -2,12 +2,12 @@
 
 .header {
   font-weight: 600;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 10%;
   width: 100%;
-  box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);
+  /*box-shadow: 0 0.25rem 0.125rem 0 rgba(0, 0, 0, 0.05);*/
   font-size: 32px;
   font-family: "roboto slab";
 }
@@ -56,7 +56,7 @@
   padding-top: 15px
 }
 
-.submitButton {
+.button {
   font-family: "Roboto Slab";
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   border-radius: 12px;
@@ -72,7 +72,7 @@
   outline: none;
 }
 
-.submitButton:hover {
+.button:hover {
   color: black;
   background-color: #0066ba;
   cursor: pointer;
@@ -87,10 +87,6 @@
   width: 35%;
   margin: 0 10px;
   border-bottom: 1px solid black;
-}
-
-.userField i {
-  color: #008cff;
 }
 
 .modal {
@@ -141,4 +137,8 @@
 a:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.invalidEmail{
+  color: red;
 }
