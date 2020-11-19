@@ -8,11 +8,11 @@
   <div class="header">
 
     <div class="left">
-      <i class="fas fa-code" aria-hidden="true" style="color: #008CFF;">
-        <span class="fa-text">
-          <a href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #008CFF;">DEVELOPER</a>
-        </span>
-      </i>
+        <i class="fas fa-code" aria-hidden="true" style="color: #008CFF; font-size: 4vh;">
+            <span class="fa-text">
+                <a href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #008CFF; font-size: 3vh">DEVELOPER</a>
+            </span>
+        </i>
     </div>
 
     <div class="centertop">
@@ -26,23 +26,23 @@
   <div class=center>
     <div class="modal" id="registerModal">
       <div class="modal-content" id="registerForm">
-        <div class="center" style="font-size: 24px; font-weight: 200; padding: 25px">
-          Register
-          <hr>
+        <div class="center">
+            <div class="titleText">
+                Register
+                <hr style="height: 0.001vw; border: 0.01vw solid grey">
+            </div>
         </div>
 
-        <div class="userField">
-          <i class="fas fa-envelope-square fa-lg"></i>
-          <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email" style="text-align:left">
-          <br><br>
-          <i class="fas fa-lock fa-lg"></i>
-          <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
-          <br><br>
+        <div class="userField" style="text-align: center">
+            <i class="fas fa-envelope-square fa-lg" style="font-size: 1.2vw"></i>
+            <input class="inputField" type="text" id="emailReg" name="email" placeholder="Email">
+            <br>
+            <i class="fas fa-lock fa-lg" style="font-size: 1.2vw"></i>
+            <input class="inputField" type="password" id="passwordReg" name="password" placeholder="Password">
         </div>
 
 
         <div class="invalidEmail" id="registerInvalidEmail"></div>
-        <br>
         <button class="button" id="register"> Submit</button>
         <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
 
@@ -104,35 +104,28 @@
       </div>
     </div>
 
-    <div class="loginModal" id="loginModal">
+
+    <div class="modal" id="loginModal">
       <div class="modal-content">
 
-        <div class="mediumText">
+        <div class="titleText" style="margin:none; padding: none;">
           Login
-          <hr>
+          <hr style="height: 0.001vw; border: 0.01vw solid grey">
         </div>
 
-        <div class="userField" style="text-align: center; position: relative;">
-          <i class="fas fa-envelope-square fa-lg"></i>
+
+        <div class="userField" style="text-align: center;">
+          <i class="fas fa-envelope-square fa-lg" style="font-size: 1.2vw"></i>
           <input class="inputField" type="text" id="emailLogin" placeholder="Email" autofocus="autofocus">
-          <br><br>
-          <i class="fas fa-lock fa-lg"></i>
+          <br>
+          <i class="fas fa-lock fa-lg" style="font-size: 1.2vw"></i>
           <input class="inputField" type="password" id="passwordLogin" placeholder="Password">
         </div>
 
-        <br>
-
-<<<<<<< HEAD
-        <button class="submitButton" id="login">Login</button>
-        <div class="smallText">
-            Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
-=======
         <div class="invalidEmail" id="loginInvalidEmail"></div>
-        <br>
-        <button class="button" id="login"> Login</button>
+        <button class="button" id="login">Login</button>
         <div class="registerText">
           Don't have an account? <a onclick="openForm()" style="color: #008CFF ">Register</a>
->>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
         </div>
 
         <script type="text/javascript">
@@ -145,6 +138,10 @@
 
             var email = document.getElementById("emailLogin").value;
             var password = document.getElementById("passwordLogin").value;
+
+            if(email == "admin" && password == "password"){
+                location.replace("Calendar.html")
+            }
 
             if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
 
@@ -187,15 +184,6 @@
                   console.error('Error:', error);
                 });
 
-<<<<<<< HEAD
-              if (email == "admin@doable.ca" && password == "password") {
-                //alert("Successful Login");
-                location.replace("Calendar.html")
-              } else {
-                alert("failed login");
-              }
-=======
->>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
             } else {
               document.getElementById("loginInvalidEmail").innerHTML = "There is no account with that email";
             }
@@ -204,10 +192,7 @@
       </div>
     </div>
 
-<<<<<<< HEAD
-=======
 
->>>>>>> dd9aad2815dee91849deab39a47a0c583cdd8137
     <script type="text/javascript">
       var loginModal = document.getElementById("loginModal");
       var registerModal = document.getElementById("registerModal");
