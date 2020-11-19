@@ -112,15 +112,6 @@
 
     <hr>
 
-    <div style="position: fixed; bottom: 10px; left: 10px">
-      <button class="button" id="create-event" onclick="openForm()"> Create Event </button>
-    </div>
-
-
-    <div class="toDoItem" id="toDoItem">
-    </div>
-
-
     <script type="text/javascript">
       function eventData(obj) {
         this.eventDesc = obj.eventDesc;
@@ -130,6 +121,17 @@
       }
 
       function submitEvent() {
+
+        var toDoItem = document.createElement("div", {"id":"toDoItem", "class": "toDoItem"});
+        toDoItem.style.border = '1px';
+        toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
+        toDoItem.style.transition = '0.3s';
+        toDoItem.style.width = '90%';
+        toDoItem.style.padding = '5%';
+        toDoItem.style.backgroundColor = 'white';
+        toDoItem.style.borderRadius = '4px';
+        toDoItem.style.marginTop = '5px';
+        document.getElementById("eventSidebar").appendChild(toDoItem);
 
         var eventDesc = document.getElementById("eventDesc").value;
         var dueDate = document.getElementById("dueDate").value;
@@ -144,13 +146,15 @@
         });
 
         //learn to format this nicely
-        document.getElementById("toDoItem").innerHTML = newEvent.eventDesc +
+        toDoItem.innerHTML = newEvent.eventDesc +
         " || Due Date: " + newEvent.dueDate +
         " || Time Due: " + newEvent.dueTime +
         " || Time Needed: " + newEvent.timeNeeded;
 
-        var eventList = new Array();
-        eventList.push(newEvent);
+
+
+        // var eventList = new Array();
+        // eventList.push(newEvent);
         // console.log(newEvent);
         //
         // var listContainer = document.getElementById("eventSidebar");
@@ -161,6 +165,10 @@
       }
     </script>
     <br>
+
+    <div style="position: fixed; bottom: 10px; left: 10px">
+      <button class="button" id="create-event" onclick="openForm()"> Create Event </button>
+    </div>
   </div>
 
 
