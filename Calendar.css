@@ -47,16 +47,6 @@
   transform: translate(-50%, -50%);
 }
 
-.toDoItem  {
-  border: 1px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  width: 90%;
-  padding: 5%;
-  background-color: white;
-  border-radius: 4px;
-}
-
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
@@ -124,6 +114,17 @@
   width: 85%;
   margin: 0 10px;
   border-bottom: 1px solid black;
+}
+
+
+.requiredField{
+  text-align: center;
+  font-size: 1vw;
+  font-family: "roboto slab";
+  position: center;
+  font-weight: lighter;
+  padding-bottom: 2vh;
+  color: red;
 }
 
 .sidebar {

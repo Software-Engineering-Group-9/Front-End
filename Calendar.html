@@ -52,6 +52,9 @@
         disableDblClick: true,
       });
 
+      console.log(cal);
+
+
       function monthView() {
         cal.changeView('month', true);
       }
@@ -67,15 +70,14 @@
       function addEvent(newEvent) {
 
         cal.createSchedules([{
-          id: '',
+          id: '1',
           calendarID: '1',
           title: newEvent.title,
           category: 'time',
           dueDateClass: '',
           start: newEvent.dueDate + 'T' + (newEvent.startTime) + ':00',
           end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00'
-        }])
-
+        }]);
       }
     </script>
   </div>
@@ -91,33 +93,31 @@
 
       <table class="table">
         <tr>
-          <td>Event Title *</td>
-          <td><input class="inputField" type="text" placeholder="Title" id="title" required></td>
+          <td>Event Title <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="text" placeholder="Title" id="title" autofocus="autofocus"></td>
         </tr>
         <tr>
-          <td>Due Date *</td>
-          <td><input class="inputField" type="date" id="dueDate" required></td>
+          <td>Due Date <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="date" id="dueDate"></td>
         </tr>
         <tr>
-          <td>Time Due *</td>
-          <td><input class="inputField" type="time" id="dueTime" required></td>
+          <td>Time Due <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="time" id="dueTime"></td>
         </tr>
         <tr>
-          <td>Time Needed *</td>
-          <td><input class="inputField" type="text" id="timeNeeded" required></td>
+          <td>Time Needed</td>
+          <td><input class="inputField" type="text" id="timeNeeded"></td>
         </tr>
       </table>
 
       <br>
+      <div class="requiredField" id="requiredFieldText"></div>
 
       <div class="center">
         <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
         <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
       </div>
 
-      <script type="text/javascript">
-
-      </script>
     </div>
   </div>
 
@@ -139,6 +139,31 @@
 
       function submitEvent() {
 
+        var title = document.getElementById("title").value;
+        var dueDate = document.getElementById("dueDate").value;
+        var dueTime = document.getElementById("dueTime").value;
+        var timeNeeded = document.getElementById("timeNeeded").value;
+
+        if (title == "" || dueDate === "" || dueTime === "") {
+          document.getElementById("requiredFieldText").style.display = "block"
+          document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
+          return console.log("Error: Required InputField");
+        }
+
+        //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
+        var timeArr = dueTime.split(':');
+        var startTime = (parseInt(timeArr[0]) - timeNeeded).toString() + ':' + timeArr[1];
+
+        var noon = "am"
+        if (timeArr[0] > 12) {
+          timeArr[0] = timeArr[0] - 12;
+          noon = "pm";
+        }
+        var TitleString = title;
+        if (timeNeeded != "") {
+          TitleString += " - (" + timeNeeded + "h)"
+        }
+
         var toDoItem = document.createElement("div", {
           "id": "toDoItem",
           "class": "toDoItem"
@@ -155,16 +180,6 @@
         toDoItem.style.fontSize = '14px';
         document.getElementById("eventSidebar").appendChild(toDoItem);
 
-        var title = document.getElementById("title").value;
-        var dueDate = document.getElementById("dueDate").value;
-        var dueTime = document.getElementById("dueTime").value;
-        var timeNeeded = document.getElementById("timeNeeded").value;
-
-        //WILL BE CALCULATED BY THE BACKEND
-        var timeArr = dueTime.split(':');
-        var startTime = (parseInt(timeArr[0]) - timeNeeded).toString() + ':' + timeArr[1];
-        //WILL NEED TO REMOVE AT SOME POINT??``
-
         var newEvent = new eventData({
           title: title,
           dueDate: dueDate,
@@ -173,33 +188,12 @@
           timeNeeded: timeNeeded
         });
 
-
-
-        var noon = "am"
-
-        if (timeArr[0] > 12) {
-          timeArr[0] = timeArr[0] - 12;
-          noon = "pm";
-        }
-
-        var TitleString = title;
-
-        if (timeNeeded == "") {
-          TitleString += " - (" + timeNeeded + "h)"
-        }
-
         var resString = dueDate + "   " + timeArr[0] + ":" + timeArr[1] + noon;
 
         toDoItem.innerHTML = "<b>" + TitleString +
           "</b><br> Due: " + resString;
 
         addEvent(newEvent);
-
-        // var eventList = new Array();
-        // eventList.push(newEvent);
-        // console.log(newEvent);
-        //
-        // var listContainer = document.getElementById("eventSidebar");
 
         console.log(newEvent);
         document.getElementById("eventModal").style.display = "none";
@@ -224,6 +218,7 @@
     function closeForm() {
       document.getElementById("eventModal").style.display = "none";
       document.getElementById("logoutButton").style.display = "block";
+      document.getElementById("requiredFieldText").style.display = "none";
     }
   </script>
 
