@@ -43,7 +43,7 @@
         defaultView: 'week',
         taskView: false,
         borderColor: '#008cff',
-        isReadOnly: true,
+        isReadOnly: false,
         theme: {
           'common.holiday.color': '#bbb',
           'week.today.color': '#008cff',
@@ -71,11 +71,11 @@
           {
             id: '',
             calendarID: '1',
-            title: newEvent.eventDesc,
+            title: newEvent.eventTitle,
             category: 'time',
             dueDateClass: '',
-            start: '2020-11-20T11:30:00',
-            end: '2020-11-20T19:30:00'
+            start: newEvent.dueDate + 'T' + (newEvent.startTime) + ':00',
+            end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00'
           }
         ])
       }
@@ -93,8 +93,8 @@
 
       <table class="table">
         <tr>
-          <td>Event Description *</td>
-          <td><input class="inputField" type="text" placeholder="Description" id="eventDesc" required></td>
+          <td>Event Title *</td>
+          <td><input class="inputField" type="text" placeholder="Title" id="eventTitle" required></td>
         </tr>
         <tr>
           <td>Due Date *</td>
@@ -105,8 +105,8 @@
           <td><input class="inputField" type="time" id="dueTime" required></td>
         </tr>
         <tr>
-          <td>Time Needed</td>
-          <td><input class="inputField" type="text" placeholder="(In Hours)" id="timeNeeded"></td>
+          <td>Time Needed *</td>
+          <td><input class="inputField" type="text" id="timeNeeded" required></td>
         </tr>
       </table>
 
@@ -132,8 +132,9 @@
 
     <script type="text/javascript">
       function eventData(obj) {
-        this.eventDesc = obj.eventDesc;
+        this.eventTitle = obj.eventTitle;
         this.dueDate = obj.dueDate;
+        this.startTime = obj.startTime;
         this.dueTime = obj.dueTime;
         this.timeNeeded = obj.timeNeeded;
       }
@@ -155,20 +156,26 @@
         toDoItem.style.fontSize = '14px';
         document.getElementById("eventSidebar").appendChild(toDoItem);
 
-        var eventDesc = document.getElementById("eventDesc").value;
+        var eventTitle = document.getElementById("eventTitle").value;
         var dueDate = document.getElementById("dueDate").value;
         var dueTime = document.getElementById("dueTime").value;
         var timeNeeded = document.getElementById("timeNeeded").value;
 
+        //WILL BE CALCULATED BY THE BACKEND
+        var timeArr = dueTime.split(':');
+        var startTime = (parseInt(timeArr[0]) - timeNeeded).toString() + ':' + timeArr[1];
+        //WILL NEED TO REMOVE AT SOME POINT??``
+
         var newEvent = new eventData({
-          eventDesc: eventDesc,
+          eventTitle: eventTitle,
           dueDate: dueDate,
+          startTime: startTime,
           dueTime: dueTime,
           timeNeeded: timeNeeded
         });
 
         //learn to format this nicely
-        toDoItem.innerHTML = "<b>" + newEvent.eventDesc +
+        toDoItem.innerHTML = "<b>" + newEvent.eventTitle +
           "</b><br> Due Date: " + newEvent.dueDate +
           "<span style='float:right;'>Time Due: " + newEvent.dueTime +
           "</span><br> Time Required: " + newEvent.timeNeeded;
