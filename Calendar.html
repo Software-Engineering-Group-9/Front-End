@@ -2,302 +2,305 @@
 <html>
 
 <head>
-  <!-- Imports -->
-  <link rel="stylesheet" href="Calendar.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
-  <div class="header">
+    <!-- Imports -->
+    <link rel="stylesheet" href="Calendar.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
+    <div class="header">
 
-    <div class="left" id="logoutButton">
-      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008cff;">
-        <span class="fa-text">
-          <a href="Login.html" style="text-decoration: none; color: #008cff;">LOGOUT</a>
-        </span>
-      </i>
+        <div class="left" id="logoutButton">
+            <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008cff;">
+                <span class="fa-text">
+                    <a href="Login.html" style="text-decoration: none; color: #008cff;">LOGOUT</a>
+                </span>
+            </i>
+        </div>
+
+        <div class="centertop">
+            DOABLE
+        </div>
+
+        <div class="right">
+            <button class="button" id="view" onclick="dayView()">View Day</button>
+            <button class="button" id="view" onclick="weekView()">View Week</button>
+            <button class="button" id="view" onclick="monthView()">View Month</button>
+        </div>
+
     </div>
 
-    <div class="centertop">
-      DOABLE
-    </div>
-
-    <div class="right">
-      <button class="button" id="view" onclick="dayView()">View Day</button>
-      <button class="button" id="view" onclick="weekView()">View Week</button>
-      <button class="button" id="view" onclick="monthView()">View Month</button>
-    </div>
-
-  </div>
-
-  <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-  <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
-  <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
-  <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
-  <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
-  <script src="https://uicdn.toast.com/tui-date-picker/dist/tui-date-picker.css"></script>
-  <script src="https://uicdn.toast.com/tui-time-picker/dist/tui-time-picker.css"></script>
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+    <script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+    <script src="https://uicdn.toast.com/tui-date-picker/dist/tui-date-picker.css"></script>
+    <script src="https://uicdn.toast.com/tui-time-picker/dist/tui-time-picker.css"></script>
 
 </head>
 
 <body>
 
-  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008cff; font-family: 'Roboto Slab';">
-    <script type="text/javascript">
-      var cal = new tui.Calendar('#calendar', {
-        defaultView: 'week',
-        taskView: false,
-        borderColor: '#008cff',
-        isReadOnly: false,
-        theme: {
-          'common.holiday.color': '#bbb',
-          'week.today.color': '#008cff',
-        },
-        template: {
+    <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008cff; font-family: 'Roboto Slab';">
+        <script type="text/javascript">
+            var cal = new tui.Calendar('#calendar', {
+                defaultView: 'week',
+                taskView: false,
+                borderColor: '#008cff',
+                dragBgColor: '#008cff',
+                isReadOnly: false,
+                theme: {
+                    'common.holiday.color': '#bbb',
+                    'week.today.color': '#008cff',
+                },
+                template: {
 
-        },
-        useCreationPopup: true,
-        disableDblClick: true,
-        //@beforeCreateSchedule: 'onBeforeCreateSchedule',
-      });
+                },
+                disableDblClick: true,
+            });
 
-      cal.prototype._onBeforeCreate = function(createScheduleData) {
-        if (this._options.useCreationPopup && !createScheduleData.useCreationPopup) {
-          if (this._showCreationPopup) {
-            this._showCreationPopup(createScheduleData);
+            cal.dragBgColor = '#008cff';
 
-            return;
-          }
-        }
-        this.fire('beforeCreateSchedule', createScheduleData);
-      };
+            cal.on('beforeCreateSchedule', function(event) {
+                var newEvent = {
+                    calendarID: '1',
+                    title: "Busy",
+                    category: 'time',
+                    start: event.start,
+                    end: event.end,
+                    bgColor: '#ff6961',
+                };
 
-      cal.on('beforeCreateSchedule', function(event) {
-        var startTime = event.start;
-        var endTime = event.end;
-        var isAllDay = event.isAllDay;
-        var guide = event.guide;
-        var triggerEventName = event.triggerEventName;
-        var schedule;
+                cal.createSchedules([newEvent]);
+            });
 
-        if (triggerEventName === 'click') {
-          // open writing simple schedule popup
-        }
+            cal.on('beforeUpdateSchedule', function(event) {
+                var schedule = event.schedule;
+                var changes = event.changes;
 
-        cal.createSchedules([schedule]);
-      });
+                console.log(event);
 
+                cal.updateSchedule(schedule.id, schedule.calendarId, changes);
+            });
+            
+            cal.on('clickSchedule', function(event) {
+                cal.deleteSchedule(event.schedule.id, event.schedule.calendarId);
+            });
 
+            function monthView() {
+                cal.changeView('month', true);
+            }
 
-      console.log(cal);
+            function weekView() {
+                cal.changeView('week', true);
+            }
 
-      function monthView() {
-        cal.changeView('month', true);
-      }
+            function dayView() {
+                cal.changeView('day', true);
+            }
 
-      function weekView() {
-        cal.changeView('week', true);
-      }
+            function addEvent(newEvent) {
 
-      function dayView() {
-        cal.changeView('day', true);
-      }
+                cal.createSchedules([{
+                    id: '1',
+                    calendarID: '1',
+                    title: newEvent.title,
+                    category: 'time',
+                    dueDateClass: '',
+                    start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
+                    end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
+                    bgColor: '#008cff',
+                }]);
 
-      function addEvent(newEvent) {
-
-        cal.createSchedules([{
-          id: '1',
-          calendarID: '1',
-          title: newEvent.title,
-          category: 'time',
-          dueDateClass: '',
-          start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
-          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
-          bgColor: '#008cff',
-        }]);
-
-      }
-    </script>
-  </div>
+            }
+        </script>
+    </div>
 
 
-  <div class="modal" id="eventModal">
-    <div class="modal-content" id="eventForm">
+    <div class="modal" id="eventModal">
+        <div class="modal-content" id="eventForm">
 
-      <div class="center" style="font-size: 24px">
-        New Event
+            <div class="center" style="font-size: 24px">
+                New Event
+                <hr>
+            </div>
+
+            <table class="table">
+                <tr>
+                    <td>Event Title <span class="requiredField" id="requiredField">*</span></td>
+                    <td><input class="inputField" type="text" placeholder="Title" id="title" autofocus="autofocus"></td>
+                </tr>
+                <tr>
+                    <td>Due Date <span class="requiredField" id="requiredField">*</span></td>
+                    <td><input class="inputField" type="date" id="dueDate"></td>
+                </tr>
+                <tr>
+                    <td>Time Due <span class="requiredField" id="requiredField">*</span></td>
+                    <td><input class="inputField" type="time" id="dueTime"></td>
+                </tr>
+                <tr>
+                    <td>Time Needed</td>
+                    <td><input class="inputField" type="text" id="timeNeeded"></td>
+                </tr>
+            </table>
+
+            <br>
+            <div class="requiredField" id="requiredFieldText"></div>
+
+            <div class="center">
+                <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
+                <button class="button" onclick="closeEventForm()" id="closeModal">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal" id="availabilityModal">
+        <div class="modal-content" id="availabilityForm">
+            <div class="center">
+
+                <table class="table">
+                    <tr>
+                        <th>Sun</th>
+                        <th>Mon</th>
+                        <th>Tues</th>
+                        <th>Wed</th>
+                        <th>Thurs</th>
+                        <th>Fri</th>
+                        <th>Sat</th>
+                    </tr>
+                    <tr>
+                        <td><button class="">Add Busy Time</button></td>
+                        <td><button class="">Add Busy Time</button></td>
+                        <td><button class="">Add Busy Time</button></td>
+                        <td><button class="">Add Busy Time</button></td>
+                        <td><button class="">Add Busy Time</button></td>
+                        <td><button class="">Add Busy Time</button></td>
+                        <td><button class="">Add Busy Time</button></td>
+                    </tr>
+                </table>
+
+                <button class="button" onclick="closeAvailabilityForm()" id="closeModal">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar" id="eventSidebar">
+        <div class="center" style="font-size: 22px">
+            <b>To-Do List</b>
+        </div>
+
         <hr>
-      </div>
 
-      <table class="table">
-        <tr>
-          <td>Event Title <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="text" placeholder="Title" id="title" autofocus="autofocus"></td>
-        </tr>
-        <tr>
-          <td>Due Date <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="date" id="dueDate"></td>
-        </tr>
-        <tr>
-          <td>Time Due <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="time" id="dueTime"></td>
-        </tr>
-        <tr>
-          <td>Time Needed</td>
-          <td><input class="inputField" type="text" id="timeNeeded"></td>
-        </tr>
-      </table>
+        <script type="text/javascript">
+            function eventData(obj) {
+                this.title = obj.title;
+                this.dueDate = obj.dueDate;
+                this.startTime = obj.startTime;
+                this.dueTime = obj.dueTime;
+                this.timeNeeded = obj.timeNeeded;
+            }
 
-      <br>
-      <div class="requiredField" id="requiredFieldText"></div>
+            function submitEvent() {
 
-      <div class="center">
-        <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
-        <button class="button" onclick="closeEventForm()" id="closeModal">Cancel</button>
-      </div>
+                var title = document.getElementById("title").value;
+                var dueDate = document.getElementById("dueDate").value;
+                var dueTime = document.getElementById("dueTime").value;
+                var timeNeeded = document.getElementById("timeNeeded").value;
 
+                if (title == "" || dueDate === "" || dueTime === "") {
+                    document.getElementById("requiredFieldText").style.display = "block"
+                    document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
+                    return console.log("Error: Required InputField");
+                }
+
+                //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
+                var dueTimeArr = dueTime.split(':');
+                if (parseInt(dueTimeArr[0]) < 10) {
+                    var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+                } else {
+                    var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+                }
+
+                var noon = "am"
+                if (dueTimeArr[0] > 12) {
+                    dueTimeArr[0] = dueTimeArr[0] - 12;
+                    noon = "pm";
+                }
+                var TitleString = title;
+                if (timeNeeded != "") {
+                    TitleString += " - (" + timeNeeded + "h)"
+                }
+
+                var toDoItem = document.createElement("div", {
+                    "id": "toDoItem",
+                    "class": "toDoItem"
+                });
+
+                toDoItem.style.border = '1px';
+                toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
+                toDoItem.style.transition = '0.3s';
+                toDoItem.style.width = '94%';
+                toDoItem.style.padding = '3%';
+                toDoItem.style.backgroundColor = 'white';
+                toDoItem.style.borderRadius = '8px';
+                toDoItem.style.marginTop = '5px';
+                toDoItem.style.fontSize = '14px';
+                document.getElementById("eventSidebar").appendChild(toDoItem);
+
+                var newEvent = new eventData({
+                    title: title,
+                    dueDate: dueDate,
+                    startTime: startTime,
+                    dueTime: dueTime,
+                    timeNeeded: timeNeeded
+                });
+
+                var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
+
+                toDoItem.innerHTML = "<b>" + TitleString +
+                    "</b><br> Due: " + resString;
+
+                addEvent(newEvent);
+
+                console.log(newEvent);
+                document.getElementById("eventModal").style.display = "none";
+                document.getElementById("logoutButton").style.display = "block";
+            }
+        </script>
+        <br>
+
+        <div style="position: fixed; bottom: 10px; left: .8%">
+            <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
+        </div>
+
+        <div style="position: fixed; bottom: 10px; left: 12%">
+            <button class="button" id="update-availability" onclick="openAvailabilityForm()"> Update Availability</button>
+        </div>
     </div>
-  </div>
 
-  <div class="modal" id="availabilityModal">
-    <div class="modal-content" id="availabilityForm">
-      <div class="center">
 
-        <table class="table">
-          <tr>
-            <th>Sun</th><th>Mon</th><th>Tues</th><th>Wed</th><th>Thurs</th><th>Fri</th><th>Sat</th>
-          </tr>
-          <tr>
-            <td><button class="">Add Busy Time</button></td>
-            <td><button class="">Add Busy Time</button></td>
-            <td><button class="">Add Busy Time</button></td>
-            <td><button class="">Add Busy Time</button></td>
-            <td><button class="">Add Busy Time</button></td>
-            <td><button class="">Add Busy Time</button></td>
-            <td><button class="">Add Busy Time</button></td>
-          </tr>
-        </table>
-
-        <button class="button" onclick="closeAvailabilityForm()" id="closeModal">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="sidebar" id="eventSidebar">
-    <div class="center" style="font-size: 22px">
-      <b>To-Do List</b>
-    </div>
-
-    <hr>
 
     <script type="text/javascript">
-      function eventData(obj) {
-        this.title = obj.title;
-        this.dueDate = obj.dueDate;
-        this.startTime = obj.startTime;
-        this.dueTime = obj.dueTime;
-        this.timeNeeded = obj.timeNeeded;
-      }
-
-      function submitEvent() {
-
-        var title = document.getElementById("title").value;
-        var dueDate = document.getElementById("dueDate").value;
-        var dueTime = document.getElementById("dueTime").value;
-        var timeNeeded = document.getElementById("timeNeeded").value;
-
-        if (title == "" || dueDate === "" || dueTime === "") {
-          document.getElementById("requiredFieldText").style.display = "block"
-          document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
-          return console.log("Error: Required InputField");
+        function openEventForm() {
+            document.getElementById("eventModal").style.display = "block";
+            document.getElementById("logoutButton").style.display = "none";
         }
 
-        //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
-        var dueTimeArr = dueTime.split(':');
-        if (parseInt(dueTimeArr[0]) < 10) {
-          var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
-        } else {
-          var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+        function closeEventForm() {
+            document.getElementById("eventModal").style.display = "none";
+            document.getElementById("logoutButton").style.display = "block";
+            document.getElementById("requiredFieldText").style.display = "none";
         }
 
-        var noon = "am"
-        if (dueTimeArr[0] > 12) {
-          dueTimeArr[0] = dueTimeArr[0] - 12;
-          noon = "pm";
-        }
-        var TitleString = title;
-        if (timeNeeded != "") {
-          TitleString += " - (" + timeNeeded + "h)"
+        function openAvailabilityForm() {
+            document.getElementById("availabilityModal").style.display = "block";
+            document.getElementById("logoutButton").style.display = "none";
         }
 
-        var toDoItem = document.createElement("div", {
-          "id": "toDoItem",
-          "class": "toDoItem"
-        });
-
-        toDoItem.style.border = '1px';
-        toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
-        toDoItem.style.transition = '0.3s';
-        toDoItem.style.width = '94%';
-        toDoItem.style.padding = '3%';
-        toDoItem.style.backgroundColor = 'white';
-        toDoItem.style.borderRadius = '8px';
-        toDoItem.style.marginTop = '5px';
-        toDoItem.style.fontSize = '14px';
-        document.getElementById("eventSidebar").appendChild(toDoItem);
-
-        var newEvent = new eventData({
-          title: title,
-          dueDate: dueDate,
-          startTime: startTime,
-          dueTime: dueTime,
-          timeNeeded: timeNeeded
-        });
-
-        var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
-
-        toDoItem.innerHTML = "<b>" + TitleString +
-          "</b><br> Due: " + resString;
-
-        addEvent(newEvent);
-
-        console.log(newEvent);
-        document.getElementById("eventModal").style.display = "none";
-        document.getElementById("logoutButton").style.display = "block";
-      }
+        function closeAvailabilityForm() {
+            document.getElementById("availabilityModal").style.display = "none";
+            document.getElementById("logoutButton").style.display = "block";
+            document.getElementById("requiredFieldText").style.display = "none";
+        }
     </script>
-    <br>
-
-    <div style="position: fixed; bottom: 10px; left: .8%">
-      <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
-    </div>
-
-    <div style="position: fixed; bottom: 10px; left: 12%">
-      <button class="button" id="update-availability" onclick="openAvailabilityForm()"> Update Availability</button>
-    </div>
-  </div>
-
-
-
-  <script type="text/javascript">
-    function openEventForm() {
-      document.getElementById("eventModal").style.display = "block";
-      document.getElementById("logoutButton").style.display = "none";
-    }
-
-    function closeEventForm() {
-      document.getElementById("eventModal").style.display = "none";
-      document.getElementById("logoutButton").style.display = "block";
-      document.getElementById("requiredFieldText").style.display = "none";
-    }
-
-    function openAvailabilityForm() {
-      document.getElementById("availabilityModal").style.display = "block";
-      document.getElementById("logoutButton").style.display = "none";
-    }
-
-    function closeAvailabilityForm() {
-      document.getElementById("availabilityModal").style.display = "none";
-      document.getElementById("logoutButton").style.display = "block";
-      document.getElementById("requiredFieldText").style.display = "none";
-    }
-  </script>
 
 </body>
