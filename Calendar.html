@@ -69,13 +69,21 @@
 
       function addEvent(newEvent) {
 
+        if(newEvent.startTime < 10){
+          newEvent.startTime = '0' + newEvent.startTime;
+        }
+
+        if(newEvent.dueTime < 10){
+          newEvent.dueTime = '0' + newEvent.dueTime;
+        }
+
         cal.createSchedules([{
           id: '1',
           calendarID: '1',
           title: newEvent.title,
           category: 'time',
           dueDateClass: '',
-          start: newEvent.dueDate + 'T' + (newEvent.startTime) + ':00',
+          start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
           end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00'
         }]);
       }
@@ -153,6 +161,8 @@
         //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
         var timeArr = dueTime.split(':');
         var startTime = (parseInt(timeArr[0]) - timeNeeded).toString() + ':' + timeArr[1];
+
+
 
         var noon = "am"
         if (timeArr[0] > 12) {
