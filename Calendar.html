@@ -8,9 +8,9 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008CFF;">
+      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008cff;">
         <span class="fa-text">
-          <a href="Login.html" style="text-decoration: none; color: #008CFF;">LOGOUT</a>
+          <a href="Login.html" style="text-decoration: none; color: #008cff;">LOGOUT</a>
         </span>
       </i>
     </div>
@@ -32,12 +32,14 @@
   <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
   <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
   <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+  <script src="https://uicdn.toast.com/tui-date-picker/dist/tui-date-picker.css"></script>
+  <script src="https://uicdn.toast.com/tui-time-picker/dist/tui-time-picker.css"></script>
 
 </head>
 
 <body>
 
-  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008CFF; font-family: 'Roboto Slab';">
+  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008cff; font-family: 'Roboto Slab';">
     <script type="text/javascript">
       var cal = new tui.Calendar('#calendar', {
         defaultView: 'week',
@@ -48,12 +50,43 @@
           'common.holiday.color': '#bbb',
           'week.today.color': '#008cff',
         },
+        template: {
+
+        },
         useCreationPopup: true,
         disableDblClick: true,
+        //@beforeCreateSchedule: 'onBeforeCreateSchedule',
       });
 
-      console.log(cal);
+      cal.prototype._onBeforeCreate = function(createScheduleData) {
+        if (this._options.useCreationPopup && !createScheduleData.useCreationPopup) {
+          if (this._showCreationPopup) {
+            this._showCreationPopup(createScheduleData);
 
+            return;
+          }
+        }
+        this.fire('beforeCreateSchedule', createScheduleData);
+      };
+
+      cal.on('beforeCreateSchedule', function(event) {
+        var startTime = event.start;
+        var endTime = event.end;
+        var isAllDay = event.isAllDay;
+        var guide = event.guide;
+        var triggerEventName = event.triggerEventName;
+        var schedule;
+
+        if (triggerEventName === 'click') {
+          // open writing simple schedule popup
+        }
+
+        cal.createSchedules([schedule]);
+      });
+
+
+
+      console.log(cal);
 
       function monthView() {
         cal.changeView('month', true);
@@ -69,14 +102,6 @@
 
       function addEvent(newEvent) {
 
-        if(newEvent.startTime < 10){
-          newEvent.startTime = '0' + newEvent.startTime;
-        }
-
-        if(newEvent.dueTime < 10){
-          newEvent.dueTime = '0' + newEvent.dueTime;
-        }
-
         cal.createSchedules([{
           id: '1',
           calendarID: '1',
@@ -84,8 +109,10 @@
           category: 'time',
           dueDateClass: '',
           start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
-          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00'
+          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
+          bgColor: '#008cff',
         }]);
+
       }
     </script>
   </div>
@@ -123,9 +150,33 @@
 
       <div class="center">
         <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
-        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
+        <button class="button" onclick="closeEventForm()" id="closeModal">Cancel</button>
       </div>
 
+    </div>
+  </div>
+
+  <div class="modal" id="availabilityModal">
+    <div class="modal-content" id="availabilityForm">
+      <div class="center">
+
+        <table class="table">
+          <tr>
+            <th>Sun</th><th>Mon</th><th>Tues</th><th>Wed</th><th>Thurs</th><th>Fri</th><th>Sat</th>
+          </tr>
+          <tr>
+            <td><button class="">Add Busy Time</button></td>
+            <td><button class="">Add Busy Time</button></td>
+            <td><button class="">Add Busy Time</button></td>
+            <td><button class="">Add Busy Time</button></td>
+            <td><button class="">Add Busy Time</button></td>
+            <td><button class="">Add Busy Time</button></td>
+            <td><button class="">Add Busy Time</button></td>
+          </tr>
+        </table>
+
+        <button class="button" onclick="closeAvailabilityForm()" id="closeModal">Cancel</button>
+      </div>
     </div>
   </div>
 
@@ -159,14 +210,16 @@
         }
 
         //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
-        var timeArr = dueTime.split(':');
-        var startTime = (parseInt(timeArr[0]) - timeNeeded).toString() + ':' + timeArr[1];
-
-
+        var dueTimeArr = dueTime.split(':');
+        if (parseInt(dueTimeArr[0]) < 10) {
+          var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+        } else {
+          var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+        }
 
         var noon = "am"
-        if (timeArr[0] > 12) {
-          timeArr[0] = timeArr[0] - 12;
+        if (dueTimeArr[0] > 12) {
+          dueTimeArr[0] = dueTimeArr[0] - 12;
           noon = "pm";
         }
         var TitleString = title;
@@ -198,7 +251,7 @@
           timeNeeded: timeNeeded
         });
 
-        var resString = dueDate + "   " + timeArr[0] + ":" + timeArr[1] + noon;
+        var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
 
         toDoItem.innerHTML = "<b>" + TitleString +
           "</b><br> Due: " + resString;
@@ -212,21 +265,36 @@
     </script>
     <br>
 
-    <div style="position: fixed; bottom: 10px; left: 10px">
-      <button class="button" id="create-event" onclick="openForm()"> Create Event </button>
+    <div style="position: fixed; bottom: 10px; left: .8%">
+      <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
+    </div>
+
+    <div style="position: fixed; bottom: 10px; left: 12%">
+      <button class="button" id="update-availability" onclick="openAvailabilityForm()"> Update Availability</button>
     </div>
   </div>
 
 
 
   <script type="text/javascript">
-    function openForm() {
+    function openEventForm() {
       document.getElementById("eventModal").style.display = "block";
       document.getElementById("logoutButton").style.display = "none";
     }
 
-    function closeForm() {
+    function closeEventForm() {
       document.getElementById("eventModal").style.display = "none";
+      document.getElementById("logoutButton").style.display = "block";
+      document.getElementById("requiredFieldText").style.display = "none";
+    }
+
+    function openAvailabilityForm() {
+      document.getElementById("availabilityModal").style.display = "block";
+      document.getElementById("logoutButton").style.display = "none";
+    }
+
+    function closeAvailabilityForm() {
+      document.getElementById("availabilityModal").style.display = "none";
       document.getElementById("logoutButton").style.display = "block";
       document.getElementById("requiredFieldText").style.display = "none";
     }
