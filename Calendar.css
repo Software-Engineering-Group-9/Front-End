@@ -47,7 +47,6 @@
   transform: translate(-50%, -50%);
 }
 
-
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
@@ -116,7 +115,6 @@
   margin: 0 10px;
   border-bottom: 1px solid black;
 }
-
 
 .requiredField{
   text-align: center;
