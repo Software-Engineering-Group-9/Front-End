@@ -1,374 +1,15 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
-/*Repsonsive css for small displays. Mobile devices */
-@media only screen and (max-width: 900px) {
-    .userField input {
-        border-bottom-width: 0.001vw;
-        margin-top: 1vw;
-        padding: 0;
-        height: 24px;
-        line-height: 24px;
-        font-size: 18px;
-    }
+/*MOBILE*/
+@media only screen and (max-width: 768px) {
 
-    #dev-text{
-        display: none;
-    }
 
-    #dev-icon{
-        margin: 20px;
-    }
-
-    .userField {
-        padding-bottom: 0px;
-    }
-
-    * {
-        padding: none;
-    }
-
-    br {
-        line-height: 2vw;
-        padding: 0;
-        border: none;
-    }
-
-    .header {
-        font-weight: 600;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 10vh;
-        width: 100%;
-        box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
-        font-size: 24px;
-        font-family: "roboto slab";
-    }
-
-    .left {
-        font-weight: 200;
-        position: absolute;
-        top: 5vh;
-        left: 0.5vw;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-        z-index: 2;
-    }
-
-    /*not in use*/
-    .right {
-        font-family: "roboto slab";
-        font-weight: 200;
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    .centertop {
-        font-size: 6vh;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .registerText {
-        font-size: 18px;
-        font-family: "roboto slab";
-        position: center;
-        font-weight: lighter;
-        padding-bottom: 2vh;
-    }
-
-    .button {
-        font-family: "Roboto Slab";
-        box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
-        border-radius: 0.5vw;
-        background-color: #008CFF;
-        border: none;
-        color: black;
-        padding: 5px 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 24px;
-        outline: none;
-        margin: 0px;
-    }
-
-    .button:hover {
-        color: black;
-        background-color: #0066ba;
-        cursor: pointer;
-    }
-
-    .inputField {
-        border: none;
-        outline: none;
-        background: transparent;
-        color: black;
-        font-size: 1vw;
-        line-height: 2vw;
-        width: 250px;
-        margin: none;
-        border-bottom: 0.1vw solid black;
-    }
-
-    .userField i{
-        font-size: 24px;
-    }
-
-    .modal {
-        margin-top: 10vh;
-        font-family: "Roboto Slab";
-        display: ;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        z-index: -1;
-    }
-
-    .invalidEmail {
-        font-size: 0.8vw;
-        font-family: "roboto slab";
-        position: center;
-        font-weight: lighter;
-        padding-bottom: 2vh;
-    }
-
-    #registerModal {
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.4);
-        display: none;
-    }
-
-    .titleText {
-        padding: 4vh 2vw 0;
-        font-weight: 200;
-        font-size: 24px;
-    }
-
-    .modal-content {
-        box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
-        background-color: #fefefe;
-        margin: auto;
-        margin-top: 5vh;
-
-        padding: auto;
-        width: 480px;
-        border-radius: 0.75vw;
-    }
-
-    .fa-text {
-        font-family: "roboto slab";
-        font-size: 24px;
-        z-index: 1;
-    }
-
-    a:hover {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
-    .invalidEmail {
-        color: red;
-    }
 }
 
-/*Repsonsive css for medium displays. HD Displays */
-@media only screen and (min-width: 901px) and (max-width: 1366px) {
-    .userField input {
-        border-bottom-width: 0.001vw;
-        margin-top: 1vw;
-        padding: 0;
-        height: 24px;
-        line-height: 24px;
-        font-size: 18px;
-    }
+/*1080*/
+@media only screen and (min-width: 768px) {
 
-    .userField {
-        padding-bottom: 0px;
-    }
-
-    * {
-        padding: none;
-    }
-
-    br {
-        line-height: 2vw;
-        padding: 0;
-        border: none;
-    }
-
-    .header {
-        font-weight: 600;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 10vh;
-        width: 100%;
-        box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
-        font-size: 24px;
-        font-family: "roboto slab";
-    }
-
-    .left {
-        font-weight: 200;
-        position: absolute;
-        top: 5vh;
-        left: 0.5vw;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-        z-index: 2;
-    }
-
-    /*not in use*/
-    .right {
-        font-family: "roboto slab";
-        font-weight: 200;
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-    }
-
-    .centertop {
-        font-size: 6vh;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .registerText {
-        font-size: 18px;
-        font-family: "roboto slab";
-        position: center;
-        font-weight: lighter;
-        padding-bottom: 2vh;
-    }
-
-    .button {
-        font-family: "Roboto Slab";
-        box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
-        border-radius: 0.5vw;
-        background-color: #008CFF;
-        border: none;
-        color: black;
-        padding: 5px 10px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 24px;
-        outline: none;
-        margin: 0px;
-    }
-
-    .button:hover {
-        color: black;
-        background-color: #0066ba;
-        cursor: pointer;
-    }
-
-    .inputField {
-        border: none;
-        outline: none;
-        background: transparent;
-        color: black;
-        font-size: 1vw;
-        line-height: 2vw;
-        width: 250px;
-        margin: none;
-        border-bottom: 0.1vw solid black;
-    }
-
-    .userField i{
-        font-size: 24px;
-    }
-
-    .modal {
-        margin-top: 10vh;
-        font-family: "Roboto Slab";
-        display: ;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        z-index: -1;
-    }
-
-    .invalidEmail {
-        font-size: 0.8vw;
-        font-family: "roboto slab";
-        position: center;
-        font-weight: lighter;
-        padding-bottom: 2vh;
-    }
-
-    #registerModal {
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.4);
-        display: none;
-    }
-
-    .titleText {
-        padding: 4vh 2vw 0;
-        font-weight: 200;
-        font-size: 24px;
-    }
-
-    .modal-content {
-        box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
-        background-color: #fefefe;
-        margin: auto;
-        margin-top: 100px;
-
-        padding: auto;
-        width: 480px;
-        border-radius: 0.75vw;
-    }
-
-    .fa-text {
-        font-family: "roboto slab";
-        font-size: 24px;
-        z-index: 1;
-    }
-
-    a:hover {
-        text-decoration: underline;
-        cursor: pointer;
-    }
-
-    .invalidEmail {
-        color: red;
-    }
-}
-
-/*Repsonsive css for large resolutions. FHD+ Displays */
-@media only screen and (min-width: 1367px){
-    .userField input {
+    .userField input{
         border-bottom-width: 0.001vw;
         margin-top: 1vw;
         padding: 0;
@@ -377,128 +18,122 @@
         font-size: 0.8vw;
     }
 
-    .userField {
+    .userField{
         padding-bottom: 2vh;
     }
 
-    * {
+    *{
         padding: none;
     }
 
-    br {
+    br{
         line-height: 2vw;
         padding: 0;
         border: none;
     }
 
     .header {
-        font-weight: 600;
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 10vh;
-        width: 100%;
-        box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
-        font-size: 2vw;
-        font-family: "roboto slab";
+      font-weight: 600;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 10%;
+      width: 100%;
+      box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
+      font-size: 2vw;
+      font-family: "roboto slab";
     }
 
     .left {
-        font-weight: 200;
-        position: absolute;
-        top: 5vh;
-        left: 0.5vw;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
-        z-index: 2;
+      font-weight: 200;
+      position: absolute;
+      top: 5vh;
+      left: 0.5vw;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+      z-index: 2;
     }
 
     /*not in use*/
     .right {
-        font-family: "roboto slab";
-        font-weight: 200;
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        -webkit-transform: translateY(-50%);
-        -ms-transform: translateY(-50%);
-        transform: translateY(-50%);
+      font-family: "roboto slab";
+      font-weight: 200;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
     }
 
     .centertop {
-        font-size: 6vh;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
+      font-size: 6vh;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
     }
 
     .center {
-        text-align: center;
+      text-align: center;
     }
-
-    .registerText {
-        font-size: 0.8vw;
-        font-family: "roboto slab";
-        position: center;
-        font-weight: lighter;
-        padding-bottom: 2vh;
+    .registerText{
+      font-size: 0.8vw;
+      font-family: "roboto slab";
+      position: center;
+      font-weight: lighter;
+      padding-bottom: 2vh;
     }
 
     .button {
-        font-family: "Roboto Slab";
-        box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
-        border-radius: 0.5vw;
-        background-color: #008CFF;
-        border: none;
-        color: black;
-        padding: 0.5vh 0.5vw;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 1vw;
-        outline: none;
-        margin: 1vh;
+      font-family: "Roboto Slab";
+      box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
+      border-radius: 0.5vw;
+      background-color: #008CFF;
+      border: none;
+      color: black;
+      padding: 0.5vh 0.5vw;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 1vw;
+      outline: none;
+      margin: 1vh;
     }
 
     .button:hover {
-        color: black;
-        background-color: #0066ba;
-        cursor: pointer;
+      color: black;
+      background-color: #0066ba;
+      cursor: pointer;
     }
 
     .inputField {
-        border: none;
-        outline: none;
-        background: transparent;
-        color: black;
-        font-size: 1vw;
-        line-height: 2vw;
-        width: 15vw;
-        margin: none;
-        border-bottom: 0.1vw solid black;
-    }
-
-    .userField i{
-        font-size: 1.2vw;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: black;
+      font-size: 1vw;
+      line-height: 2vw;
+      width: 15vw;
+      margin: none;
+      border-bottom: 0.1vw solid black;
     }
 
     .modal {
-        margin-top: 10vh;
-        font-family: "Roboto Slab";
-        display: ;
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        z-index: -1;
+      font-family: "Roboto Slab";
+      display:;
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      z-index: -1;
     }
 
-    .invalidEmail {
+    .invalidEmail{
         font-size: 0.8vw;
         font-family: "roboto slab";
         position: center;
@@ -506,39 +141,45 @@
         padding-bottom: 2vh;
     }
 
-    #registerModal {
+    #registerModal{
         background-color: rgb(0, 0, 0);
         background-color: rgba(0, 0, 0, 0.4);
         display: none;
     }
 
     .titleText {
-        padding: 4vh 2vw 0;
-        font-weight: 200;
-        font-size: 1.2vw;
+      padding: 4vh 2vw 0;
+      font-weight: 200;
+      font-size: 1.2vw;
     }
 
     .modal-content {
-        box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
-        background-color: #fefefe;
-        margin: 15vw auto;
-        padding: 2vw auto;
-        width: 35vw;
-        border-radius: 0.75vw;
+      box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
+      background-color: #fefefe;
+      margin: 15vw auto;
+      padding: 2vw auto;
+      width: 35vw;
+      border-radius: 0.75vw;
     }
 
     .fa-text {
-        font-family: "roboto slab";
-        font-size: 5vh;
-        z-index: 1;
+      font-family: "roboto slab";
+      font-size: 5vh;
+      z-index: 1;
     }
 
     a:hover {
-        text-decoration: underline;
-        cursor: pointer;
+      text-decoration: underline;
+      cursor: pointer;
     }
 
-    .invalidEmail {
-        color: red;
+    .invalidEmail{
+      color: red;
     }
+}
+
+/*1440*/
+@media only screen and (min-width: 2560px) {
+
+
 }
