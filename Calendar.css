@@ -47,13 +47,6 @@
   transform: translate(-50%, -50%);
 }
 
-html {
-  overflow:   scroll;
-}
-::-webkit-scrollbar {
-    width: 0px;
-    background: transparent; /* make scrollbar transparent */
-}
 
 .modal-content {
   background-color: #fefefe;
@@ -62,14 +55,6 @@ html {
   border: 1px solid #888;
   width: 25%;
   border-radius: 12px;
-}
-
-#availabilityForm {
-  width: 60%;
-}
-#availabilityForm th, td{
-  padding: 10px;
-  font-size: 18px;
 }
 
 .modal {

@@ -32,8 +32,7 @@
     <script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
     <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
     <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
-    <script src="https://uicdn.toast.com/tui-date-picker/dist/tui-date-picker.css"></script>
-    <script src="https://uicdn.toast.com/tui-time-picker/dist/tui-time-picker.css"></script>
+
 
 </head>
 
@@ -57,16 +56,19 @@
                 disableDblClick: true,
             });
 
-            cal.dragBgColor = '#008cff';
-
             cal.on('beforeCreateSchedule', function(event) {
+
+                var timeID = parseInt((new Date().getTime() / 10).toString());
+
                 var newEvent = {
+                    id: timeID,
                     calendarID: '1',
                     title: "Busy",
                     category: 'time',
                     start: event.start,
                     end: event.end,
                     bgColor: '#ff6961',
+                    dragBgColor: '#ff6961',
                 };
 
                 cal.createSchedules([newEvent]);
@@ -80,7 +82,7 @@
 
                 cal.updateSchedule(schedule.id, schedule.calendarId, changes);
             });
-            
+
             cal.on('clickSchedule', function(event) {
                 cal.deleteSchedule(event.schedule.id, event.schedule.calendarId);
             });
@@ -99,8 +101,10 @@
 
             function addEvent(newEvent) {
 
+                var seconds = (new Date().getTime() / 10).toString();
+
                 cal.createSchedules([{
-                    id: '1',
+                    id: seconds,
                     calendarID: '1',
                     title: newEvent.title,
                     category: 'time',
@@ -138,7 +142,7 @@
                 </tr>
                 <tr>
                     <td>Time Needed</td>
-                    <td><input class="inputField" type="text" id="timeNeeded"></td>
+                    <td><input class="inputField" type="text" id="timeNeeded" placeholder="(In Hours)"></td>
                 </tr>
             </table>
 
@@ -150,36 +154,6 @@
                 <button class="button" onclick="closeEventForm()" id="closeModal">Cancel</button>
             </div>
 
-        </div>
-    </div>
-
-    <div class="modal" id="availabilityModal">
-        <div class="modal-content" id="availabilityForm">
-            <div class="center">
-
-                <table class="table">
-                    <tr>
-                        <th>Sun</th>
-                        <th>Mon</th>
-                        <th>Tues</th>
-                        <th>Wed</th>
-                        <th>Thurs</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
-                    </tr>
-                    <tr>
-                        <td><button class="">Add Busy Time</button></td>
-                        <td><button class="">Add Busy Time</button></td>
-                        <td><button class="">Add Busy Time</button></td>
-                        <td><button class="">Add Busy Time</button></td>
-                        <td><button class="">Add Busy Time</button></td>
-                        <td><button class="">Add Busy Time</button></td>
-                        <td><button class="">Add Busy Time</button></td>
-                    </tr>
-                </table>
-
-                <button class="button" onclick="closeAvailabilityForm()" id="closeModal">Cancel</button>
-            </div>
         </div>
     </div>
 
@@ -272,9 +246,6 @@
             <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
         </div>
 
-        <div style="position: fixed; bottom: 10px; left: 12%">
-            <button class="button" id="update-availability" onclick="openAvailabilityForm()"> Update Availability</button>
-        </div>
     </div>
 
 
@@ -287,17 +258,6 @@
 
         function closeEventForm() {
             document.getElementById("eventModal").style.display = "none";
-            document.getElementById("logoutButton").style.display = "block";
-            document.getElementById("requiredFieldText").style.display = "none";
-        }
-
-        function openAvailabilityForm() {
-            document.getElementById("availabilityModal").style.display = "block";
-            document.getElementById("logoutButton").style.display = "none";
-        }
-
-        function closeAvailabilityForm() {
-            document.getElementById("availabilityModal").style.display = "none";
             document.getElementById("logoutButton").style.display = "block";
             document.getElementById("requiredFieldText").style.display = "none";
         }
