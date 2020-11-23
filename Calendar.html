@@ -8,9 +8,9 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008cff;">
+      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #4aadff;">
         <span class="fa-text">
-          <a href="Login.html" style="text-decoration: none; color: #008cff;">LOGOUT</a>
+          <a href="Login.html" style="text-decoration: none; color: #4aadff; outline:2px;">LOGOUT</a>
         </span>
       </i>
     </div>
@@ -20,9 +20,9 @@
     </div>
 
     <div class="right">
-      <button class="button" id="view" onclick="dayView()">View Day</button>
-      <button class="button" id="view" onclick="weekView()">View Week</button>
-      <button class="button" id="view" onclick="monthView()">View Month</button>
+      <button class="button" id="view" onclick="dayView()">Daily</button>
+      <button class="button" id="view" onclick="weekView()">Week</button>
+      <button class="button" id="view" onclick="monthView()">Month</button>
     </div>
 
   </div>
@@ -33,22 +33,21 @@
   <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
   <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
-
 </head>
 
 <body>
 
-  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008cff; font-family: 'Roboto Slab';">
+  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #4aadff; font-family: 'Roboto Slab';">
     <script type="text/javascript">
       var cal = new tui.Calendar('#calendar', {
         defaultView: 'week',
         taskView: false,
-        borderColor: '#008cff',
-        dragBgColor: '#008cff',
+        borderColor: '#4aadff',
+        dragBgColor: '#4aadff',
         isReadOnly: false,
         theme: {
           'common.holiday.color': '#bbb',
-          'week.today.color': '#008cff',
+          'week.today.color': '#4aadff',
         },
         template: {
 
@@ -58,20 +57,12 @@
 
       cal.on('beforeCreateSchedule', function(event) {
 
-        document.getElementById("busyNameModal").style.display = "block";
-        document.getElementById("logoutButton").style.display = "none";
-
-        document.getElementById("waitForTitle").onclick = function() {
-
-          document.getElementById("logoutButton").style.display = "block";
-          document.getElementById("busyNameModal").style.display = "none";
-
           var timeID = parseInt((new Date().getTime() / 10).toString());
-          var busyTitle = document.getElementById("busyTitle").value;
+
           var newEvent = {
             id: timeID,
             calendarID: '1',
-            title: busyTitle,
+            title:'Busy',
             category: 'time',
             start: event.start,
             end: event.end,
@@ -79,9 +70,6 @@
             dragBgColor: '#ff6961',
           };
           cal.createSchedules([newEvent]);
-          document.getElementById("busyTitle").value = "Busy";
-        }
-
       });
 
       cal.on('beforeUpdateSchedule', function(event) {
@@ -158,8 +146,8 @@
           dueDateClass: '',
           start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
           end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
-          bgColor: '#008cff',
-          dragBgColor: '#008cff',
+          bgColor: '#4aadff',
+          dragBgColor: '#4aadff',
         }]);
 
       }
@@ -205,24 +193,11 @@
     </div>
   </div>
 
-  <div class="modal" id="busyNameModal">
-    <div class="modal-content" id="busyTitleEdit" style="width: 15%">
-
-      <div class="center">
-        <input class="inputField" type="text" id="busyTitle" style="margin: 1vw;" value="Busy" onclick="this.select()">
-      </div>
-      <div class="center">
-        <button class="button" id="waitForTitle">Submit</button>
-      </div>
-
-    </div>
-  </div>
-
   <div class="modal" id="busyEditModal">
-    <div class="modal-content" id="busyEditModalContent">
+    <div class="modal-content" id="busyEditModalContent" style="width: 15%">
 
       <div class="center">
-        <input class="inputField" type="text" id="busyEditTitle" style="margin: 1vw;" value="Busy" onclick="this.select()">
+         Title: <input class="inputField" type="text" id="busyEditTitle" style="margin-bottom: 1vw; width: 60%;" value="Busy" onclick="this.select()">
       </div>
 
       <div class="center">
@@ -230,7 +205,6 @@
         <button class="button" id="editChangeTitle">Change Title</button>
         <button class="button" id="editCancel">Cancel</button>
       </div>
-
 
     </div>
   </div>
