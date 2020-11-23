@@ -8,11 +8,13 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #4aadff;">
-        <span class="fa-text">
-          <a href="Login.html" style="text-decoration: none; color: #4aadff; outline:2px;">LOGOUT</a>
-        </span>
-      </i>
+      <a href="Login.html" style="text-decoration: none; color: #4aadff; outline:2px;">
+        <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #4aadff;">
+          <span class="fa-text">
+            LOGOUT
+          </span>
+        </i>
+      </a>
     </div>
 
     <div class="centertop">
@@ -55,21 +57,50 @@
         disableDblClick: true,
       });
 
+      //FETCH REQUEST TO FILL CALENDAR HERE
+
       cal.on('beforeCreateSchedule', function(event) {
 
-          var timeID = parseInt((new Date().getTime() / 10).toString());
+        var timeID = parseInt((new Date().getTime() / 10).toString());
 
-          var newEvent = {
-            id: timeID,
-            calendarID: '1',
-            title:'Busy',
-            category: 'time',
-            start: event.start,
-            end: event.end,
-            bgColor: '#ff6961',
-            dragBgColor: '#ff6961',
-          };
-          cal.createSchedules([newEvent]);
+        var newEvent = {
+          id: timeID,
+          calendarID: '1',
+          title: 'Busy',
+          category: 'time',
+          start: event.start,
+          end: event.end,
+          bgColor: '#ff6961',
+          dragBgColor: '#ff6961',
+        };
+
+        cal.createSchedules([newEvent]);
+
+        fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
+            method: 'POST',
+            body: JSON.stringify(newEvent),
+            headers: {
+              'Origin': ' *',
+              'Accept': 'application/json'
+              //'Authorization': getCookie('access_token').toString();
+            }
+          })
+          .then(function(response) {
+            if (!response.ok) {
+              response.json().then(function(object) {
+                console.error('Error:', error);
+              });
+            }
+            // else {
+            //   cal.createSchedules([newEvent]);
+            // }
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+
+
       });
 
       cal.on('beforeUpdateSchedule', function(event) {
@@ -79,6 +110,9 @@
         console.log(event);
 
         cal.updateSchedule(schedule.id, schedule.calendarId, changes);
+
+
+
       });
 
       cal.on('clickSchedule', function(event) {
@@ -88,7 +122,7 @@
 
         document.getElementById("busyEditTitle").value = event.schedule.title;
 
-        document.getElementById("editChangeTitle").onclick = function(){
+        document.getElementById("editChangeTitle").onclick = function() {
           event.schedule.title = document.getElementById("busyEditTitle").value;
 
           var newEvent = {
@@ -109,7 +143,7 @@
         }
 
 
-        document.getElementById("editCancel").onclick = function(){
+        document.getElementById("editCancel").onclick = function() {
           document.getElementById("busyEditModal").style.display = "none";
           document.getElementById("logoutButton").style.display = "block";
         }
@@ -150,7 +184,42 @@
           dragBgColor: '#4aadff',
         }]);
 
+        fetch("http://localhost:8080/api/v1/calendar/create", {
+            method: 'POST',
+            body: JSON.stringify(newEvent),
+            headers: {
+              'Origin': ' *',
+              'Accept': 'application/json'
+              //'Authorization': getCookie('access_token').toString();
+            }
+          })
+          .then(function(response) {
+            if (!response.ok) {
+              response.json().then(function(object) {
+                document.getElementById("loginInvalidEmail").innerHTML = object.message;
+              });
+            }
+            // else {
+            //   cal.createSchedules([{
+            //     id: seconds,
+            //     calendarID: '1',
+            //     title: newEvent.title,
+            //     category: 'time',
+            //     dueDateClass: '',
+            //     start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
+            //     end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
+            //     bgColor: '#4aadff',
+            //     dragBgColor: '#4aadff',
+            //   }]);
+            // }
+            return response.json();
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+
       }
+
     </script>
   </div>
 
@@ -197,7 +266,7 @@
     <div class="modal-content" id="busyEditModalContent" style="width: 15%">
 
       <div class="center">
-         Title: <input class="inputField" type="text" id="busyEditTitle" style="margin-bottom: 1vw; width: 60%;" value="Busy" onclick="this.select()">
+        Title: <input class="inputField" type="text" id="busyEditTitle" onclick="this.select()" style="margin-bottom: 1vw; width: 60%;" value="Busy">
       </div>
 
       <div class="center">
@@ -310,6 +379,12 @@
       document.getElementById("logoutButton").style.display = "block";
       document.getElementById("requiredFieldText").style.display = "none";
     }
-  </script>
 
+    function getCookie(name) {
+      let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+      ));
+      return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+  </script>
 </body>
