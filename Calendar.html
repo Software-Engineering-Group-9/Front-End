@@ -8,9 +8,9 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008CFF;">
+      <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #008cff;">
         <span class="fa-text">
-          <a href="Login.html" style="text-decoration: none; color: #008CFF;">LOGOUT</a>
+          <a href="Login.html" style="text-decoration: none; color: #008cff;">LOGOUT</a>
         </span>
       </i>
     </div>
@@ -33,21 +33,105 @@
   <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
   <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
+
 </head>
 
 <body>
 
-  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008CFF; font-family: 'Roboto Slab';">
+  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #008cff; font-family: 'Roboto Slab';">
     <script type="text/javascript">
       var cal = new tui.Calendar('#calendar', {
         defaultView: 'week',
         taskView: false,
         borderColor: '#008cff',
-        isReadOnly: true,
+        dragBgColor: '#008cff',
+        isReadOnly: false,
         theme: {
           'common.holiday.color': '#bbb',
           'week.today.color': '#008cff',
+        },
+        template: {
+
+        },
+        disableDblClick: true,
+      });
+
+      cal.on('beforeCreateSchedule', function(event) {
+
+        document.getElementById("busyNameModal").style.display = "block";
+        document.getElementById("logoutButton").style.display = "none";
+
+        document.getElementById("waitForTitle").onclick = function() {
+
+          document.getElementById("logoutButton").style.display = "block";
+          document.getElementById("busyNameModal").style.display = "none";
+
+          var timeID = parseInt((new Date().getTime() / 10).toString());
+          var busyTitle = document.getElementById("busyTitle").value;
+          var newEvent = {
+            id: timeID,
+            calendarID: '1',
+            title: busyTitle,
+            category: 'time',
+            start: event.start,
+            end: event.end,
+            bgColor: '#ff6961',
+            dragBgColor: '#ff6961',
+          };
+          cal.createSchedules([newEvent]);
+          document.getElementById("busyTitle").value = "Busy";
         }
+
+      });
+
+      cal.on('beforeUpdateSchedule', function(event) {
+        var schedule = event.schedule;
+        var changes = event.changes;
+
+        console.log(event);
+
+        cal.updateSchedule(schedule.id, schedule.calendarId, changes);
+      });
+
+      cal.on('clickSchedule', function(event) {
+
+        document.getElementById("busyEditModal").style.display = "block";
+        document.getElementById("logoutButton").style.display = "none";
+
+        document.getElementById("busyEditTitle").value = event.schedule.title;
+
+        document.getElementById("editChangeTitle").onclick = function(){
+          event.schedule.title = document.getElementById("busyEditTitle").value;
+
+          var newEvent = {
+            id: event.id,
+            calendarID: '1',
+            title: document.getElementById("busyEditTitle").value,
+            category: 'time',
+            start: event.schedule.start,
+            end: event.schedule.end,
+            bgColor: event.schedule.bgColor,
+            dragBgColor: event.schedule.dragBgColor,
+          };
+
+          cal.createSchedules([newEvent]);
+          cal.deleteSchedule(event.schedule.id, event.schedule.calendarId);
+          document.getElementById("busyEditModal").style.display = "none";
+          document.getElementById("logoutButton").style.display = "block";
+        }
+
+
+        document.getElementById("editCancel").onclick = function(){
+          document.getElementById("busyEditModal").style.display = "none";
+          document.getElementById("logoutButton").style.display = "block";
+        }
+
+        document.getElementById("editDeleteEvent").onclick = function() {
+          cal.deleteSchedule(event.schedule.id, event.schedule.calendarId);
+          document.getElementById("busyEditModal").style.display = "none";
+          document.getElementById("logoutButton").style.display = "block";
+        }
+
       });
 
       function monthView() {
@@ -60,6 +144,24 @@
 
       function dayView() {
         cal.changeView('day', true);
+      }
+
+      function addEvent(newEvent) {
+
+        var seconds = (new Date().getTime() / 10).toString();
+
+        cal.createSchedules([{
+          id: seconds,
+          calendarID: '1',
+          title: newEvent.title,
+          category: 'time',
+          dueDateClass: '',
+          start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
+          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
+          bgColor: '#008cff',
+          dragBgColor: '#008cff',
+        }]);
+
       }
     </script>
   </div>
@@ -75,33 +177,61 @@
 
       <table class="table">
         <tr>
-          <td>Event Description *</td>
-          <td><input class="inputField" type="text" placeholder="Description" id="eventDesc" required></td>
+          <td>Event Title <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="text" placeholder="Title" id="title" autofocus="autofocus"></td>
         </tr>
         <tr>
-          <td>Due Date *</td>
-          <td><input class="inputField" type="date" id="dueDate" required></td>
+          <td>Due Date <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="date" id="dueDate"></td>
         </tr>
         <tr>
-          <td>Time Due *</td>
-          <td><input class="inputField" type="time" id="dueTime" required></td>
+          <td>Time Due <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="time" id="dueTime"></td>
         </tr>
         <tr>
           <td>Time Needed</td>
-          <td><input class="inputField" type="text" placeholder="(In Hours)" id="timeNeeded"></td>
+          <td><input class="inputField" type="text" id="timeNeeded" placeholder="(In Hours)"></td>
         </tr>
       </table>
 
       <br>
+      <div class="requiredField" id="requiredFieldText"></div>
 
       <div class="center">
         <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
-        <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
+        <button class="button" onclick="closeEventForm()" id="closeModal">Cancel</button>
       </div>
 
-      <script type="text/javascript">
+    </div>
+  </div>
 
-      </script>
+  <div class="modal" id="busyNameModal">
+    <div class="modal-content" id="busyTitleEdit" style="width: 15%">
+
+      <div class="center">
+        <input class="inputField" type="text" id="busyTitle" style="margin: 1vw;" value="Busy" onclick="this.select()">
+      </div>
+      <div class="center">
+        <button class="button" id="waitForTitle">Submit</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal" id="busyEditModal">
+    <div class="modal-content" id="busyEditModalContent">
+
+      <div class="center">
+        <input class="inputField" type="text" id="busyEditTitle" style="margin: 1vw;" value="Busy" onclick="this.select()">
+      </div>
+
+      <div class="center">
+        <button class="button" id="editDeleteEvent">Delete</button>
+        <button class="button" id="editChangeTitle">Change Title</button>
+        <button class="button" id="editCancel">Cancel</button>
+      </div>
+
+
     </div>
   </div>
 
@@ -114,50 +244,74 @@
 
     <script type="text/javascript">
       function eventData(obj) {
-        this.eventDesc = obj.eventDesc;
+        this.title = obj.title;
         this.dueDate = obj.dueDate;
+        this.startTime = obj.startTime;
         this.dueTime = obj.dueTime;
         this.timeNeeded = obj.timeNeeded;
       }
 
       function submitEvent() {
 
-        var toDoItem = document.createElement("div", {"id":"toDoItem", "class": "toDoItem"});
-        toDoItem.style.border = '1px';
-        toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
-        toDoItem.style.transition = '0.3s';
-        toDoItem.style.width = '90%';
-        toDoItem.style.padding = '5%';
-        toDoItem.style.backgroundColor = 'white';
-        toDoItem.style.borderRadius = '4px';
-        toDoItem.style.marginTop = '5px';
-        document.getElementById("eventSidebar").appendChild(toDoItem);
-
-        var eventDesc = document.getElementById("eventDesc").value;
+        var title = document.getElementById("title").value;
         var dueDate = document.getElementById("dueDate").value;
         var dueTime = document.getElementById("dueTime").value;
         var timeNeeded = document.getElementById("timeNeeded").value;
 
+        if (title == "" || dueDate === "" || dueTime === "") {
+          document.getElementById("requiredFieldText").style.display = "block"
+          document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
+          return console.log("Error: Required InputField");
+        }
+
+        //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
+        var dueTimeArr = dueTime.split(':');
+        if (parseInt(dueTimeArr[0]) < 10) {
+          var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+        } else {
+          var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+        }
+
+        var noon = "am"
+        if (dueTimeArr[0] > 12) {
+          dueTimeArr[0] = dueTimeArr[0] - 12;
+          noon = "pm";
+        }
+        var TitleString = title;
+        if (timeNeeded != "") {
+          TitleString += " - (" + timeNeeded + "h)"
+        }
+
+        var toDoItem = document.createElement("div", {
+          "id": "toDoItem",
+          "class": "toDoItem"
+        });
+
+        toDoItem.style.border = '1px';
+        toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
+        toDoItem.style.transition = '0.3s';
+        toDoItem.style.width = '94%';
+        toDoItem.style.padding = '3%';
+        toDoItem.style.backgroundColor = 'white';
+        toDoItem.style.borderRadius = '8px';
+        toDoItem.style.marginTop = '5px';
+        toDoItem.style.fontSize = '14px';
+        document.getElementById("eventSidebar").appendChild(toDoItem);
+
         var newEvent = new eventData({
-          eventDesc: eventDesc,
+          title: title,
           dueDate: dueDate,
+          startTime: startTime,
           dueTime: dueTime,
           timeNeeded: timeNeeded
         });
 
-        //learn to format this nicely
-        toDoItem.innerHTML = newEvent.eventDesc +
-        " || Due Date: " + newEvent.dueDate +
-        " || Time Due: " + newEvent.dueTime +
-        " || Time Needed: " + newEvent.timeNeeded;
+        var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
 
+        toDoItem.innerHTML = "<b>" + TitleString +
+          "</b><br> Due: " + resString;
 
-
-        // var eventList = new Array();
-        // eventList.push(newEvent);
-        // console.log(newEvent);
-        //
-        // var listContainer = document.getElementById("eventSidebar");
+        addEvent(newEvent);
 
         console.log(newEvent);
         document.getElementById("eventModal").style.display = "none";
@@ -166,22 +320,21 @@
     </script>
     <br>
 
-    <div style="position: fixed; bottom: 10px; left: 10px">
-      <button class="button" id="create-event" onclick="openForm()"> Create Event </button>
+    <div style="position: fixed; bottom: 10px; left: .8%">
+      <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
     </div>
   </div>
 
-
-
   <script type="text/javascript">
-    function openForm() {
+    function openEventForm() {
       document.getElementById("eventModal").style.display = "block";
       document.getElementById("logoutButton").style.display = "none";
     }
 
-    function closeForm() {
+    function closeEventForm() {
       document.getElementById("eventModal").style.display = "none";
       document.getElementById("logoutButton").style.display = "block";
+      document.getElementById("requiredFieldText").style.display = "none";
     }
   </script>
 

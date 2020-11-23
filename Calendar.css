@@ -47,16 +47,6 @@
   transform: translate(-50%, -50%);
 }
 
-.toDoItem  {
-  border: 1px;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  transition: 0.3s;
-  width: 90%;
-  padding: 5%;
-  background-color: white;
-  border-radius: 4px;
-}
-
 .modal-content {
   background-color: #fefefe;
   margin: 15% auto;
@@ -84,7 +74,7 @@
   font-family: "Roboto Slab";
   box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
   border-radius: 12px;
-  background-color: #008CFF;
+  background-color: #008cff;
   border: none;
   color: black;
   padding: 10px 10px;
@@ -126,6 +116,16 @@
   border-bottom: 1px solid black;
 }
 
+.requiredField{
+  text-align: center;
+  font-size: .8vw;
+  font-family: "roboto slab";
+  position: center;
+  font-weight: lighter;
+  padding-bottom: 2vh;
+  color: red;
+}
+
 .sidebar {
   font-family: "Roboto Slab";
   margin: 0;
@@ -139,7 +139,7 @@
   transition: 0.3s;
   padding: 30px;
   margin-top: 5.4%;
-  z-index: 1;
+  z-index: 0;
   top: 0px;
   left: 0;
   overflow-x: hidden;
