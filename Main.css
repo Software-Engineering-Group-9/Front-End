@@ -12,7 +12,6 @@
     .userField input{
         border-bottom-width: 0.001vw;
         margin-top: 1vw;
-        padding: 0;
         height: 1vw;
         line-height: 1.5vw;
         font-size: 0.8vw;
@@ -53,6 +52,7 @@
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
       z-index: 2;
+      text-shadow: 0.125vw 0.125vw #000000;
     }
 
     /*not in use*/
@@ -91,7 +91,7 @@
       font-family: "Roboto Slab";
       box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
       border-radius: 0.5vw;
-      background-color: #008CFF;
+      background-color: #4aadff;
       border: none;
       color: black;
       padding: 0.5vh 0.5vw;
@@ -114,11 +114,15 @@
       outline: none;
       background: transparent;
       color: black;
-      font-size: 1vw;
-      line-height: 2vw;
-      width: 15vw;
-      margin: none;
-      border-bottom: 0.1vw solid black;
+      font-size: 18px;
+      width: 60%;
+      margin: 0 10px;
+      /*border-bottom: 1px solid black;*/
+      background-color: #e8e6e6;
+      border-radius: .4vw;
+      padding-left: .4vw;
+      padding-bottom: .2vw;
+      padding-top: .2vw;
     }
 
     .modal {
