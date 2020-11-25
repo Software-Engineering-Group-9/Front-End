@@ -1,189 +1,553 @@
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
-/*MOBILE*/
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 900px) {
+  .userField input {
+    border-bottom-width: 0.001vw;
+    margin-top: 1vw;
+    padding: 0;
+    height: 24px;
+    line-height: 24px;
+    font-size: 18px;
+  }
 
+  #dev-text {
+    display: none;
+  }
 
+  #dev-icon {
+    margin: 20px;
+  }
+
+  .userField {
+    padding-bottom: 0px;
+  }
+
+  * {
+    padding: none;
+  }
+
+  br {
+    line-height: 2vw;
+    padding: 0;
+    border: none;
+  }
+
+  .header {
+    font-weight: 600;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10vh;
+    width: 100%;
+    box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
+    font-size: 24px;
+    font-family: "roboto slab";
+  }
+
+  .left {
+    font-weight: 200;
+    position: absolute;
+    top: 5vh;
+    left: 0.5vw;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  /*not in use*/
+  .right {
+    font-family: "roboto slab";
+    font-weight: 200;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .centertop {
+    color: green;
+    font-size: 6vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .registerText {
+    font-size: 18px;
+    font-family: "roboto slab";
+    position: center;
+    font-weight: lighter;
+    padding-bottom: 2vh;
+  }
+
+  .button {
+    font-family: "Roboto Slab";
+    box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
+    border-radius: 0.5vw;
+    background-color: #008CFF;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    outline: none;
+    margin: 0px;
+  }
+
+  .button:hover {
+    color: black;
+    background-color: #0066ba;
+    cursor: pointer;
+  }
+
+  .inputField {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+    font-size: 1vw;
+    line-height: 2vw;
+    width: 250px;
+    margin: 0 1vh;
+    background-color: #e8e6e6;
+    border-radius: .4vw;
+    padding-left: .4vw;
+    padding-bottom: .2vw;
+    padding-top: .2vw;
+  }
+
+  .userField i {
+    font-size: 24px;
+  }
+
+  .modal {
+    margin-top: 10vh;
+    font-family: "Roboto Slab";
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: -1;
+  }
+
+  .invalidEmail {
+    font-size: 0.8vw;
+    font-family: "roboto slab";
+    position: center;
+    font-weight: lighter;
+    padding-bottom: 2vh;
+  }
+
+  #registerModal {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+  }
+
+  .titleText {
+    padding: 4vh 2vw 0;
+    font-weight: 200;
+    font-size: 24px;
+  }
+
+  .modal-content {
+    box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 5vh;
+    padding: auto;
+    width: 480px;
+    border-radius: 0.75vw;
+  }
+
+  .fa-text {
+    font-family: "roboto slab";
+    font-size: 24px;
+    z-index: 1;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .invalidEmail {
+    color: red;
+  }
 }
 
-/*1080*/
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 901px) and (max-width: 1366px) {
+  .userField input {
+    border-bottom-width: 0.001vw;
+    margin-top: 1vw;
+    padding: 0;
+    height: 24px;
+    line-height: 24px;
+    font-size: 18px;
+  }
 
-    .userField input{
-        border-bottom-width: 0.001vw;
-        margin-top: 1vw;
-        height: 1vw;
-        line-height: 1.5vw;
-        font-size: 0.8vw;
-    }
+  .userField {
+    padding-bottom: 0px;
+  }
 
-    .userField{
-        padding-bottom: 2vh;
-    }
+  * {
+    padding: none;
+  }
 
-    *{
-        padding: none;
-    }
+  br {
+    line-height: 2vw;
+    padding: 0;
+    border: none;
+  }
 
-    br{
-        line-height: 2vw;
-        padding: 0;
-        border: none;
-    }
+  .header {
+    font-weight: 600;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10vh;
+    width: 100%;
+    box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
+    font-size: 24px;
+    font-family: "roboto slab";
+  }
 
-    .header {
-      font-weight: 600;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 10%;
-      width: 100%;
-      box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
-      font-size: 2vw;
-      font-family: "roboto slab";
-    }
+  .left {
+    font-weight: 200;
+    position: absolute;
+    top: 5vh;
+    left: 0.5vw;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 2;
+    text-shadow: 0.125vw 0.125vw #000000
+  }
 
-    .left {
-      font-weight: 200;
-      position: absolute;
-      top: 5vh;
-      left: 0.5vw;
-      -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-      z-index: 2;
-      text-shadow: 0.125vw 0.125vw #000000;
-    }
+  /*not in use*/
+  .right {
+    font-family: "roboto slab";
+    font-weight: 200;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
 
-    /*not in use*/
-    .right {
-      font-family: "roboto slab";
-      font-weight: 200;
-      position: absolute;
-      top: 50%;
-      right: 10px;
-      -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-      transform: translateY(-50%);
-    }
+  .centertop {
+    color: yellow;
+    font-size: 6vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
 
-    .centertop {
-      font-size: 6vh;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      -ms-transform: translate(-50%, -50%);
-      transform: translate(-50%, -50%);
-    }
+  .center {
+    text-align: center;
+  }
 
-    .center {
-      text-align: center;
-    }
-    .registerText{
-      font-size: 0.8vw;
-      font-family: "roboto slab";
-      position: center;
-      font-weight: lighter;
-      padding-bottom: 2vh;
-    }
+  .registerText {
+    font-size: 18px;
+    font-family: "roboto slab";
+    position: center;
+    font-weight: lighter;
+    padding-bottom: 2vh;
+  }
 
-    .button {
-      font-family: "Roboto Slab";
-      box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
-      border-radius: 0.5vw;
-      background-color: #4aadff;
-      border: none;
-      color: black;
-      padding: 0.5vh 0.5vw;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 1vw;
-      outline: none;
-      margin: 1vh;
-    }
+  .button {
+    font-family: "Roboto Slab";
+    box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
+    border-radius: 0.5vw;
+    background-color: #008CFF;
+    border: none;
+    color: black;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 24px;
+    outline: none;
+    margin: 0px;
+  }
 
-    .button:hover {
-      color: black;
-      background-color: #0066ba;
-      cursor: pointer;
-    }
+  .button:hover {
+    color: black;
+    background-color: #0066ba;
+    cursor: pointer;
+  }
 
-    .inputField {
-      border: none;
-      outline: none;
-      background: transparent;
-      color: black;
-      font-size: 18px;
-      width: 60%;
-      margin: 0 10px;
-      /*border-bottom: 1px solid black;*/
-      background-color: #e8e6e6;
-      border-radius: .4vw;
-      padding-left: .4vw;
-      padding-bottom: .2vw;
-      padding-top: .2vw;
-    }
+  .inputField {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+    font-size: 1vw;
+    line-height: 2vw;
+    width: 250px;
+    margin: 0 1vh;
+    background-color: #e8e6e6;
+    border-radius: .4vw;
+    padding-left: .4vw;
+    padding-bottom: .2vw;
+    padding-top: .2vw;
+  }
 
-    .modal {
-      font-family: "Roboto Slab";
-      display:;
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      z-index: -1;
-    }
+  .userField i {
+    font-size: 24px;
+  }
 
-    .invalidEmail{
-        font-size: 0.8vw;
-        font-family: "roboto slab";
-        position: center;
-        font-weight: lighter;
-        padding-bottom: 2vh;
-    }
+  .modal {
+    margin-top: 10vh;
+    font-family: "Roboto Slab";
+    display: ;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: -1;
+  }
 
-    #registerModal{
-        background-color: rgb(0, 0, 0);
-        background-color: rgba(0, 0, 0, 0.4);
-        display: none;
-    }
+  .invalidEmail {
+    font-size: 0.8vw;
+    font-family: "roboto slab";
+    position: center;
+    font-weight: lighter;
+    padding-bottom: 2vh;
+  }
 
-    .titleText {
-      padding: 4vh 2vw 0;
-      font-weight: 200;
-      font-size: 1.2vw;
-    }
+  #registerModal {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+  }
 
-    .modal-content {
-      box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
-      background-color: #fefefe;
-      margin: 15vw auto;
-      padding: 2vw auto;
-      width: 35vw;
-      border-radius: 0.75vw;
-    }
+  .titleText {
+    padding: 4vh 2vw 0;
+    font-weight: 200;
+    font-size: 24px;
+  }
 
-    .fa-text {
-      font-family: "roboto slab";
-      font-size: 5vh;
-      z-index: 1;
-    }
+  .modal-content {
+    box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
+    background-color: #fefefe;
+    margin: auto;
+    margin-top: 100px;
+    padding: auto;
+    width: 480px;
+    border-radius: 0.75vw;
+  }
 
-    a:hover {
-      text-decoration: underline;
-      cursor: pointer;
-    }
+  .fa-text {
+    font-family: "roboto slab";
+    font-size: 24px;
+    z-index: 1;
+  }
 
-    .invalidEmail{
-      color: red;
-    }
+  a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .invalidEmail {
+    color: red;
+  }
 }
 
-/*1440*/
-@media only screen and (min-width: 2560px) {
+@media only screen and (min-width: 1367px) {
+
+  .header {
+    font-weight: 600;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 10%;
+    width: 100%;
+    box-shadow: 0 0.25vw 0.125vw 0 rgba(0, 0, 0, 0.05);
+    font-size: 2vw;
+    font-family: "roboto slab";
+  }
+
+  .left {
+    font-weight: 200;
+    position: absolute;
+    top: 5vh;
+    left: 0.5vw;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    z-index: 2;
+    text-shadow: 0.125vw 0.125vw #000000;
+  }
+
+  /*not in use*/
+  .right {
+    font-family: "roboto slab";
+    font-weight: 200;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
+  .centertop {
+    font-size: 6vh;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .registerText {
+    font-size: 0.8vw;
+    font-family: "roboto slab";
+    position: center;
+    font-weight: lighter;
+    padding-bottom: 2vh;
+  }
+
+  .button {
+    font-family: "Roboto Slab";
+    box-shadow: 0 0.05vw 0.25vw 0.05vw rgba(0, 0, 0, 0.2);
+    border-radius: 0.5vw;
+    background-color: #4aadff;
+    border: none;
+    color: black;
+    padding: 0.5vh 0.5vw;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1vw;
+    outline: none;
+    margin: 1vh;
+  }
+
+  .button:hover {
+    color: black;
+    background-color: #0066ba;
+    cursor: pointer;
+  }
+
+  .inputField {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: black;
+    font-size: 18px;
+    width: 60%;
+    margin: 0 1vh;
+    background-color: #e8e6e6;
+    border-radius: .4vw;
+    padding-left: .4vw;
+    padding-bottom: .2vw;
+    padding-top: .2vw;
+  }
+
+  .userField i {
+    font-size: 1.2vw;
+  }
+
+  .userField input {
+    border-bottom-width: 0.001vw;
+    margin-top: 1vw;
+    height: 1vw;
+    line-height: 1.5vw;
+    font-size: 0.8vw;
+  }
+
+  .userField {
+    padding-bottom: 2vh;
+  }
+
+  * {
+    padding: none;
+  }
+
+  br {
+    line-height: 2vw;
+    padding: 0;
+    border: none;
+  }
 
 
+  .modal {
+    font-family: "Roboto Slab";
+    display: ;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: -1;
+  }
+
+  .invalidEmail {
+    font-size: 0.8vw;
+    font-family: "roboto slab";
+    position: center;
+    font-weight: lighter;
+    padding-bottom: 2vh;
+  }
+
+  #registerModal {
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    display: none;
+  }
+
+  .titleText {
+    padding: 4vh 2vw 0;
+    font-weight: 200;
+    font-size: 1.2vw;
+  }
+
+  .modal-content {
+    box-shadow: 0 0.5vw 1vw 0.5vw rgba(0, 0, 0, 0.2);
+    background-color: #fefefe;
+    margin: 15vw auto;
+    padding: 2vw auto;
+    width: 35vw;
+    border-radius: 0.75vw;
+  }
+
+  .fa-text {
+    font-family: "roboto slab";
+    font-size: 5vh;
+    z-index: 1;
+  }
+
+  a:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .invalidEmail {
+    color: red;
+  }
 }
