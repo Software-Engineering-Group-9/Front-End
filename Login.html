@@ -5,8 +5,12 @@
   <!-- Imports -->
   <link rel="stylesheet" href="Main.css">
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500&display=swap" rel="stylesheet">
-  <div class="header">
 
+  <script src="loginScripts/login.js"></script>
+  <script src="loginScripts/register.js"></script>
+  <script src="loginScripts/formStyle.js"></script>
+
+  <div class="header">
     <div class="left">
       <a id="dev-text" href="https://github.com/Software-Engineering-Group-9" style="text-decoration: none; color: #4aadff; font-size: 3vh">
         <i class="fas fa-code" id="dev-icon" aria-hidden="true" style="color: #4aadff; font-size: 3.2vh;">
@@ -45,61 +49,9 @@
 
 
         <div class="invalidEmail" id="registerInvalidEmail"></div>
-        <button class="button" id="register"> Submit</button>
+        <button class="button" id="register" onclick="register()">Register</button>
         <button class="button" onclick="closeForm()" id="closeModal">Cancel</button>
 
-        <script type="text/javascript">
-          function registerData(obj) {
-            this.email = obj.email;
-            this.password = obj.password;
-          }
-
-          document.getElementById("register").onclick = function() {
-            var email = document.getElementById("emailReg").value;
-            var password = document.getElementById("passwordReg").value;
-
-            if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
-              alert("valid email");
-
-              var register = new registerData({
-                email: email,
-                password: password
-              });
-
-              console.log(register);
-
-              fetch("http://localhost:8080/api/v1/user/register", {
-                  method: 'POST',
-                  body: JSON.stringify(register),
-                  headers: {
-                    'Origin': ' *',
-                    'Accept': 'application/json'
-                  }
-                })
-                .then(function(response) {
-                  if (!response.ok) {
-                    response.json().then(function(object) {
-                      document.getElementById("loginInvalidEmail").innerHTML = object.message;
-                    });
-                  }
-                  return response.json();
-                })
-                .then(function(data) {
-                  document.cookie = 'access_token=' + data.token;
-                  location.replace("Calendar.html")
-                })
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-
-              document.getElementById("registerModal").style.display = "none";
-              document.getElementById("loginModal").style.display = "block";
-
-            } else {
-              document.getElementById("registerInvalidEmail").innerHTML = "Enter a valid email";
-            }
-          };
-        </script>
       </div>
     </div>
 
@@ -122,83 +74,13 @@
         </div>
 
         <div class="invalidEmail" id="loginInvalidEmail"></div>
-        <button class="button" id="login">Login</button>
+        <button class="button" id="login" onclick="login()">Login</button>
         <div class="registerText">
           Don't have an account? <a onclick="openForm()" style="color: #008cff ">Register</a>
         </div>
 
-        <script type="text/javascript">
-          function loginData(obj) {
-            this.email = obj.email;
-            this.password = obj.password;
-          }
-
-          document.getElementById("login").onclick = function() {
-
-            var email = document.getElementById("emailLogin").value;
-            var password = document.getElementById("passwordLogin").value;
-
-            if (email === "admin" && password === "password") {
-              location.replace("Calendar.html")
-            }
-
-            if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
-
-              var login = new loginData({
-                email: email,
-                password: password
-              });
-
-              console.log(login);
-
-              fetch("http://localhost:8080/api/v1/user/login", {
-                  method: 'POST',
-                  body: JSON.stringify(login),
-                  headers: {
-                    'Origin': ' *',
-                    'Accept': 'application/json'
-                  }
-                })
-
-                .then(function(response) {
-                  if (!response.ok) {
-                    response.json().then(function(object) {
-                      document.getElementById("loginInvalidEmail").innerHTML = object.message;
-                    });
-                  }
-                  return response.json();
-                })
-                .then(function(data) {
-                  document.cookie = 'access_token=' + data.token;
-                  location.replace("Calendar.html")
-                })
-                .catch((error) => {
-                  console.error('Error:', error);
-                });
-
-            }
-          };
-        </script>
       </div>
     </div>
 
-
-    <script type="text/javascript">
-      var loginModal = document.getElementById("loginModal");
-      var registerModal = document.getElementById("registerModal");
-      var devText = document.getElementById("dev-text");
-
-      function openForm() {
-        loginModal.style.display = "none";
-        registerModal.style.display = "block";
-        devText.style.display = "none";
-      }
-
-      function closeForm() {
-        registerModal.style.display = "none";
-        loginModal.style.display = "block";
-        devText.style.display = "block";
-      }
-    </script>
   </div>
 </body>

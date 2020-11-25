@@ -8,7 +8,7 @@
   <div class="header">
 
     <div class="left" id="logoutButton">
-      <a href="Login.html" style="text-decoration: none; color: #4aadff; outline:2px;">
+      <a href="Login.html" style="text-decoration: none; color: #4aadff; outline:.2vh;">
         <i class="fas fa-sign-out-alt" aria-hidden="true" style="color: #4aadff;">
           <span class="fa-text">
             LOGOUT
@@ -22,7 +22,10 @@
     </div>
 
     <div class="right">
-      <button class="button" id="view" onclick="dayView()">Daily</button>
+      <button class="button" onclick="viewPrev()">Prev</button>
+      <button class="button" onclick="viewNext()" style="margin-right:2vw;">Next</button>
+
+      <button class="button" id="view" onclick="dayView()">Day</button>
       <button class="button" id="view" onclick="weekView()">Week</button>
       <button class="button" id="view" onclick="monthView()">Month</button>
     </div>
@@ -35,199 +38,24 @@
   <script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
   <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
 
+  <script src="calendarScripts/newEvent.js"></script>
+  <script src="calendarScripts/formStyle.js"></script>
+  <script src="calendarScripts/getCookie.js"></script>
+
+  </script>
+
 </head>
 
 <body>
 
-  <div class="tui-calendar" id="calendar" style="height: 850px; margin-top: 5.5%; margin-left: 400px; color: #4aadff; font-family: 'Roboto Slab';">
-    <script type="text/javascript">
-      var cal = new tui.Calendar('#calendar', {
-        defaultView: 'week',
-        taskView: false,
-        borderColor: '#4aadff',
-        dragBgColor: '#4aadff',
-        isReadOnly: false,
-        theme: {
-          'common.holiday.color': '#bbb',
-          'week.today.color': '#4aadff',
-        },
-        template: {
-
-        },
-        disableDblClick: true,
-      });
-
-      //FETCH REQUEST TO FILL CALENDAR HERE
-
-      cal.on('beforeCreateSchedule', function(event) {
-
-        var timeID = parseInt((new Date().getTime() / 10).toString());
-
-        var newEvent = {
-          id: timeID,
-          calendarID: '1',
-          title: 'Busy',
-          category: 'time',
-          start: event.start,
-          end: event.end,
-          bgColor: '#ff6961',
-          dragBgColor: '#ff6961',
-        };
-
-        cal.createSchedules([newEvent]);
-
-        fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
-            method: 'POST',
-            body: JSON.stringify(newEvent),
-            headers: {
-              'Origin': ' *',
-              'Accept': 'application/json'
-              //'Authorization': getCookie('access_token').toString();
-            }
-          })
-          .then(function(response) {
-            if (!response.ok) {
-              response.json().then(function(object) {
-                console.error('Error:', error);
-              });
-            }
-            // else {
-            //   cal.createSchedules([newEvent]);
-            // }
-            return response.json();
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-
-
-      });
-
-      cal.on('beforeUpdateSchedule', function(event) {
-        var schedule = event.schedule;
-        var changes = event.changes;
-
-        console.log(event);
-
-        cal.updateSchedule(schedule.id, schedule.calendarId, changes);
-
-
-
-      });
-
-      cal.on('clickSchedule', function(event) {
-
-        document.getElementById("busyEditModal").style.display = "block";
-        document.getElementById("logoutButton").style.display = "none";
-
-        document.getElementById("busyEditTitle").value = event.schedule.title;
-
-        document.getElementById("editChangeTitle").onclick = function() {
-          event.schedule.title = document.getElementById("busyEditTitle").value;
-
-          var newEvent = {
-            id: event.id,
-            calendarID: '1',
-            title: document.getElementById("busyEditTitle").value,
-            category: 'time',
-            start: event.schedule.start,
-            end: event.schedule.end,
-            bgColor: event.schedule.bgColor,
-            dragBgColor: event.schedule.dragBgColor,
-          };
-
-          cal.createSchedules([newEvent]);
-          cal.deleteSchedule(event.schedule.id, event.schedule.calendarId);
-          document.getElementById("busyEditModal").style.display = "none";
-          document.getElementById("logoutButton").style.display = "block";
-        }
-
-
-        document.getElementById("editCancel").onclick = function() {
-          document.getElementById("busyEditModal").style.display = "none";
-          document.getElementById("logoutButton").style.display = "block";
-        }
-
-        document.getElementById("editDeleteEvent").onclick = function() {
-          cal.deleteSchedule(event.schedule.id, event.schedule.calendarId);
-          document.getElementById("busyEditModal").style.display = "none";
-          document.getElementById("logoutButton").style.display = "block";
-        }
-
-      });
-
-      function monthView() {
-        cal.changeView('month', true);
-      }
-
-      function weekView() {
-        cal.changeView('week', true);
-      }
-
-      function dayView() {
-        cal.changeView('day', true);
-      }
-
-      function addEvent(newEvent) {
-
-        var seconds = (new Date().getTime() / 10).toString();
-
-        cal.createSchedules([{
-          id: seconds,
-          calendarID: '1',
-          title: newEvent.title,
-          category: 'time',
-          dueDateClass: '',
-          start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
-          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
-          bgColor: '#4aadff',
-          dragBgColor: '#4aadff',
-        }]);
-
-        fetch("http://localhost:8080/api/v1/calendar/create", {
-            method: 'POST',
-            body: JSON.stringify(newEvent),
-            headers: {
-              'Origin': ' *',
-              'Accept': 'application/json'
-              //'Authorization': getCookie('access_token').toString();
-            }
-          })
-          .then(function(response) {
-            if (!response.ok) {
-              response.json().then(function(object) {
-                document.getElementById("loginInvalidEmail").innerHTML = object.message;
-              });
-            }
-            // else {
-            //   cal.createSchedules([{
-            //     id: seconds,
-            //     calendarID: '1',
-            //     title: newEvent.title,
-            //     category: 'time',
-            //     dueDateClass: '',
-            //     start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
-            //     end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
-            //     bgColor: '#4aadff',
-            //     dragBgColor: '#4aadff',
-            //   }]);
-            // }
-            return response.json();
-          })
-          .catch((error) => {
-            console.error('Error:', error);
-          });
-
-      }
-
-    </script>
+  <div class="tui-calendar" id="calendar">
+    <script src="calendarScripts/calendar.js"></script>
   </div>
-
 
   <div class="modal" id="eventModal">
     <div class="modal-content" id="eventForm">
 
-      <div class="center" style="font-size: 24px">
+      <div class="center" style="font-size: 2.4vh">
         New Event
         <hr>
       </div>
@@ -279,112 +107,17 @@
   </div>
 
   <div class="sidebar" id="eventSidebar">
-    <div class="center" style="font-size: 22px">
+    <div class="center" style="font-size: 2.2vh;">
       <b>To-Do List</b>
+      <hr style="height: 0.001vw; border: 0.01vw solid grey">
     </div>
 
-    <hr>
-
-    <script type="text/javascript">
-      function eventData(obj) {
-        this.title = obj.title;
-        this.dueDate = obj.dueDate;
-        this.startTime = obj.startTime;
-        this.dueTime = obj.dueTime;
-        this.timeNeeded = obj.timeNeeded;
-      }
-
-      function submitEvent() {
-
-        var title = document.getElementById("title").value;
-        var dueDate = document.getElementById("dueDate").value;
-        var dueTime = document.getElementById("dueTime").value;
-        var timeNeeded = document.getElementById("timeNeeded").value;
-
-        if (title == "" || dueDate === "" || dueTime === "") {
-          document.getElementById("requiredFieldText").style.display = "block"
-          document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
-          return console.log("Error: Required InputField");
-        }
-
-        //WILL BE CALCULATED BY THE BACKEND - - - WILL NEED TO REMOVE AT SOME POINT??
-        var dueTimeArr = dueTime.split(':');
-        if (parseInt(dueTimeArr[0]) < 10) {
-          var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
-        } else {
-          var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
-        }
-
-        var noon = "am"
-        if (dueTimeArr[0] > 12) {
-          dueTimeArr[0] = dueTimeArr[0] - 12;
-          noon = "pm";
-        }
-        var TitleString = title;
-        if (timeNeeded != "") {
-          TitleString += " - (" + timeNeeded + "h)"
-        }
-
-        var toDoItem = document.createElement("div", {
-          "id": "toDoItem",
-          "class": "toDoItem"
-        });
-
-        toDoItem.style.border = '1px';
-        toDoItem.style.boxShadow = '0 2px 4px 0 rgba(0, 0, 0, 0.2)';
-        toDoItem.style.transition = '0.3s';
-        toDoItem.style.width = '94%';
-        toDoItem.style.padding = '3%';
-        toDoItem.style.backgroundColor = 'white';
-        toDoItem.style.borderRadius = '8px';
-        toDoItem.style.marginTop = '5px';
-        toDoItem.style.fontSize = '14px';
-        document.getElementById("eventSidebar").appendChild(toDoItem);
-
-        var newEvent = new eventData({
-          title: title,
-          dueDate: dueDate,
-          startTime: startTime,
-          dueTime: dueTime,
-          timeNeeded: timeNeeded
-        });
-
-        var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
-
-        toDoItem.innerHTML = "<b>" + TitleString +
-          "</b><br> Due: " + resString;
-
-        addEvent(newEvent);
-
-        console.log(newEvent);
-        document.getElementById("eventModal").style.display = "none";
-        document.getElementById("logoutButton").style.display = "block";
-      }
-    </script>
     <br>
 
-    <div style="position: fixed; bottom: 10px; left: .8%">
+    <div style="position: fixed; bottom: 1vh; left: .8%">
       <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
     </div>
   </div>
 
-  <script type="text/javascript">
-    function openEventForm() {
-      document.getElementById("eventModal").style.display = "block";
-      document.getElementById("logoutButton").style.display = "none";
-    }
 
-    function closeEventForm() {
-      document.getElementById("eventModal").style.display = "none";
-      document.getElementById("logoutButton").style.display = "block";
-      document.getElementById("requiredFieldText").style.display = "none";
-    }
-
-    function getCookie(name) {
-      let matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-      ));
-      return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
-  </script>
 </body>
