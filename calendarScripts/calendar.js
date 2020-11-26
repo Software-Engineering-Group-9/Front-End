@@ -17,10 +17,10 @@ var cal = new tui.Calendar('#calendar', {
 cal.on('beforeCreateSchedule', function(event) {
 
   //unique id for schedules
-  var timeID = parseInt((new Date().getTime() / 10).toString());
+  var timeID = (new Date().getTime()).toString();
 
   //create schedule
-  var newEvent = {
+  var newBusyEvent = {
     id: timeID,
     calendarID: '1',
     title: 'Busy',
@@ -30,12 +30,12 @@ cal.on('beforeCreateSchedule', function(event) {
     bgColor: '#ff6961',
     dragBgColor: '#ff6961',
   };
-  cal.createSchedules([newEvent]);
+  cal.createSchedules([newBusyEvent]);
 
   //fetch to send new schedules to backend
   fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
       method: 'POST',
-      body: JSON.stringify(newEvent),
+      body: JSON.stringify(newBusyEvent),
       headers: {
         'Origin': ' *',
         'Accept': 'application/json'
@@ -49,7 +49,7 @@ cal.on('beforeCreateSchedule', function(event) {
         });
       }
       // else {
-      //   cal.createSchedules([newEvent]);
+      //   cal.createSchedules([newBusyEvent]);
       // }
       return response.json();
     })
@@ -64,22 +64,19 @@ cal.on('beforeUpdateSchedule', function(event) {
   var schedule = event.schedule;
   var changes = event.changes;
 
+  if (event.schedule.bgColor == '#4aadff') return;
+
   //log the updated event
   console.log(event);
 
   //update the schedule
+  schedule.calendarId = '1';
+  console.log("update:" + schedule.id + " calendarID: " + schedule.calendarId);
   cal.updateSchedule(schedule.id, schedule.calendarId, changes);
 });
 
 //click on a schedule to edit it
 cal.on('clickSchedule', function(event) {
-
-  //change view of page when editing
-  document.getElementById("busyEditModal").style.display = "block";
-  document.getElementById("logoutButton").style.display = "none";
-
-  //set input field to current title of schedule
-  document.getElementById("busyEditTitle").value = event.schedule.title;
 
   //function to create new event with the new name and delete the old one
   document.getElementById("editChangeTitle").onclick = function() {
@@ -118,6 +115,72 @@ cal.on('clickSchedule', function(event) {
     document.getElementById("logoutButton").style.display = "block";
   }
 
+  if (event.schedule.bgColor == '#4aadff') {
+    //change view of page
+    document.getElementById("editToDoItemModal").style.display = "block";
+    document.getElementById("logoutButton").style.display = "none";
+
+    document.getElementById("submitEditEvent").onclick = function() {
+
+      console.log("submitted");
+
+      //new fields
+      var title = document.getElementById("editTitle").value;
+      var dueDate = document.getElementById("editDueDate").value;
+      var dueTime = document.getElementById("editDueTime").value;
+      var timeNeeded = document.getElementById("editTimeNeeded").value;
+
+      //required input
+      if (title == "" || dueDate === "" || dueTime === "") {
+        document.getElementById("requiredFieldTextEdit").style.display = "block"
+        document.getElementById("requiredFieldTextEdit").innerHTML = "* indicates required input"
+        return console.log("Error: Required InputField");
+      }
+
+      //calculate start time, format properly for calendar library
+      var dueTimeArr = dueTime.split(':');
+      var startTime = parseInt(dueTimeArr[0] - timeNeeded);
+      if (startTime < 10) {
+        var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+      } else {
+        var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+      }
+
+      //edit time format for calendar library
+      var noon = "am"
+      if (dueTimeArr[0] > 12) {
+        dueTimeArr[0] -= 12;
+        noon = "pm";
+      }
+
+      //variables and formatting of event list items
+      var TitleString = title;
+      if (timeNeeded != "") {
+        TitleString += " - (" + timeNeeded + "h)"
+      }
+      var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
+
+      //update toDoItem text
+      document.getElementById(event.schedule.id).innerHTML = "<b>" + TitleString + "</b><br> Due: " + resString;
+
+      closeEditEventForm();
+
+      cal.updateSchedule(event.schedule.id, event.schedule.calendarId, {
+        title: title,
+        start: dueDate + 'T' + startTime + ':00',
+        end: dueDate + 'T' + dueTime + ':00',
+      });
+    }
+
+  } else if (event.schedule.bgColor == '#ff6961') {
+    //change view of page when editing
+    document.getElementById("busyEditModal").style.display = "block";
+    document.getElementById("logoutButton").style.display = "none";
+
+    //set input field to current title of schedule
+    document.getElementById("busyEditTitle").value = event.schedule.title;
+  }
+
 });
 
 //change calendar view to monthly
@@ -148,13 +211,9 @@ function viewPrev() {
 //adds new event into the calendar
 function addEvent(newEvent) {
 
-  //unique id for the event,
-  //uses the time it was since Jan 1, 1970
-  var seconds = (new Date().getTime() / 10).toString();
-
   //create the schedule for the calendar
   cal.createSchedules([{
-    id: seconds,
+    id: newEvent.id,
     calendarID: '1',
     title: newEvent.title,
     category: 'time',
