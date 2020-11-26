@@ -48,10 +48,12 @@
 
 <body>
 
+  <!-- Calendar -->
   <div class="tui-calendar" id="calendar">
     <script src="calendarScripts/calendar.js"></script>
   </div>
 
+  <!-- modal pops up when creating an event -->
   <div class="modal" id="eventModal">
     <div class="modal-content" id="eventForm">
 
@@ -90,6 +92,45 @@
     </div>
   </div>
 
+  <!-- modal pops up when editing an event -->
+  <div class="modal" id="editToDoItemModal">
+    <div class="modal-content" id="editToDoItemForm">
+
+      <div class="center" style="font-size: 2.4vh">
+        Edit Event
+        <hr>
+      </div>
+
+      <table class="table">
+        <tr>
+          <td>Event Title <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="text" placeholder="Title" id="editTitle"></td>
+        </tr>
+        <tr>
+          <td>Due Date <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="date" id="editDueDate"></td>
+        </tr>
+        <tr>
+          <td>Time Due <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="time" id="editDueTime"></td>
+        </tr>
+        <tr>
+          <td>Time Needed</td>
+          <td><input class="inputField" type="text" id="editTimeNeeded" placeholder="(In Hours)"></td>
+        </tr>
+      </table>
+      <br>
+      <div class="requiredField" id="requiredFieldTextEdit"></div>
+
+      <div class="center">
+        <button class="button" id="submitEditEvent">Submit</button>
+        <button class="button" onclick="closeEditEventForm()" id="closeModal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- modal for editing item in the calendar -->
   <div class="modal" id="busyEditModal">
     <div class="modal-content" id="busyEditModalContent" style="width: 15%">
 
@@ -106,6 +147,7 @@
     </div>
   </div>
 
+  <!-- sidebar -->
   <div class="sidebar" id="eventSidebar">
     <div class="center" style="font-size: 2.2vh;">
       <b>To-Do List</b>

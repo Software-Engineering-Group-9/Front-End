@@ -1,4 +1,5 @@
 function eventData(obj) {
+  this.id = obj.id;
   this.title = obj.title;
   this.dueDate = obj.dueDate;
   this.startTime = obj.startTime;
@@ -13,34 +14,11 @@ function submitEvent() {
   var dueTime = document.getElementById("dueTime").value;
   var timeNeeded = document.getElementById("timeNeeded").value;
 
-  //required input
-  if (title == "" || dueDate === "" || dueTime === "") {
-    document.getElementById("requiredFieldText").style.display = "block"
-    document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
-    return console.log("Error: Required InputField");
-  }
-
-  //calculate start time, format properly for calendar library
-  var dueTimeArr = dueTime.split(':');
-  var startTime = parseInt(dueTimeArr[0] - timeNeeded);
-  if (startTime < 10) {
-    var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
-  } else {
-    var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
-  }
-
-  //edit time format for calendar library
-  var noon = "am"
-  if (dueTimeArr[0] > 12) {
-    dueTimeArr[0] -= 12;
-    noon = "pm";
-  }
-
   //create div to store event
-  var toDoItem = document.createElement("div", {
-    "id": "toDoItem",
-    "class": "toDoItem"
-  });
+  var toDoItem = document.createElement("div");
+
+  //unique id for schedules
+  var timeID = parseInt((new Date().getTime() / 10).toString());
 
   //style div
   toDoItem.style.border = '.1vh';
@@ -52,11 +30,69 @@ function submitEvent() {
   toDoItem.style.borderRadius = '.8vh';
   toDoItem.style.marginTop = '.5vh';
   toDoItem.style.fontSize = '1.4vh';
-  //add item to list
-  document.getElementById("eventSidebar").appendChild(toDoItem);
+  toDoItem.id = timeID;
+
+  //required input
+  if (title == "" || dueDate === "" || dueTime === "") {
+    document.getElementById("requiredFieldText").style.display = "block"
+    document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
+    return console.log("Error: Required InputField");
+  }
+
+  //calculate start time, format properly for calendar library
+  var dueTimeArr = dueTime.split(':');
+
+  var startTimeH = parseInt(dueTimeArr[0]);
+  var startTimeM = parseInt(dueTimeArr[1]);
+
+  var startTime;
+  if (startTimeH == 0 && startTimeM < 30) {
+    startTimeH = 0;
+    startTimeM = 0;
+  } else if (startTimeM < 30 && startTimeH != 0) {
+    startTimeM += 30;
+    startTimeH--;
+  } else {
+    startTimeM -= 30;
+  }
+
+  if (startTimeM < 10 && startTimeH < 10) {
+    var startTime = '0' + startTimeH + ':0' + startTimeM;
+    console.log("startTime 1: " + '0' + startTimeH + ':0' + startTimeM);
+  } else if (startTimeH < 10) {
+    var startTime = '0' + startTimeH + ':' + startTimeM;
+    console.log("startTime 2: " + '0' + startTimeH + ':' + startTimeM);
+  } else if (startTimeM < 10) {
+    var startTime = startTimeH + ':0' + startTimeM;
+    console.log("startTime 3: " + startTimeH + ':0' + startTimeM);
+  } else if (startTimeH == 0 && startTimeM < 30) {
+    startTime = '00:00';
+  } else {
+    var startTime = startTimeH + ':' + startTimeM;
+    console.log("startTime 4: " + startTimeH + ':' + startTimeM);
+  }
+
+  //edit time format for calendar library
+  var noon = "am"
+  if (dueTimeArr[0] > 12) {
+    dueTimeArr[0] -= 12;
+    noon = "pm";
+  }
+
+  //variables and formatting of event list items
+  var TitleString = title;
+  if (timeNeeded != "") {
+    TitleString += " - (" + timeNeeded + "h)"
+  }
+
+  var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
+  toDoItem.innerHTML = "<b>" + TitleString +
+    "</b><br> Due: " + resString;
+
 
   //create new event
   var newEvent = new eventData({
+    id: timeID,
     title: title,
     dueDate: dueDate,
     startTime: startTime,
@@ -64,20 +100,14 @@ function submitEvent() {
     timeNeeded: timeNeeded
   });
 
-  //variables and formatting of event list items
-  var TitleString = title;
-  if (timeNeeded != "") {
-    TitleString += " - (" + timeNeeded + "h)"
-  }
-  var resString = dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
-  toDoItem.innerHTML = "<b>" + TitleString +
-    "</b><br> Due: " + resString;
+  //add item to list
+  document.getElementById("eventSidebar").appendChild(toDoItem);
 
   //add event to calendar
   addEvent(newEvent);
 
   //log new event
-  console.log(newEvent);
+  console.log(JSON.stringify(newEvent));
 
   //change view of page after adding event
   document.getElementById("eventModal").style.display = "none";
