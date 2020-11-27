@@ -18,7 +18,7 @@ function submitEvent() {
   var toDoItem = document.createElement("div");
 
   //unique id for schedules
-  var timeID = parseInt((new Date().getTime() / 10).toString());
+  var timeID = new Date().getTime();
 
   //style div
   toDoItem.style.border = '.1vh';
@@ -33,7 +33,7 @@ function submitEvent() {
   toDoItem.id = timeID;
 
   //required input
-  if (title == "" || dueDate === "" || dueTime === "") {
+  if (title == "" || dueDate == "" || dueTime == "") {
     document.getElementById("requiredFieldText").style.display = "block"
     document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
     return console.log("Error: Required InputField");

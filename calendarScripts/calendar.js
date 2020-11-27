@@ -1,13 +1,16 @@
+var busyColour = '#ff6961';
+var eventColour = '#4aadff';
+
 //create calendar
 var cal = new tui.Calendar('#calendar', {
   defaultView: 'week',
   taskView: false,
-  borderColor: '#4aadff',
-  dragBgColor: '#4aadff',
+  borderColor: eventColour,
+  dragBgColor: eventColour,
   isReadOnly: false,
   theme: {
     'common.holiday.color': '#bbb',
-    'week.today.color': '#4aadff',
+    'week.today.color': eventColour,
   },
   disableDblClick: true,
 });
@@ -17,7 +20,9 @@ var cal = new tui.Calendar('#calendar', {
 cal.on('beforeCreateSchedule', function(event) {
 
   //unique id for schedules
-  var timeID = (new Date().getTime()).toString();
+  //TO-DO COMBINE TIMEID WITH UUID
+  //
+  var timeID = new Date().getTime();
 
   //create schedule
   var newBusyEvent = {
@@ -25,37 +30,38 @@ cal.on('beforeCreateSchedule', function(event) {
     calendarID: '1',
     title: 'Busy',
     category: 'time',
-    start: event.start,
-    end: event.end,
-    bgColor: '#ff6961',
-    dragBgColor: '#ff6961',
+    start: formatTime(event.start._date),
+    end: formatTime(event.end._date),
+    bgColor: busyColour,
+    dragBgColor: busyColour,
   };
   cal.createSchedules([newBusyEvent]);
+  console.log(timeID);
 
   //fetch to send new schedules to backend
-  fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
-      method: 'POST',
-      body: JSON.stringify(newBusyEvent),
-      headers: {
-        'Origin': ' *',
-        'Accept': 'application/json',
-        'authorization': getCookie('access_token')
-      }
-    })
-    .then(function(response) {
-      if (!response.ok) {
-        response.json().then(function(object) {
-          console.error('Error:', error);
-        });
-      }
-      // else {
-      //   cal.createSchedules([newBusyEvent]);
-      // }
-      return response.json();
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  // fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
+  //     method: 'POST',
+  //     body: JSON.stringify(newBusyEvent),
+  //     headers: {
+  //       'Origin': ' *',
+  //       'Accept': 'application/json',
+  //       'authorization': getCookie('access_token')
+  //     }
+  //   })
+  //   .then(function(response) {
+  //     if (!response.ok) {
+  //       response.json().then(function(object) {
+  //         console.error('Error:', error);
+  //       });
+  //     }
+  //     // else {
+  //     //   cal.createSchedules([newBusyEvent]);
+  //     // }
+  //     return response.json();
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error:', error);
+  //   });
 });
 
 //event for when a schedule is dragged around or lengthened/shortened
@@ -88,8 +94,8 @@ cal.on('clickSchedule', function(event) {
       calendarID: '1',
       title: document.getElementById("busyEditTitle").value,
       category: 'time',
-      start: event.schedule.start,
-      end: event.schedule.end,
+      start: formatTime(event.schedule.start._date),
+      end: formatTime(event.schedule.end._date),
       bgColor: event.schedule.bgColor,
       dragBgColor: event.schedule.dragBgColor,
     };
@@ -196,7 +202,7 @@ cal.on('clickSchedule', function(event) {
       });
     }
 
-  } else if (event.schedule.bgColor == '#ff6961') {
+  } else if (event.schedule.bgColor == busyColour) {
     //change view of page when editing
     document.getElementById("busyEditModal").style.display = "block";
     document.getElementById("logoutButton").style.display = "none";
@@ -230,6 +236,50 @@ function viewNext() {
 //view previous day/week/month
 function viewPrev() {
   cal.prev();
+}
+
+//formats tui event Date
+function formatTime(_date) {
+  var eventTime = _date.toString();
+  eventTimeArr = eventTime.split(" ");
+  var month = getMonthNum(eventTimeArr[1]).toString();
+  var day = (eventTimeArr[2]).toString();
+  var year = (eventTimeArr[3]).toString();
+  var time = (eventTimeArr[4]).toString();
+  eventTime = year + "-" + month + "-" + day + "T" + time;
+  return eventTime;
+}
+
+function getMonthNum(month) {
+
+  monthNum = 0;
+  if (month == 'Jan') {
+    monthNum = 1;
+  } else if (month == 'Feb') {
+    monthNum = 2;
+  } else if (month == 'Mar') {
+    monthNum = 3;
+  } else if (month == 'Apr') {
+    monthNum = 4;
+  } else if (month == 'May') {
+    monthNum = 5;
+  } else if (month == 'Jun') {
+    monthNum = 6;
+  } else if (month == 'Jul') {
+    monthNum = 7;
+  } else if (month == 'Aug') {
+    monthNum = 8;
+  } else if (month == 'Sep') {
+    monthNum = 9;
+  } else if (month == 'Oct') {
+    monthNum = 10;
+  } else if (month == 'Nov') {
+    monthNum = 11;
+  } else if (month == 'Dec') {
+    monthNum = 12;
+  }
+
+  return monthNum;
 }
 
 //adds new event into the calendar
