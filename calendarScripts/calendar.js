@@ -250,27 +250,28 @@ function formatTime(_date) {
   return eventTime;
 }
 
+//takes in the month str and returns the number representation, Jan -> 1
 function getMonthNum(month) {
 
-  monthNum = 0;
+  var monthNum;
   if (month == 'Jan') {
-    monthNum = 1;
+    monthNum = 01;
   } else if (month == 'Feb') {
-    monthNum = 2;
+    monthNum = 02;
   } else if (month == 'Mar') {
-    monthNum = 3;
+    monthNum = 03;
   } else if (month == 'Apr') {
-    monthNum = 4;
+    monthNum = 04;
   } else if (month == 'May') {
-    monthNum = 5;
+    monthNum = 05;
   } else if (month == 'Jun') {
-    monthNum = 6;
+    monthNum = 06;
   } else if (month == 'Jul') {
-    monthNum = 7;
+    monthNum = 07;
   } else if (month == 'Aug') {
-    monthNum = 8;
+    monthNum = 08;
   } else if (month == 'Sep') {
-    monthNum = 9;
+    monthNum = 09;
   } else if (month == 'Oct') {
     monthNum = 10;
   } else if (month == 'Nov') {
