@@ -1,4 +1,4 @@
-//get Authorization cookie for login
+//get Authorization cookie for calendar fetches
 function getCookie(name) {
   let matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"

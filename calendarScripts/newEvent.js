@@ -18,7 +18,7 @@ function submitEvent() {
   var toDoItem = document.createElement("div");
 
   //unique id for schedules
-  var timeID = new Date().getTime();
+  var timeID = /* getCookie('uuid') +*/ new Date().getTime();
 
   //style div
   toDoItem.style.border = '.1vh';
@@ -58,18 +58,14 @@ function submitEvent() {
 
   if (startTimeM < 10 && startTimeH < 10) {
     var startTime = '0' + startTimeH + ':0' + startTimeM;
-    console.log("startTime 1: " + '0' + startTimeH + ':0' + startTimeM);
   } else if (startTimeH < 10) {
     var startTime = '0' + startTimeH + ':' + startTimeM;
-    console.log("startTime 2: " + '0' + startTimeH + ':' + startTimeM);
   } else if (startTimeM < 10) {
     var startTime = startTimeH + ':0' + startTimeM;
-    console.log("startTime 3: " + startTimeH + ':0' + startTimeM);
   } else if (startTimeH == 0 && startTimeM < 30) {
     startTime = '00:00';
   } else {
     var startTime = startTimeH + ':' + startTimeM;
-    console.log("startTime 4: " + startTimeH + ':' + startTimeM);
   }
 
   //edit time format for calendar library

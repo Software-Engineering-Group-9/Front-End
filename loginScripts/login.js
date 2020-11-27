@@ -33,7 +33,6 @@ function login() {
         headers: {
           'Origin': ' *',
           'Accept': 'application/json',
-          'authorization': getCookie('access_token')
         }
       })
 

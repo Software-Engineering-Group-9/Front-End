@@ -20,9 +20,7 @@ var cal = new tui.Calendar('#calendar', {
 cal.on('beforeCreateSchedule', function(event) {
 
   //unique id for schedules
-  //TO-DO COMBINE TIMEID WITH UUID
-  //
-  var timeID = new Date().getTime();
+  var timeID = /*getCookie('uuid') +*/ new Date().getTime();
 
   //create schedule
   var newBusyEvent = {
@@ -36,32 +34,30 @@ cal.on('beforeCreateSchedule', function(event) {
     dragBgColor: busyColour,
   };
   cal.createSchedules([newBusyEvent]);
-  console.log(timeID);
 
-  //fetch to send new schedules to backend
-  // fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
-  //     method: 'POST',
-  //     body: JSON.stringify(newBusyEvent),
-  //     headers: {
-  //       'Origin': ' *',
-  //       'Accept': 'application/json',
-  //       'authorization': getCookie('access_token')
-  //     }
-  //   })
-  //   .then(function(response) {
-  //     if (!response.ok) {
-  //       response.json().then(function(object) {
-  //         console.error('Error:', error);
-  //       });
-  //     }
-  //     // else {
-  //     //   cal.createSchedules([newBusyEvent]);
-  //     // }
-  //     return response.json();
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error:', error);
-  //   });
+  fetch to send new schedules to backend
+  fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
+      method: 'POST',
+      body: JSON.stringify(newBusyEvent),
+      headers: {
+        'Origin': ' *',
+        'Accept': 'application/json',
+        'authorization': getCookie('access_token')
+      }
+    })
+    .then(function(response) {
+      if (!response.ok) {
+        response.json().then(function(object) {
+          console.error('Error:', error);
+        });
+      }
+      // else {
+      //   cal.createSchedules([newBusyEvent]);
+      // }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 });
 
 //event for when a schedule is dragged around or lengthened/shortened
@@ -162,18 +158,14 @@ cal.on('clickSchedule', function(event) {
 
       if (startTimeM < 10 && startTimeH < 10) {
         var startTime = '0' + startTimeH + ':0' + startTimeM;
-        console.log("startTime 1: " + '0' + startTimeH + ':0' + startTimeM);
       } else if (startTimeH < 10) {
         var startTime = '0' + startTimeH + ':' + startTimeM;
-        console.log("startTime 2: " + '0' + startTimeH + ':' + startTimeM);
       } else if (startTimeM < 10) {
         var startTime = startTimeH + ':0' + startTimeM;
-        console.log("startTime 3: " + startTimeH + ':0' + startTimeM);
       } else if (startTimeH == 0 && startTimeM < 30) {
         startTime = '00:00';
       } else {
         var startTime = startTimeH + ':' + startTimeM;
-        console.log("startTime 4: " + startTimeH + ':' + startTimeM);
       }
 
       //edit time format for calendar library
@@ -192,6 +184,8 @@ cal.on('clickSchedule', function(event) {
 
       //update toDoItem text
       document.getElementById(event.schedule.id).innerHTML = "<b>" + TitleString + "</b><br> Due: " + resString;
+
+      //create fetch here?
 
       closeEditEventForm();
 
@@ -305,7 +299,7 @@ function addEvent(newEvent) {
   document.getElementById("dueTime").value = "";
   document.getElementById("timeNeeded").value = "";
 
-  //fetch to send the newly created event to the backend
+  //fetch to send the newly created event info to the backend
   fetch("http://localhost:8080/api/v1/calendar/create", {
       method: 'POST',
       body: JSON.stringify(newEvent),
@@ -334,7 +328,6 @@ function addEvent(newEvent) {
       //     dragBgColor: '#4aadff',
       //   }]);
       // }
-      return response.json();
     })
     .catch((error) => {
       console.error('Error:', error);
