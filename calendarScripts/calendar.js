@@ -38,8 +38,8 @@ cal.on('beforeCreateSchedule', function(event) {
       body: JSON.stringify(newBusyEvent),
       headers: {
         'Origin': ' *',
-        'Accept': 'application/json'
-        //'Authorization': getCookie('access_token').toString();
+        'Accept': 'application/json',
+        'authorization': getCookie('access_token')
       }
     })
     .then(function(response) {
@@ -139,11 +139,35 @@ cal.on('clickSchedule', function(event) {
 
       //calculate start time, format properly for calendar library
       var dueTimeArr = dueTime.split(':');
-      var startTime = parseInt(dueTimeArr[0] - timeNeeded);
-      if (startTime < 10) {
-        var startTime = '0' + (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+
+      var startTimeH = parseInt(dueTimeArr[0]);
+      var startTimeM = parseInt(dueTimeArr[1]);
+
+      var startTime;
+      if (startTimeH == 0 && startTimeM < 30) {
+        startTimeH = 0;
+        startTimeM = 0;
+      } else if (startTimeM < 30 && startTimeH != 0) {
+        startTimeM += 30;
+        startTimeH--;
       } else {
-        var startTime = (parseInt(dueTimeArr[0]) - timeNeeded).toString() + ':' + dueTimeArr[1];
+        startTimeM -= 30;
+      }
+
+      if (startTimeM < 10 && startTimeH < 10) {
+        var startTime = '0' + startTimeH + ':0' + startTimeM;
+        console.log("startTime 1: " + '0' + startTimeH + ':0' + startTimeM);
+      } else if (startTimeH < 10) {
+        var startTime = '0' + startTimeH + ':' + startTimeM;
+        console.log("startTime 2: " + '0' + startTimeH + ':' + startTimeM);
+      } else if (startTimeM < 10) {
+        var startTime = startTimeH + ':0' + startTimeM;
+        console.log("startTime 3: " + startTimeH + ':0' + startTimeM);
+      } else if (startTimeH == 0 && startTimeM < 30) {
+        startTime = '00:00';
+      } else {
+        var startTime = startTimeH + ':' + startTimeM;
+        console.log("startTime 4: " + startTimeH + ':' + startTimeM);
       }
 
       //edit time format for calendar library
@@ -236,8 +260,8 @@ function addEvent(newEvent) {
       body: JSON.stringify(newEvent),
       headers: {
         'Origin': ' *',
-        'Accept': 'application/json'
-        //'Authorization': getCookie('access_token').toString();
+        'Accept': 'application/json',
+        'authorization': getCookie('access_token')
       }
     })
     .then(function(response) {

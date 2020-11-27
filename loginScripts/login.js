@@ -32,7 +32,8 @@ function login() {
         body: JSON.stringify(login),
         headers: {
           'Origin': ' *',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'authorization': getCookie('access_token')
         }
       })
 

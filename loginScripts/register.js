@@ -27,7 +27,8 @@ function register(){
         body: JSON.stringify(register),
         headers: {
           'Origin': ' *',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'authorization': getCookie('access_token')
         }
       })
       .then(function(response) {

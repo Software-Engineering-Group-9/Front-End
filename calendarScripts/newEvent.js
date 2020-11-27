@@ -89,7 +89,6 @@ function submitEvent() {
   toDoItem.innerHTML = "<b>" + TitleString +
     "</b><br> Due: " + resString;
 
-
   //create new event
   var newEvent = new eventData({
     id: timeID,
