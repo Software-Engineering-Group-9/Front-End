@@ -16,7 +16,7 @@ function submitEvent() {
   var timeNeeded = document.getElementById("timeNeeded").value;
 
   //unique id for schedules
-  var timeID = /* getCookie('uuid') +*/ new Date().getTime();
+  var timeID = getCookie('uuid') + new Date().getTime();
 
   //create div to store event
   var toDoItem = document.createElement("div");
@@ -41,32 +41,6 @@ function submitEvent() {
 
   //calculate start time, format properly for calendar library
   var dueTimeArr = dueTime.split(':');
-
-  /*var startTimeH = parseInt(dueTimeArr[0]);
-    var startTimeM = parseInt(dueTimeArr[1]);
-
-    var startTime;
-    if (startTimeH == 0 && startTimeM < 30) {
-      startTimeH = 0;
-      startTimeM = 0;
-    } else if (startTimeM < 30 && startTimeH != 0) {
-      startTimeM += 30;
-      startTimeH--;
-    } else {
-      startTimeM -= 30;
-    }
-
-    if (startTimeM < 10 && startTimeH < 10) {
-      var startTime = '0' + startTimeH + ':0' + startTimeM;
-    } else if (startTimeH < 10) {
-      var startTime = '0' + startTimeH + ':' + startTimeM;
-    } else if (startTimeM < 10) {
-      var startTime = startTimeH + ':0' + startTimeM;
-    } else if (startTimeH == 0 && startTimeM < 30) {
-      startTime = '00:00';
-    } else {
-      var startTime = startTimeH + ':' + startTimeM;
-    }*/
 
   //edit time format for calendar library
   var noon = "am"
@@ -97,7 +71,7 @@ function submitEvent() {
   document.getElementById("timeNeeded").value = "";
 
   //fetch to send the newly created event info to the backend
-  fetch("http://localhost:8080/api/v1/calendar/create", {
+  fetch("http://localhost:8080/api/v1/calendar/createTodoEvent", {
       method: 'POST',
       body: JSON.stringify(newEvent),
       headers: {
@@ -109,7 +83,7 @@ function submitEvent() {
     .then(function(response) {
       if (!response.ok) {
         response.json().then(function(object) {
-          document.getElementById("loginInvalidEmail").innerHTML = object.message;
+
         });
       } else {
 

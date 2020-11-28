@@ -15,8 +15,76 @@ var cal = new tui.Calendar('#calendar', {
   disableDblClick: true,
 });
 
+//fetch request to fill sidebar upon login
+fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
+  method: 'GET',
+  headers: {
+    'authorization': getCookie('access_token')
+  }
+})
+    .then(function(response) {
+      if (!response.ok) {
+        response.json().then(function(object) {
+          console.error('Error:', error);
+        });
+      }
+      return response.json();
+    })
+    .then(function(data) {
+
+      for (var key in data) {
+        //create div
+        var toDoItem = document.createElement("div");
+        //style div
+        toDoItem.style.border = '.1vh';
+        toDoItem.style.boxShadow = '0 .2vh .4vh 0 rgba(0, 0, 0, 0.2)';
+        toDoItem.style.transition = '0.3s';
+        toDoItem.style.width = '94%';
+        toDoItem.style.padding = '3%';
+        toDoItem.style.backgroundColor = 'white';
+        toDoItem.style.borderRadius = '.8vh';
+        toDoItem.style.marginTop = '.5vh';
+        toDoItem.style.fontSize = '1.4vh';
+        toDoItem.id = "23232";.
+        var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
+
+        var newToDoItem = {
+          id: str.eid,
+          title: str.title,
+          dueDate: str.dueDate,
+          dueTime: str.dueTime,
+          timeNeeded: str.timeNeed
+        };
+
+        console.log(newToDoItem.dueTime);
+        var dueTimeArr = newToDoItem.dueTime.split(':');
+
+        //edit time format for calendar library
+        var noon = "am";
+        if (dueTimeArr[0] > 12) {
+          dueTimeArr[0] -= 12;
+          noon = "pm";
+        }
+
+        //variables and formatting of event list items
+        var TitleString = newToDoItem.title + " - (" + newToDoItem.timeNeeded + "h)"
+        var resString = newToDoItem.dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
+        toDoItem.innerHTML = "<b>" + TitleString +
+            "</b><br> Due: " + resString;
+
+        //add item to list
+        document.getElementById("eventSidebar").appendChild(toDoItem);
+
+
+      }
+
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+
 //fetch request to fill calendar upon login
-fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
+fetch("http://localhost:8080/api/v1/calendar/getEvent", {
     method: 'GET',
     headers: {
       'authorization': getCookie('access_token')
@@ -24,27 +92,29 @@ fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
   })
   .then(function(response) {
     if (!response.ok) {
-      response.json().then(function(object) {
-        console.error('Error:', error);
-      });
+      console.log("fuck");
     }
+    console.log("fuck3");
     return response.json();
   })
   .then(function(data) {
+    console.log(data);
 
-    for (var key in j) {
-      console.log(j[key]);
+    for (var key in data) {
+      var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
+
       var newSchedule = {
-        id: j[key].id,
-        calendarid: '1',
-        title: j[key].title,
+        id: str.sid,
+        calendarId: '1',
+        title: 'fd',
         category: 'time',
-        start: j[key].starttime,
-        end: j[key].endtime,
-        bgColor: j[key].color,
-        dragBgColor: j[key].color
-      }
-      cal.createSchedules(newSchedule);
+        start: str.starttime,
+        end: str.endtime,
+        bgColor: str.color,
+        dragBgColor: str.color
+      };
+      console.log(newSchedule);
+      cal.createSchedules([newSchedule]);
     }
 
   })
@@ -52,10 +122,12 @@ fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
     console.error('Error:', error);
   });
 
+
+
 cal.on('beforeCreateSchedule', function(event) {
 
   //unique id for schedules
-  var timeID = /*getCookie('uuid') +*/ new Date().getTime();
+  var timeID = getCookie('uuid') + new Date().getTime();
 
   //create schedule
   var newBusyEvent = {
@@ -69,10 +141,9 @@ cal.on('beforeCreateSchedule', function(event) {
     dragBgColor: busyColour,
   };
 
-  cal.createSchedules([newBusyEvent]);
   //fetch to send new schedules to backend and create upon ok response
   fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
-      method: 'GET',
+      method: 'POST',
       body: JSON.stringify(newBusyEvent),
       headers: {
         'Origin': ' *',
@@ -83,12 +154,12 @@ cal.on('beforeCreateSchedule', function(event) {
     .then(function(response) {
       if (!response.ok) {
         response.json().then(function(object) {
-          console.error('Error:', error);
+          console.log(object.errorText);
         });
       }
-      // else {
-      //   cal.createSchedules([newBusyEvent]);
-      // }
+      else {
+        cal.createSchedules([newBusyEvent]);
+       }
     })
     .catch((error) => {
       console.error('Error:', error);
