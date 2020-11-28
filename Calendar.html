@@ -22,6 +22,8 @@
     </div>
 
     <div class="right">
+      <button class="button" onclick="calendarOptimize()" style="margin-right:2vw;">Optimize</button>
+
       <button class="button" onclick="viewPrev()">Prev</button>
       <button class="button" onclick="viewNext()" style="margin-right:2vw;">Next</button>
 
@@ -58,7 +60,7 @@
     <div class="modal-content" id="eventForm">
 
       <div class="center" style="font-size: 2.4vh">
-        New Event
+        New Todo
         <hr>
       </div>
 
@@ -76,8 +78,8 @@
           <td><input class="inputField" type="time" id="dueTime"></td>
         </tr>
         <tr>
-          <td>Time Needed</td>
-          <td><input class="inputField" type="text" id="timeNeeded" placeholder="(In Hours)"></td>
+          <td>Time Needed <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="text" id="timeNeeded" placeholder="(In Hours. At Least 1)"></td>
         </tr>
       </table>
 
@@ -93,6 +95,7 @@
   </div>
 
   <!-- modal pops up when editing an event -->
+  <!--
   <div class="modal" id="editToDoItemModal">
     <div class="modal-content" id="editToDoItemForm">
 
@@ -115,8 +118,8 @@
           <td><input class="inputField" type="time" id="editDueTime"></td>
         </tr>
         <tr>
-          <td>Time Needed</td>
-          <td><input class="inputField" type="text" id="editTimeNeeded" placeholder="(In Hours)"></td>
+          <td>Time Needed <span class="requiredField" id="requiredField">*</span></td>
+          <td><input class="inputField" type="text" id="editTimeNeeded" placeholder="(In Hours. At Least 1)"></td>
         </tr>
       </table>
       <br>
@@ -128,7 +131,7 @@
       </div>
 
     </div>
-  </div>
+  </div>-->
 
   <!-- modal for editing item in the calendar -->
   <div class="modal" id="busyEditModal">
@@ -150,14 +153,14 @@
   <!-- sidebar -->
   <div class="sidebar" id="eventSidebar">
     <div class="center" style="font-size: 2.2vh;">
-      <b>To-Do List</b>
+      <b>Todo List</b>
       <hr style="height: 0.001vw; border: 0.01vw solid grey">
     </div>
 
     <br>
 
     <div style="position: fixed; bottom: 1vh; left: .8%">
-      <button class="button" id="create-event" onclick="openEventForm()"> Create Event </button>
+      <button class="button" id="create-event" onclick="openEventForm()">Create Todo</button>
     </div>
   </div>
 

@@ -27,7 +27,8 @@ function register(){
         body: JSON.stringify(register),
         headers: {
           'Origin': ' *',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'authorization': getCookie('access_token')
         }
       })
       .then(function(response) {
@@ -40,7 +41,10 @@ function register(){
       })
       .then(function(data) {
         document.cookie = 'access_token=' + data.token;
-        location.replace("Calendar.html")
+        document.cookie = 'uuid=' + data.uuid;
+        console.log("data.uuid: " + data.uuid);
+        console.log("data.token: " + data.token);
+        location.replace("Calendar.html");
       })
       .catch((error) => {
         console.error('Error:', error);
