@@ -7,7 +7,7 @@ function eventData(obj) {
   this.timeNeeded = obj.timeNeeded;
 }
 
-function submitEvent() {
+function addTodo() {
 
   //variables for event
   var title = document.getElementById("title").value;
@@ -16,7 +16,7 @@ function submitEvent() {
   var timeNeeded = document.getElementById("timeNeeded").value;
 
   //unique id for schedules
-  var timeID = /* getCookie('uuid') +*/ new Date().getTime();
+  var timeID = getCookie('uuid') + new Date().getTime();
 
   //create div to store event
   var toDoItem = document.createElement("div");
@@ -30,9 +30,10 @@ function submitEvent() {
   toDoItem.style.borderRadius = '.8vh';
   toDoItem.style.marginTop = '.5vh';
   toDoItem.style.fontSize = '1.4vh';
+  //assign unique id to that div
   toDoItem.id = timeID;
 
-  //required input
+  //required input, time needed
   if (title == "" || dueDate == "" || dueTime == "" || !/([1-9]|[1-9][0-9]+)/.test(timeNeeded)) {
     document.getElementById("requiredFieldText").style.display = "block"
     document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
@@ -41,32 +42,6 @@ function submitEvent() {
 
   //calculate start time, format properly for calendar library
   var dueTimeArr = dueTime.split(':');
-
-  /*var startTimeH = parseInt(dueTimeArr[0]);
-    var startTimeM = parseInt(dueTimeArr[1]);
-
-    var startTime;
-    if (startTimeH == 0 && startTimeM < 30) {
-      startTimeH = 0;
-      startTimeM = 0;
-    } else if (startTimeM < 30 && startTimeH != 0) {
-      startTimeM += 30;
-      startTimeH--;
-    } else {
-      startTimeM -= 30;
-    }
-
-    if (startTimeM < 10 && startTimeH < 10) {
-      var startTime = '0' + startTimeH + ':0' + startTimeM;
-    } else if (startTimeH < 10) {
-      var startTime = '0' + startTimeH + ':' + startTimeM;
-    } else if (startTimeM < 10) {
-      var startTime = startTimeH + ':0' + startTimeM;
-    } else if (startTimeH == 0 && startTimeM < 30) {
-      startTime = '00:00';
-    } else {
-      var startTime = startTimeH + ':' + startTimeM;
-    }*/
 
   //edit time format for calendar library
   var noon = "am"
@@ -109,23 +84,9 @@ function submitEvent() {
     .then(function(response) {
       if (!response.ok) {
         response.json().then(function(object) {
-          document.getElementById("loginInvalidEmail").innerHTML = object.message;
+          //
         });
       } else {
-
-        /*
-        cal.createSchedules([{
-          id: seconds,
-          calendarID: '1',
-          title: newEvent.title,
-          category: 'time',
-          dueDateClass: '',
-          start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
-          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
-          bgColor: '#4aadff',
-          dragBgColor: '#4aadff',
-        }]);
-        */
 
         //add item to list
         document.getElementById("eventSidebar").appendChild(toDoItem);

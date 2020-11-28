@@ -47,8 +47,6 @@ function login() {
       .then(function(data) {
         document.cookie = 'access_token=' + data.token;
         document.cookie = 'uuid=' + data.uuid;
-        console.log("data.uuid: " + data.uuid);
-        console.log("data.token: " + data.token);
         location.replace("Calendar.html");
       })
       .catch((error) => {
