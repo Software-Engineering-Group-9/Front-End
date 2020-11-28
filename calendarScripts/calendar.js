@@ -15,6 +15,43 @@ var cal = new tui.Calendar('#calendar', {
   disableDblClick: true,
 });
 
+//fetch request to fill calendar with busy events upon login
+fetch("http://localhost:8080/api/v1/calendar/getBusyEvent", {
+    method: 'GET',
+    headers: {
+        'authorization': getCookie('access_token')
+    }
+})
+    .then(function(response) {
+        if (!response.ok) {
+            response.json().then(function(object) {
+            });
+        }
+        return response.json();
+    })
+    .then(function(data) {
+
+        for (var key in data) {
+            var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
+            var busyEvent = {
+                id: str.aid,
+                calendarId: '1',
+                title: str.title,
+                category: 'time',
+                start: str.starttime,
+                end: str.endtime,
+                bgColor: str.color,
+                dragBgColor: str.color
+            };
+            console.log("fucking stephen " + busyEvent.bgColor);
+            cal.createSchedules([busyEvent]);
+        }
+
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+
 //fetch request to fill sidebar upon login
 fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
   method: 'GET',
@@ -24,8 +61,7 @@ fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
 })
     .then(function(response) {
       if (!response.ok) {
-        response.json().then(function(object) {
-          console.error('Error:', error);
+        response.json().then(function(object) {;
         });
       }
       return response.json();
@@ -45,7 +81,7 @@ fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
         toDoItem.style.borderRadius = '.8vh';
         toDoItem.style.marginTop = '.5vh';
         toDoItem.style.fontSize = '1.4vh';
-        toDoItem.id = "23232";.
+        toDoItem.id = "23232";
         var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
 
         var newToDoItem = {
@@ -92,13 +128,11 @@ fetch("http://localhost:8080/api/v1/calendar/getEvent", {
   })
   .then(function(response) {
     if (!response.ok) {
-      console.log("fuck");
+
     }
-    console.log("fuck3");
     return response.json();
   })
   .then(function(data) {
-    console.log(data);
 
     for (var key in data) {
       var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
@@ -106,14 +140,13 @@ fetch("http://localhost:8080/api/v1/calendar/getEvent", {
       var newSchedule = {
         id: str.sid,
         calendarId: '1',
-        title: 'fd',
+        title: str.title,
         category: 'time',
         start: str.starttime,
         end: str.endtime,
         bgColor: str.color,
         dragBgColor: str.color
       };
-      console.log(newSchedule);
       cal.createSchedules([newSchedule]);
     }
 
