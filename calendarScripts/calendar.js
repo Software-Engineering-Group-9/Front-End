@@ -320,11 +320,11 @@ function getMonthNum(month) {
   return monthNum;
 }
 
+//
 function calendarOptimize() {
-  console.log("TIME TO OPTIMIZE");
 
   //fetch call to update user's schedule and add into the calendar
-  fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
+  fetch("http://localhost:8080/api/v1/calendar/optimize", {
       method: 'GET',
       headers: {
         'authorization': getCookie('access_token')

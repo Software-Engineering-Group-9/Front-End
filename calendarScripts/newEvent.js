@@ -71,7 +71,7 @@ function addTodo() {
   document.getElementById("timeNeeded").value = "";
 
   //fetch to send the newly created event info to the backend
-  fetch("http://localhost:8080/api/v1/calendar/create", {
+  fetch("http://localhost:8080/api/v1/calendar/createTodoEvent", {
       method: 'POST',
       body: JSON.stringify(newEvent),
       headers: {
@@ -83,7 +83,6 @@ function addTodo() {
     .then(function(response) {
       if (!response.ok) {
         response.json().then(function(object) {
-          //
         });
       } else {
 
