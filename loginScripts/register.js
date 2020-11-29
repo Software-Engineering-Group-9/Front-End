@@ -10,7 +10,6 @@ function register(){
 
   //check for proper email
   if (/^([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+.)+([a-zA-Z0-9]{2,4})+$/.test(email)) {
-    alert("valid email");
 
     //store register info
     var register = new registerData({
@@ -28,7 +27,6 @@ function register(){
         headers: {
           'Origin': ' *',
           'Accept': 'application/json',
-          'authorization': getCookie('access_token')
         }
       })
       .then(function(response) {
@@ -42,8 +40,6 @@ function register(){
       .then(function(data) {
         document.cookie = 'access_token=' + data.token;
         document.cookie = 'uuid=' + data.uuid;
-        console.log("data.uuid: " + data.uuid);
-        console.log("data.token: " + data.token);
         location.replace("Calendar.html");
       })
       .catch((error) => {
