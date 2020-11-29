@@ -30,7 +30,6 @@ function addTodo() {
   toDoItem.style.borderRadius = '.8vh';
   toDoItem.style.marginTop = '.5vh';
   toDoItem.style.fontSize = '1.4vh';
-  //assign unique id to that div
   toDoItem.id = timeID;
 
   //required input, time needed
@@ -96,9 +95,6 @@ function addTodo() {
     .catch((error) => {
       console.error('Error:', error);
     });
-
-  //add item to list
-  document.getElementById("eventSidebar").appendChild(toDoItem);
 
   //log new event
   console.log(JSON.stringify(newEvent));

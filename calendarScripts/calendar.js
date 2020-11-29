@@ -1,4 +1,4 @@
-datadatavar busyColour = '#ff6961';
+var busyColour = '#ff6961';
 var eventColour = '#4aadff';
 
 //create calendar
@@ -15,6 +15,42 @@ var cal = new tui.Calendar('#calendar', {
   disableDblClick: true,
 });
 
+//fetch request to fill calendar with busy events upon login
+fetch("http://localhost:8080/api/v1/calendar/getBusyEvent", {
+    method: 'GET',
+    headers: {
+      'authorization': getCookie('access_token')
+    }
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      response.json().then(function(object) {});
+    }
+    return response.json();
+  })
+  .then(function(data) {
+
+    for (var key in data) {
+      var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
+      var busyEvent = {
+        id: str.aid,
+        calendarId: '1',
+        title: str.title,
+        category: 'time',
+        start: str.starttime,
+        end: str.endtime,
+        bgColor: str.color,
+        dragBgColor: str.color
+      };
+      console.log("fucking stephen " + busyEvent.bgColor);
+      cal.createSchedules([busyEvent]);
+    }
+
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+
 //fetch request to fill sidebar upon login
 fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
     method: 'GET',
@@ -25,40 +61,42 @@ fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
   .then(function(response) {
     if (!response.ok) {
       response.json().then(function(object) {
-        console.error('Error:', error);
+        ;
       });
     }
     return response.json();
   })
   .then(function(data) {
-    //create div
-    var toDoItem = document.createElement("div");
-    //style div
-    toDoItem.style.border = '.1vh';
-    toDoItem.style.boxShadow = '0 .2vh .4vh 0 rgba(0, 0, 0, 0.2)';
-    toDoItem.style.transition = '0.3s';
-    toDoItem.style.width = '94%';
-    toDoItem.style.padding = '3%';
-    toDoItem.style.backgroundColor = 'white';
-    toDoItem.style.borderRadius = '.8vh';
-    toDoItem.style.marginTop = '.5vh';
-    toDoItem.style.fontSize = '1.4vh';
-    toDoItem.id = timeID;
 
     for (var key in data) {
+      //create div
+      var toDoItem = document.createElement("div");
+      //style div
+      toDoItem.style.border = '.1vh';
+      toDoItem.style.boxShadow = '0 .2vh .4vh 0 rgba(0, 0, 0, 0.2)';
+      toDoItem.style.transition = '0.3s';
+      toDoItem.style.width = '94%';
+      toDoItem.style.padding = '3%';
+      toDoItem.style.backgroundColor = 'white';
+      toDoItem.style.borderRadius = '.8vh';
+      toDoItem.style.marginTop = '.5vh';
+      toDoItem.style.fontSize = '1.4vh';
+      toDoItem.id = "23232";
+      var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
 
       var newToDoItem = {
-        id: data[key].eid,
-        title: data[key].title,
-        dueDate: data[key].duedate,
-        dueTime: data[key].duetime,
-        timeNeeded: data[key].timeneed
-      }
+        id: str.eid,
+        title: str.title,
+        dueDate: str.dueDate,
+        dueTime: str.dueTime,
+        timeNeeded: str.timeNeed
+      };
 
+      console.log(newToDoItem.dueTime);
       var dueTimeArr = newToDoItem.dueTime.split(':');
 
       //edit time format for calendar library
-      var noon = "am"
+      var noon = "am";
       if (dueTimeArr[0] > 12) {
         dueTimeArr[0] -= 12;
         noon = "pm";
@@ -72,8 +110,8 @@ fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
 
       //add item to list
       document.getElementById("eventSidebar").appendChild(toDoItem);
-    }
 
+    }
   })
   .catch((error) => {
     console.error('Error:', error);
@@ -88,33 +126,34 @@ fetch("http://localhost:8080/api/v1/calendar/getEvent", {
   })
   .then(function(response) {
     if (!response.ok) {
-      response.json().then(function(object) {
-        console.error('Error:', error);
-      });
+
     }
     return response.json();
   })
   .then(function(data) {
 
     for (var key in data) {
+      var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
 
       var newSchedule = {
-        id: data[key].id,
-        calendarid: '1',
-        title: data[key].title,
+        id: str.sid,
+        calendarId: '1',
+        title: str.title,
         category: 'time',
-        start: data[key].starttime,
-        end: data[key].endtime,
-        bgColor: data[key].color,
-        dragBgColor: data[key].color
-      }
-      cal.createSchedules(newSchedule);
+        start: str.starttime,
+        end: str.endtime,
+        bgColor: str.color,
+        dragBgColor: str.color
+      };
+      cal.createSchedules([newSchedule]);
     }
 
   })
   .catch((error) => {
     console.error('Error:', error);
   });
+
+
 
 cal.on('beforeCreateSchedule', function(event) {
 
@@ -167,7 +206,6 @@ cal.on('beforeUpdateSchedule', function(event) {
 
   //update the schedule
   schedule.calendarId = '1';
-  // DEBUGGING: console.log("update:" + schedule.id + " calendarID: " + schedule.calendarId);
   cal.updateSchedule(schedule.id, schedule.calendarId, changes);
 });
 
@@ -285,6 +323,7 @@ function getMonthNum(month) {
 function calendarOptimize() {
   console.log("TIME TO OPTIMIZE");
 
+  //fetch call to update user's schedule and add into the calendar
   fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
       method: 'GET',
       headers: {
@@ -313,9 +352,9 @@ function calendarOptimize() {
           bgColor: data[key].color,
           dragBgColor: data[key].color
         }
-        var cid = ""
-        cal.deleteSchedule(id, cid);
-        cal.createSchedules(newSchedule);
+
+        cal.deleteSchedule(newSchedule.id, '');
+        cal.createSchedules([newSchedule]);
       }
     })
     .catch((error) => {
