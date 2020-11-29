@@ -19,105 +19,103 @@ var cal = new tui.Calendar('#calendar', {
 fetch("http://localhost:8080/api/v1/calendar/getBusyEvent", {
     method: 'GET',
     headers: {
-        'authorization': getCookie('access_token')
+      'authorization': getCookie('access_token')
     }
-})
-    .then(function(response) {
-        if (!response.ok) {
-            response.json().then(function(object) {
-            });
-        }
-        return response.json();
-    })
-    .then(function(data) {
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      response.json().then(function(object) {});
+    }
+    return response.json();
+  })
+  .then(function(data) {
 
-        for (var key in data) {
-            var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
-            var busyEvent = {
-                id: str.aid,
-                calendarId: '1',
-                title: str.title,
-                category: 'time',
-                start: str.starttime,
-                end: str.endtime,
-                bgColor: str.color,
-                dragBgColor: str.color
-            };
-            console.log("fucking stephen " + busyEvent.bgColor);
-            cal.createSchedules([busyEvent]);
-        }
+    for (var key in data) {
+      var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
+      var busyEvent = {
+        id: str.aid,
+        calendarId: '1',
+        title: str.title,
+        category: 'time',
+        start: str.starttime,
+        end: str.endtime,
+        bgColor: str.color,
+        dragBgColor: str.color
+      };
+      console.log("fucking stephen " + busyEvent.bgColor);
+      cal.createSchedules([busyEvent]);
+    }
 
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 
 //fetch request to fill sidebar upon login
 fetch("http://localhost:8080/api/v1/calendar/getTodoEvent", {
-  method: 'GET',
-  headers: {
-    'authorization': getCookie('access_token')
-  }
-})
-    .then(function(response) {
-      if (!response.ok) {
-        response.json().then(function(object) {;
-        });
-      }
-      return response.json();
-    })
-    .then(function(data) {
+    method: 'GET',
+    headers: {
+      'authorization': getCookie('access_token')
+    }
+  })
+  .then(function(response) {
+    if (!response.ok) {
+      response.json().then(function(object) {
+        ;
+      });
+    }
+    return response.json();
+  })
+  .then(function(data) {
 
-      for (var key in data) {
-        //create div
-        var toDoItem = document.createElement("div");
-        //style div
-        toDoItem.style.border = '.1vh';
-        toDoItem.style.boxShadow = '0 .2vh .4vh 0 rgba(0, 0, 0, 0.2)';
-        toDoItem.style.transition = '0.3s';
-        toDoItem.style.width = '94%';
-        toDoItem.style.padding = '3%';
-        toDoItem.style.backgroundColor = 'white';
-        toDoItem.style.borderRadius = '.8vh';
-        toDoItem.style.marginTop = '.5vh';
-        toDoItem.style.fontSize = '1.4vh';
-        toDoItem.id = "23232";
-        var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
+    for (var key in data) {
+      //create div
+      var toDoItem = document.createElement("div");
+      //style div
+      toDoItem.style.border = '.1vh';
+      toDoItem.style.boxShadow = '0 .2vh .4vh 0 rgba(0, 0, 0, 0.2)';
+      toDoItem.style.transition = '0.3s';
+      toDoItem.style.width = '94%';
+      toDoItem.style.padding = '3%';
+      toDoItem.style.backgroundColor = 'white';
+      toDoItem.style.borderRadius = '.8vh';
+      toDoItem.style.marginTop = '.5vh';
+      toDoItem.style.fontSize = '1.4vh';
+      toDoItem.id = "23232";
+      var str = JSON.parse(data[key].toString().replaceAll("'", `"`));
 
-        var newToDoItem = {
-          id: str.eid,
-          title: str.title,
-          dueDate: str.dueDate,
-          dueTime: str.dueTime,
-          timeNeeded: str.timeNeed
-        };
+      var newToDoItem = {
+        id: str.eid,
+        title: str.title,
+        dueDate: str.dueDate,
+        dueTime: str.dueTime,
+        timeNeeded: str.timeNeed
+      };
 
-        console.log(newToDoItem.dueTime);
-        var dueTimeArr = newToDoItem.dueTime.split(':');
+      console.log(newToDoItem.dueTime);
+      var dueTimeArr = newToDoItem.dueTime.split(':');
 
-        //edit time format for calendar library
-        var noon = "am";
-        if (dueTimeArr[0] > 12) {
-          dueTimeArr[0] -= 12;
-          noon = "pm";
-        }
-
-        //variables and formatting of event list items
-        var TitleString = newToDoItem.title + " - (" + newToDoItem.timeNeeded + "h)"
-        var resString = newToDoItem.dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
-        toDoItem.innerHTML = "<b>" + TitleString +
-            "</b><br> Due: " + resString;
-
-        //add item to list
-        document.getElementById("eventSidebar").appendChild(toDoItem);
-
-
+      //edit time format for calendar library
+      var noon = "am";
+      if (dueTimeArr[0] > 12) {
+        dueTimeArr[0] -= 12;
+        noon = "pm";
       }
 
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+      //variables and formatting of event list items
+      var TitleString = newToDoItem.title + " - (" + newToDoItem.timeNeeded + "h)"
+      var resString = newToDoItem.dueDate + "   " + dueTimeArr[0] + ":" + dueTimeArr[1] + noon;
+      toDoItem.innerHTML = "<b>" + TitleString +
+        "</b><br> Due: " + resString;
+
+      //add item to list
+      document.getElementById("eventSidebar").appendChild(toDoItem);
+
+    }
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
 
 //fetch request to fill calendar upon login
 fetch("http://localhost:8080/api/v1/calendar/getEvent", {
@@ -189,10 +187,9 @@ cal.on('beforeCreateSchedule', function(event) {
         response.json().then(function(object) {
           console.log(object.errorText);
         });
-      }
-      else {
+      } else {
         cal.createSchedules([newBusyEvent]);
-       }
+      }
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -207,12 +204,8 @@ cal.on('beforeUpdateSchedule', function(event) {
 
   if (event.schedule.bgColor == '#4aadff') return;
 
-  //log the updated event
-  console.log(event);
-
   //update the schedule
   schedule.calendarId = '1';
-  console.log("update:" + schedule.id + " calendarID: " + schedule.calendarId);
   cal.updateSchedule(schedule.id, schedule.calendarId, changes);
 });
 
@@ -286,7 +279,7 @@ function viewPrev() {
 function formatTime(_date) {
   var eventTime = _date.toString();
   eventTimeArr = eventTime.split(" ");
-  var month = getMonthNum(eventTimeArr[1]).toString();
+  var month = getMonthNum(eventTimeArr[1]);
   var day = (eventTimeArr[2]).toString();
   var year = (eventTimeArr[3]).toString();
   var time = (eventTimeArr[4]).toString();
@@ -299,38 +292,39 @@ function getMonthNum(month) {
 
   var monthNum;
   if (month == 'Jan') {
-    monthNum = 01;
+    monthNum = '01';
   } else if (month == 'Feb') {
-    monthNum = 02;
+    monthNum = '02';
   } else if (month == 'Mar') {
-    monthNum = 03;
+    monthNum = '03';
   } else if (month == 'Apr') {
-    monthNum = 04;
+    monthNum = '04';
   } else if (month == 'May') {
-    monthNum = 05;
+    monthNum = '05';
   } else if (month == 'Jun') {
-    monthNum = 06;
+    monthNum = '06';
   } else if (month == 'Jul') {
-    monthNum = 07;
+    monthNum = '07';
   } else if (month == 'Aug') {
-    monthNum = 08;
+    monthNum = '08';
   } else if (month == 'Sep') {
-    monthNum = 09;
+    monthNum = '09';
   } else if (month == 'Oct') {
-    monthNum = 10;
+    monthNum = '10';
   } else if (month == 'Nov') {
-    monthNum = 11;
+    monthNum = '11';
   } else if (month == 'Dec') {
-    monthNum = 12;
+    monthNum = '12';
   }
 
   return monthNum;
 }
 
-function calendarOptimize(){
-  console.log("TIME TO OPTIMIZE");
+//
+function calendarOptimize() {
 
-  fetch("http://localhost:8080/api/v1/calendar/createAvailability", {
+  //fetch call to update user's schedule and add into the calendar
+  fetch("http://localhost:8080/api/v1/calendar/optimize", {
       method: 'GET',
       headers: {
         'authorization': getCookie('access_token')
@@ -346,21 +340,21 @@ function calendarOptimize(){
     })
     .then(function(data) {
 
-      for (var key in j) {
-        console.log(j[key]);
+      for (var key in data) {
+
         var newSchedule = {
-          id: j[key].id,
+          id: data[key].id,
           calendarID: '1',
-          title: j[key].title,
+          title: data[key].title,
           category: 'time',
-          start: j[key].starttime,
-          end: j[key].endtime,
-          bgColor: j[key].color,
-          dragBgColor: j[key].color
+          start: data[key].starttime,
+          end: data[key].endtime,
+          bgColor: data[key].color,
+          dragBgColor: data[key].color
         }
-        var cid = ""
-        cal.deleteSchedule(id,cid);
-        cal.createSchedules(newSchedule);
+
+        cal.deleteSchedule(newSchedule.id, '');
+        cal.createSchedules([newSchedule]);
       }
     })
     .catch((error) => {

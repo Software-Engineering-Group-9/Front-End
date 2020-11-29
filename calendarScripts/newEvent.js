@@ -7,7 +7,7 @@ function eventData(obj) {
   this.timeNeeded = obj.timeNeeded;
 }
 
-function submitEvent() {
+function addTodo() {
 
   //variables for event
   var title = document.getElementById("title").value;
@@ -32,7 +32,7 @@ function submitEvent() {
   toDoItem.style.fontSize = '1.4vh';
   toDoItem.id = timeID;
 
-  //required input
+  //required input, time needed
   if (title == "" || dueDate == "" || dueTime == "" || !/([1-9]|[1-9][0-9]+)/.test(timeNeeded)) {
     document.getElementById("requiredFieldText").style.display = "block"
     document.getElementById("requiredFieldText").innerHTML = "* indicates required input"
@@ -83,23 +83,8 @@ function submitEvent() {
     .then(function(response) {
       if (!response.ok) {
         response.json().then(function(object) {
-
         });
       } else {
-
-        /*
-        cal.createSchedules([{
-          id: seconds,
-          calendarID: '1',
-          title: newEvent.title,
-          category: 'time',
-          dueDateClass: '',
-          start: newEvent.dueDate + 'T' + newEvent.startTime + ':00',
-          end: newEvent.dueDate + 'T' + newEvent.dueTime + ':00',
-          bgColor: '#4aadff',
-          dragBgColor: '#4aadff',
-        }]);
-        */
 
         //add item to list
         document.getElementById("eventSidebar").appendChild(toDoItem);
@@ -109,9 +94,6 @@ function submitEvent() {
     .catch((error) => {
       console.error('Error:', error);
     });
-
-  //add item to list
-  document.getElementById("eventSidebar").appendChild(toDoItem);
 
   //log new event
   console.log(JSON.stringify(newEvent));

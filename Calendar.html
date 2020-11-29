@@ -44,8 +44,6 @@
   <script src="calendarScripts/formStyle.js"></script>
   <script src="calendarScripts/getCookie.js"></script>
 
-  </script>
-
 </head>
 
 <body>
@@ -87,51 +85,12 @@
       <div class="requiredField" id="requiredFieldText"></div>
 
       <div class="center">
-        <button class="button" onclick="submitEvent()" id="submitEvent">Submit</button>
+        <button class="button" onclick="addTodo()" id="addTodo">Submit</button>
         <button class="button" onclick="closeEventForm()" id="closeModal">Cancel</button>
       </div>
 
     </div>
   </div>
-
-  <!-- modal pops up when editing an event -->
-  <!--
-  <div class="modal" id="editToDoItemModal">
-    <div class="modal-content" id="editToDoItemForm">
-
-      <div class="center" style="font-size: 2.4vh">
-        Edit Event
-        <hr>
-      </div>
-
-      <table class="table">
-        <tr>
-          <td>Event Title <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="text" placeholder="Title" id="editTitle"></td>
-        </tr>
-        <tr>
-          <td>Due Date <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="date" id="editDueDate"></td>
-        </tr>
-        <tr>
-          <td>Time Due <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="time" id="editDueTime"></td>
-        </tr>
-        <tr>
-          <td>Time Needed <span class="requiredField" id="requiredField">*</span></td>
-          <td><input class="inputField" type="text" id="editTimeNeeded" placeholder="(In Hours. At Least 1)"></td>
-        </tr>
-      </table>
-      <br>
-      <div class="requiredField" id="requiredFieldTextEdit"></div>
-
-      <div class="center">
-        <button class="button" id="submitEditEvent">Submit</button>
-        <button class="button" onclick="closeEditEventForm()" id="closeModal">Cancel</button>
-      </div>
-
-    </div>
-  </div>-->
 
   <!-- modal for editing item in the calendar -->
   <div class="modal" id="busyEditModal">
