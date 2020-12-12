@@ -3,6 +3,7 @@
 A group project completed for COMP-3110: Introduction to Software Engineering at the University of Windsor.
 
 Created by:
+
   Ming Chen, back-end API
   
   Brandon Klassen, database and algorithm design
